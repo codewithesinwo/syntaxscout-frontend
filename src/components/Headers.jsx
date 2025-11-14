@@ -7,7 +7,7 @@ const navLinks = [
   { name: "Courses", href: "/courses" },
   { name: "Leaning Paths", href: "/leaning-paths" },
   { name: "Lifetime Access", href: "/lifetime-access" },
-  { name: "Forum", href: "/forum" },
+  // { name: "Forum", href: "/forum" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -82,10 +82,7 @@ export default function Header() {
             </NavLink>
           ))}
 
-          <div>
-            <button>Members </button>
-          </div>
-
+        
           {/* Navigate to login page */}
           <div>
             <NavLink to="/login">

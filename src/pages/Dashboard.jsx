@@ -17,9 +17,9 @@ import {
   FaChalkboardTeacher,
   FaCertificate,
 } from "react-icons/fa";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Dashboard() {
-  // ---------- COURSES ----------
   const courses = [
     {
       id: 1,
@@ -63,7 +63,6 @@ export default function Dashboard() {
     },
   ];
 
-  // ---------- ACTIVITIES ----------
   const activities = [
     {
       icon: <FaCheckCircle className="text-green-500" />,
@@ -92,7 +91,6 @@ export default function Dashboard() {
     },
   ];
 
-  // ---------- CATEGORIES ----------
   const categories = [
     { icon: <FaLaptopCode />, title: "Web Development" },
     { icon: <FaRobot />, title: "AI & Machine Learning" },
@@ -104,7 +102,6 @@ export default function Dashboard() {
     { icon: <FaChalkboardTeacher />, title: "Tech Tutorials" },
   ];
 
-  // ---------- RECOMMENDED COURSES ----------
   const recommended = [
     {
       title: "Mastering TypeScript",
@@ -123,7 +120,6 @@ export default function Dashboard() {
     },
   ];
 
-  // ---------- TECH NEWS ----------
   const news = [
     {
       title: "AI Revolutionizes Software Testing",
@@ -142,14 +138,12 @@ export default function Dashboard() {
     },
   ];
 
-  // ---------- ACHIEVEMENTS ----------
   const achievements = [
     { title: "Frontend Mastery", icon: <FaCertificate />, date: "Aug 2025" },
     { title: "Python Pro Badge", icon: <FaCertificate />, date: "Sep 2025" },
     { title: "UI/UX Designer", icon: <FaCertificate />, date: "Oct 2025" },
   ];
 
-  // ---------- EVENTS ----------
   const events = [
     {
       title: "Web Dev Bootcamp Live",
@@ -165,39 +159,82 @@ export default function Dashboard() {
     },
   ];
 
+      const { darkMode } = useTheme();
+  
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-gray-100 text-gray-900 p-8 mt-10"
+      className={`${
+        darkMode ? "bg-black text-gray-950" : "bg-gray-100 text-gray-900"
+      } p-8 mt-15 transition-colors duration-300`}
     >
       {/* HEADER */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1
+          className={`${
+            darkMode
+              ? "text-3xl font-bold text-gray-100"
+              : "text-3xl font-bold text-gray-900"
+          }`}
+        >
           Hello, Abasiubong! 👋
         </h1>
-        <p className="text-gray-600">
+        <p className={`${darkMode ? "text-gray-100" : "text-gray-900"}`}>
           Welcome back! Ready to learn something new today?
         </p>
       </div>
-
       {/* CATEGORIES */}
-      <h2 className="text-2xl font-semibold mb-4">Top Categories</h2>
+      <h2
+        className={`${
+          darkMode
+            ? "text-2xl font-semibold mb-4 text-gray-100"
+            : "text-2xl font-semibold mb-4 text-gray-900"
+        }`}
+      >
+        Top Categories
+      </h2>
+
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-10">
         {categories.map((cat, i) => (
           <motion.div
             key={i}
             whileHover={{ scale: 1.05 }}
-            className="bg-white border-gray-200 shadow-md border rounded-xl p-4 flex flex-col items-center justify-center gap-2"
+            className={`${
+              darkMode ? "bg-neutral-950 border-neutral-700" : "bg-white"
+            }shadow-md border rounded-xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer`}
           >
-            <div className="text-2xl text-gray-700">{cat.icon}</div>
-            <p className="text-sm font-medium text-center">{cat.title}</p>
+            <div
+              className={`${
+                darkMode ? "text-2xl text-white" : "text-2xl text-gray-950"
+              }`}
+            >
+              {cat.icon}
+            </div>
+            <p
+              className={`${
+                darkMode
+                  ? "text-sm font-medium text-center text-white"
+                  : "text-sm font-medium text-center text-gray-950"
+              }`}
+            >
+              {cat.title}
+            </p>
           </motion.div>
         ))}
       </div>
 
       {/* COURSES */}
-      <h2 className="text-2xl font-semibold mb-4">Your Courses</h2>
+      <h2
+        className={`${
+          darkMode
+            ? "text-2xl font-semibold mb-4 text-white"
+            : "text-2xl font-semibold mb-4"
+        }`}
+      >
+        Your Courses
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
         {courses.map((course, i) => (
           <motion.div
@@ -206,16 +243,21 @@ export default function Dashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
             whileHover={{ scale: 1.03 }}
-            className="bg-white border-gray-200 p-5 rounded-2xl shadow-md border"
+            className={`${
+              darkMode ? "bg-neutral-950 border-neutral-700" : "bg-white border"
+            } p-5 rounded-2xl shadow-md `}
           >
             <div className="flex items-start gap-4 overflow-hidden">
-              <div
+              {/* <div
                 className={`w-14 h-14 bg-gradient-to-br ${course.gradient} rounded-xl flex items-center justify-center text-white font-bold`}
               >
                 {course.title.slice(0, 2).toUpperCase()}
-              </div>
+              </div> */}
+
               <div>
-                <h3 className="font-semibold">{course.title}</h3>
+                <h3 className={`${darkMode ? "font-semibold text-white" : ""}`}>
+                  {course.title}
+                </h3>
                 <p className="text-sm text-gray-500">
                   {course.lessons} lessons • {course.level}
                 </p>
@@ -242,17 +284,29 @@ export default function Dashboard() {
       </div>
 
       {/* RECOMMENDED */}
-      <h2 className="text-2xl font-semibold mb-4">Recommended for You</h2>
+      <h2
+        className={`${
+          darkMode
+            ? "text-2xl font-semibold mb-4 text-white"
+            : "text-2xl font-semibold mb-4"
+        }`}
+      >
+        Recommended for You
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {recommended.map((rec, i) => (
           <motion.div
             key={i}
             whileHover={{ y: -5 }}
-            className={`bg-gradient-to-br ${rec.gradient} text-white p-5 rounded-2xl shadow-md`}
+            className={`${
+              darkMode
+                ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+                : `bg-gradient-to-br ${rec.gradient} text-white p-5 rounded-2xl shadow-md`
+            }`}
           >
             <h3 className="font-semibold text-lg">{rec.title}</h3>
             <p className="text-sm opacity-90 mb-3">{rec.level}</p>
-            <button className="bg-white text-black font-medium px-4 py-2 rounded-md">
+            <button className="bg-white text-black font-medium px-4 py-2 rounded-md cursor-pointer">
               Enroll Now
             </button>
           </motion.div>
@@ -262,13 +316,19 @@ export default function Dashboard() {
       {/* NEWS + EVENTS + ACHIEVEMENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         {/* NEWS */}
-        <div className="bg-white p-5 rounded-2xl shadow-md border border-gray-200">
+        <div
+          className={`${
+            darkMode
+              ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+              : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+          }`}
+        >
           <h2 className="font-bold text-xl mb-3">Tech News</h2>
           <ul className="space-y-3">
             {news.map((n, i) => (
               <li key={i}>
                 <p className="text-sm font-medium">{n.title}</p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 mt-1">
                   {n.source} • {n.time}
                 </p>
               </li>
@@ -277,14 +337,20 @@ export default function Dashboard() {
         </div>
 
         {/* EVENTS */}
-        <div className="bg-white p-5 rounded-2xl shadow-md border border-gray-200">
+        <div
+          className={`${
+            darkMode
+              ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+              : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+          }`}
+        >
           <h2 className="font-bold text-xl mb-3">Upcoming Events</h2>
           {events.map((event, i) => (
             <div
               key={i}
               className="border-b border-gray-100 py-3 last:border-none"
             >
-              <p className="font-semibold text-gray-800">{event.title}</p>
+              <p className={`${darkMode ? "font-semibold text-white" : "font-semibold text-gray-800"}`}>{event.title}</p>
               <p className="text-xs text-gray-500">
                 {event.date} • {event.time}
               </p>
@@ -294,7 +360,13 @@ export default function Dashboard() {
         </div>
 
         {/* ACHIEVEMENTS */}
-        <div className="bg-white p-5 rounded-2xl shadow-md border border-gray-200">
+        <div
+          className={`${
+            darkMode
+              ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+              : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+          }`}
+        >
           <h2 className="font-bold text-xl mb-3">Achievements</h2>
           <div className="space-y-3">
             {achievements.map((a, i) => (
@@ -314,8 +386,13 @@ export default function Dashboard() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+        className={`${
+          darkMode
+            ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+            : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+        }`}
       >
+        
         <h2 className="font-bold text-xl mb-3">Recent Activity</h2>
         <ul className="space-y-3">
           {activities.map((act, i) => (

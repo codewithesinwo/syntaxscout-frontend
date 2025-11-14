@@ -8,6 +8,7 @@ import SignUp from './pages/SignUp'
 import ResetPassword from './pages/ResetPassword'
 import PageNotFound from './pages/PageNotFound'
 import Dashboard from './pages/Dashboard'
+import DashboardSetting from './pages/DashboardSetting'
 import WebLayout from './components/WebLayout'
 import DashboardLayout from './components/DashboardLayout'
 import LearnBanner from './components/LearnBanner'
@@ -15,6 +16,7 @@ import WhyLearn from './components/WhyLearn'
 import Stats from './components/Stats'
 import ContactForm from './pages/ContactForm'
 import LifetimeAccess from './pages/LifetimeAccess'
+import DashboardCourses from './pages/DashboardCourses'
 
 export default function App() {
   const location = useLocation();
@@ -67,7 +69,6 @@ export default function App() {
                 <LearnBanner />
                 <WhyLearn />
                 <Stats />
-                {/* <Faq /> */}
               </>
             }
           />
@@ -82,12 +83,10 @@ export default function App() {
         </Route>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="settings" element={<DashboardSetting />} />
+          <Route path="courses" element={<DashboardCourses />} />
         </Route>
       </Routes>
-
-      {/* <DashboardHeader/>
-      <DashboardSideShow/> */}
-      {/* <Dashboard/> */}
     </ThemeProvider>
   );
 }

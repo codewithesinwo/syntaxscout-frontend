@@ -5,7 +5,7 @@ const ContactForm = ({ id }) => {
     name: "",
     email: "",
     phone: "",
-    subject: "General Inquiry",
+    // subject: "General Inquiry",
     message: "",
   });
 
@@ -47,17 +47,20 @@ const ContactForm = ({ id }) => {
 
   return (
     // accept optional id so the section can be targeted via hash
-    <div id={id} className="flex justify-center items-center bg-gray-900/10 min-h-screen p-4">
-      <section className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-2xl mx-auto my-25 border border-gray-100">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-6 text-center">
+    <div
+      id={id}
+      className="flex justify-center items-center bg-gray-900 min-h-screen p-4"
+    >
+      <section className="bg-gray-200/10 rounded-2xl shadow-lg p-8 w-full max-w-2xl mx-auto my-25 border border-gray-100">
+        <h2 className="text-3xl font-semibold text-gray-100 mb-6 text-center">
           Contact Us
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Full Name *
+            <label className="block text-gray-100 font-medium mb-2">
+              Full Name <span className="text-yellow-500">*</span>
             </label>
             <input
               type="text"
@@ -65,14 +68,14 @@ const ContactForm = ({ id }) => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Enter your full name"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Email Address *
+            <label className="block text-gray-100 font-medium mb-2">
+              Email Address <span className="text-yellow-500">*</span>
             </label>
             <input
               type="email"
@@ -80,13 +83,13 @@ const ContactForm = ({ id }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email address"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
             />
           </div>
 
           {/* Phone */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block text-gray-100 font-medium mb-2">
               Phone Number
             </label>
             <input
@@ -95,32 +98,32 @@ const ContactForm = ({ id }) => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Enter your phone number"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
             />
           </div>
 
           {/* Subject */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
+          {/* <div>
+            <label className="block text-gray-100 font-medium mb-2">
               Subject
             </label>
             <select
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
             >
               <option>General Inquiry</option>
               <option>Partnership</option>
               <option>Support</option>
               <option>Feedback</option>
             </select>
-          </div>
+          </div> */}
 
           {/* Message */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Message *
+            <label className="block text-gray-100 font-medium mb-2">
+              Message <span className="text-yellow-500">*</span>
             </label>
             <textarea
               name="message"
@@ -129,7 +132,7 @@ const ContactForm = ({ id }) => {
               placeholder="Write your message here..."
               rows="5"
               maxLength="1000"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
             ></textarea>
             <p className="text-sm text-gray-500 mt-1">
               {formData.message.length}/1000 characters

@@ -1,12 +1,12 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-    // Fixed light mode
-    const darkMode = false;
+    const [darkMode, setDarkMode] = useState(false);
+
     const toggleDarkMode = () => {
-        // Do nothing - always light mode
+        setDarkMode(!darkMode);
     };
 
     return (

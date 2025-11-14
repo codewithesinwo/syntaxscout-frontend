@@ -24,7 +24,7 @@ export default function DashboardLayout() {
 
         <div className=" flex-1 overflow-y-scroll h-screen pb-0 ">
           <Outlet />
-        </div>
+      </div>
       </main>
     </div>
   );

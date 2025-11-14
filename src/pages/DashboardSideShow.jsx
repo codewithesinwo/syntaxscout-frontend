@@ -1,35 +1,31 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
 import { BiSolidDashboard, BiSolidMessageAltDetail } from "react-icons/bi";
 import { LuPanelRightOpen, LuPanelLeftOpen } from "react-icons/lu";
 import { SiDiscourse } from "react-icons/si";
 import { MdAssignmentAdd } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
-
-
-
-
-
 import {
   FaGoodreads,
   FaUserLock,
   FaBars,
 } from "react-icons/fa";
 
-{/* <LuPanelLeft />; */}
 
 export default function DashboardSideShow() {
   const [isOpen, setIsOpen] = useState(true);
+  const { darkMode } = useTheme();
 
   const menu = [
     { to: "/dashboard", icon: BiSolidDashboard, label: "Dashboard" },
-    { to: "/courses", icon: SiDiscourse, label: "All Courses" },
-    { to: "/assignments", icon: MdAssignmentAdd, label: "Assignment" },
-    { to: "/grades", icon: FaGoodreads, label: "Grades" },
-    { to: "/messages", icon: BiSolidMessageAltDetail, label: "Messages" },
+    { to: "/dashboard/courses", icon: SiDiscourse, label: "All Courses" },
+    { to: "/dashboard/assignments", icon: MdAssignmentAdd, label: "Assignment" },
+    { to: "/dashboard/grades", icon: FaGoodreads, label: "Grades" },
+    { to: "/dashboard/messages", icon: BiSolidMessageAltDetail, label: "Messages" },
     {
-      to: "/settings",
+      to: "/dashboard/settings",
       icon: IoSettings,
       label: "Settings",
     },
@@ -41,13 +37,19 @@ export default function DashboardSideShow() {
       initial={{ x: -80, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`hidden md:flex h-screen bg-gray-800 text-white flex-col items-center py-6 shadow-lg ${
+      className={`hidden md:flex h-screen ${
+        darkMode ? "bg-black border-r-2" : "bg-gray-200"
+      } text-white flex-col items-center py-6 shadow-lg ${
         isOpen ? "w-60" : "w-20"
-      } duration-300`}
+      } duration-300 transition-colors`}
     >
       {/* Toggle Button */}
       <div
-        className="text-2xl text-amber-300 cursor-pointer self-end mr-3 mt-15"
+        className={`${
+          darkMode
+            ? "text-4xl text-white cursor-pointer self-start ml-3 mt-15"
+            : "text-4xl text-black cursor-pointer self-start ml-3 mt-15"
+        }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <LuPanelRightOpen /> : <LuPanelLeftOpen />}
@@ -57,12 +59,13 @@ export default function DashboardSideShow() {
       <motion.h3
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={`font-extrabold text-2xl mt-5 ${
-          !isOpen && "hidden"
-        } text-amber-50 tracking-wide`}
+        className={`font-extrabold text-2xl mt-5 ${!isOpen && "hidden"} ${
+          darkMode ? "text-white" : "text-gray-950"
+        } tracking-wide`}
       >
         Dashboard
       </motion.h3>
+
 
       {/* Menu */}
       <div className="w-full px-3 mt-5 space-y-2 flex-none">
@@ -79,13 +82,17 @@ export default function DashboardSideShow() {
                 to={item.to}
                 className={({ isActive }) =>
                   `flex items-center gap-4 p-3 rounded-md font-semibold transition-all duration-300 ${
-                    isActive
-                      ? "bg-amber-300 text-gray-900"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-amber-300"
+                    isActive && darkMode
+                      ? "bg-amber-300 text-black "
+                      : isActive && !darkMode
+                      ? "bg-amber-300 text-red-900 "
+                      : !darkMode
+                      ? "text-black  hover:bg-gray-500"
+                      : "text-white  hover:bg-gray-500"
                   }`
                 }
               >
-                <Icon className="text-xl " />
+                <Icon className="text-xl text-center " />
                 {isOpen && <span>{item.label}</span>}
               </NavLink>
             </motion.div>

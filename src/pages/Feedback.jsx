@@ -360,7 +360,6 @@ export default function Feedback({ id }) {
               </p>
             ) : (
               
-              // <div className="space-y-4 max-h-150 overflow-y-auto">
               <div className="space-y-4 max-h-150 overflow-y-auto">
                 {feedbacks.map((feedback) => (
                   <Motion.div
@@ -379,12 +378,12 @@ export default function Feedback({ id }) {
                           ))}
                         </div>
                         <span className="text-sm text-gray-400">
-                          {feedback.date}
+                          {/* {feedback.date} */}
                         </span>
                       </div>
                     </div>
                     <p className="text-gray-300 mb-4">
-                      "{feedback.feedback}"
+                      {feedback.feedback}
                     </p>
                     <p className="font-semibold text-white">
                       - {feedback.name}
