@@ -1,16 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaGoogle } from "react-icons/fa";
-// import { FaRedditAlien } from "react-icons/fa6";
-// import { FaFacebookF } from "react-icons/fa";
-// import { FaApple } from "react-icons/fa";
-// import { FaTiktok } from "react-icons/fa";
-
 
 
 export default function Login() {
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,20 +31,42 @@ export default function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log("Form Data:", formData);
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000); // Hide success after 3 seconds
-      // store as string to be consistent with localStorage.getItem checks
-      localStorage.setItem("isLoggedIn", "true");
-      // navigate to dashboard after successful login
-      navigate("/dashboard");
-    }
-  };
 
-  // Derived state to check if required fields are filled and there are no validation errors
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validate()) return;
+
+  try {
+    const res = await fetch("http://localhost:8000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setErrors({ ...errors, general: data.message });
+      return;
+    }
+    localStorage.setItem("token", data.data.token);
+
+    setSuccess(true);
+
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1000);
+
+  } catch (error) {
+    console.error(error);
+    setErrors({ general: "Something went wrong, try again." });
+  }
+};
+
   const isFormValid =
     formData.email &&
     formData.password &&
@@ -163,52 +178,6 @@ export default function Login() {
             </p>
           )}
         </form>
-
-        {/* <div className="space-y-4">
-          <div className="flex items-center text-xs text-gray-500 uppercase dark:text-gray-400">
-            <span className="flex-grow border-t border-gray-300 dark:border-gray-600"></span>
-            <span className="px-3">Or log in with</span>
-            <span className="flex-grow border-t border-gray-300 dark:border-gray-600"></span>
-          </div>
-          
-          <div className="grid grid-cols-5 gap-3">
-            <a
-              href="www.google.com"
-              className="flex items-center justify-center p-3 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label="Sign up with Google"
-            >
-              <FaGoogle />
-            </a>
-            <a
-              href="www.facebook.com"
-              className="flex items-center justify-center p-3 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label="Sign up with Facebook"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href="www.tiktok.com"
-              className="flex items-center justify-center p-3 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label="Sign up with TikTok"
-            >
-              <FaTiktok />
-            </a>
-            <a
-              href="www.reddit.com"
-              className="flex items-center justify-center p-3 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label="Sign up with Reddit"
-            >
-              <FaRedditAlien />
-            </a>
-            <a
-              href="www.apple.com"
-              className="flex items-center justify-center p-3 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label="Sign up with Apple"
-            >
-              <FaApple />
-            </a>
-          </div>
-        </div> */}
 
         <div className="text-sm text-center">
           <Link

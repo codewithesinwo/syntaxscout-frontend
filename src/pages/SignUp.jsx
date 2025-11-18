@@ -1,13 +1,52 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 
+
 export default function SignUp() {
-const navigate = useNavigate();
-const handleSignUp =()=>{
-  navigate('/dashboard')
-}
+    const [errors, setErrors] = useState({});
+    const [success, setSuccess] = useState(false);
+    
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    try {
+      const res = await fetch("http://localhost:8000/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          // confirmPassword: formData.confirmPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrors({ ...errors, general: data.message });
+        return;
+      }
+
+      setSuccess(true);
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1200);
+
+    } catch (error) {
+      console.error(error);
+      setErrors({ general: "Something went wrong. Try again." });
+    }
+  };
+
 
   const [formData, setFormData] = useState({
     name: "",
@@ -15,8 +54,8 @@ const handleSignUp =()=>{
     password: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState(false);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,16 +79,7 @@ const handleSignUp =()=>{
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log("Form Data:", formData);
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000); // Hide success after 3 seconds
-    }
-  };
 
-  // Derived state to check if all fields are filled and there are no validation errors
   const isFormValid =
     formData.name &&
     formData.email &&
@@ -215,7 +245,6 @@ const handleSignUp =()=>{
             type="submit"
             disabled={!isFormValid}
             className="w-full px-4 py-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-500 disabled:cursor-not-allowed transition-colors"
-            onClick={handleSignUp}
           >
             Sign Up
           </button>
@@ -228,6 +257,9 @@ const handleSignUp =()=>{
             >
               Sign up successful!
             </motion.p>
+          )}
+          {errors.general && (
+            <p className="text-sm text-center text-red-600 dark:text-red-400 mt-2">{errors.general}</p>
           )}
         </form>
 
