@@ -25,7 +25,7 @@ export default function Dashboard() {
       title: "Web Development Fundamentals",
       lessons: 15,
       level: "Beginner",
-      progress: 60,
+      progress: 0,
       gradient: "from-gray-900 to-blue-500",
     },
     {

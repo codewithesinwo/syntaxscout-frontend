@@ -21,6 +21,7 @@ import Path from './pages/Path'
 import DashboardGrade from './pages/DashboardGrade'
 import DashboardAssignment from './pages/DashboardAssignment'
 import DashboardMessage from './pages/DashboardMessage'
+import Payment from './pages/Payment'
 
 export default function App() {
   const location = useLocation();
@@ -67,6 +68,7 @@ export default function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/*" element={<PageNotFound />} />
+          <Route path="payment" element={<Payment />} />
         </Route>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
