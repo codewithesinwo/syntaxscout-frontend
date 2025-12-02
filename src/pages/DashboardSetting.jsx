@@ -169,8 +169,8 @@ export default function DashboardSetting() {
       role="switch"
       aria-checked={!!checked}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex items-center transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-amber-300 rounded-full ${
-        checked ? "bg-amber-400" : "bg-gray-200"
+      className={`relative inline-flex items-center transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-600 rounded-full ${
+        checked ? "bg-teal-600" : "bg-gray-600"
       }`}
       style={{ width: 44, height: 24 }}
     >
@@ -220,7 +220,7 @@ export default function DashboardSetting() {
                       onClick={() => setActiveSection(section.id)}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-200 text-left ${
                         activeSection === section.id
-                          ? "bg-amber-300 text-gray-900"
+                          ? "bg-teal-600 text-gray-900"
                           : darkMode
                           ? "text-white hover:bg-gray-700"
                           : "text-gray-700 hover:bg-gray-100"
@@ -274,7 +274,7 @@ export default function DashboardSetting() {
                               firstName: e.target.value,
                             })
                           }
-                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors ${
+                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-ambeteal-600-500 outline-none transition-colors ${
                             darkMode
                               ? "bg-neutral-800 border-gray-600 text-white"
                               : "bg-white border-gray-300 text-gray-900"
@@ -309,7 +309,7 @@ export default function DashboardSetting() {
                               lastName: e.target.value,
                             })
                           }
-                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors ${
+                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-teal-600 outline-none transition-colors ${
                             darkMode
                               ? "bg-neutral-800 border-gray-600 text-white"
                               : "bg-white border-gray-300 text-gray-900"
@@ -344,7 +344,7 @@ export default function DashboardSetting() {
                               email: e.target.value,
                             })
                           }
-                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors ${
+                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-teal-600 outline-none transition-colors ${
                             darkMode
                               ? "bg-neutral-800 border-gray-600 text-white"
                               : "bg-white border-gray-300 text-gray-900"
@@ -379,7 +379,7 @@ export default function DashboardSetting() {
                               phone: e.target.value,
                             })
                           }
-                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors ${
+                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-teal-600 outline-none transition-colors ${
                             darkMode
                               ? "bg-neutral-800 border-gray-600 text-white"
                               : "bg-white border-gray-300 text-gray-900"
@@ -414,7 +414,7 @@ export default function DashboardSetting() {
                             })
                           }
                           rows={3}
-                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors resize-none ${
+                          className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-teal-600 outline-none transition-colors resize-none ${
                             darkMode
                               ? "bg-neutral-800 border-gray-600 text-white"
                               : "bg-white border-gray-300 text-gray-900"
@@ -655,7 +655,7 @@ export default function DashboardSetting() {
                                   currentPassword: e.target.value,
                                 })
                               }
-                              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors ${
+                              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-teal-600 outline-none transition-colors ${
                                 darkMode
                                   ? "bg-neutral-800 border-gray-600 text-white"
                                   : "bg-white border-gray-300 text-gray-900"
@@ -679,7 +679,7 @@ export default function DashboardSetting() {
                                   newPassword: e.target.value,
                                 })
                               }
-                              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors ${
+                              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-teal-600 outline-none transition-colors ${
                                 darkMode
                                   ? "bg-neutral-800 border-gray-600 text-white"
                                   : "bg-white border-gray-300 text-gray-900"
@@ -716,7 +716,7 @@ export default function DashboardSetting() {
                                   confirmPassword: e.target.value,
                                 })
                               }
-                              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-amber-500 outline-none transition-colors ${
+                              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-teal-600 outline-none transition-colors ${
                                 darkMode
                                   ? "bg-neutral-800 border-gray-600 text-white"
                                   : "bg-white border-gray-300 text-gray-900"
@@ -781,6 +781,7 @@ export default function DashboardSetting() {
                       Courses Purchase
                     </h2>
                     <div className="space-y-8">
+
                       {/* Purchased Courses Section */}
                       <div>
                         <h3
@@ -795,7 +796,7 @@ export default function DashboardSetting() {
                             {coursePurchaseData.purchasedCourses.map((course) => (
                               <div
                                 key={course.id}
-                                className={`p-4 rounded-lg border-2 border-green-500 ${
+                                className={`p-4 rounded-lg border-2 border-teal-500 ${
                                   darkMode ? "bg-neutral-800" : "bg-green-50"
                                 }`}
                               >
@@ -807,7 +808,7 @@ export default function DashboardSetting() {
                                   >
                                     {course.title}
                                   </h4>
-                                  <FaCheck className="text-green-500 text-xl" />
+                                  <FaCheck className="text-teal-500 text-xl" />
                                 </div>
                                 <p
                                   className={`text-sm mb-3 ${
@@ -819,8 +820,8 @@ export default function DashboardSetting() {
                                 <button
                                   className={`w-full px-4 py-2 rounded-md font-medium transition-colors ${
                                     darkMode
-                                      ? "bg-amber-500 text-black hover:bg-amber-600"
-                                      : "bg-amber-400 text-gray-900 hover:bg-amber-500"
+                                      ? "bg-teal-600 text-black hover:bg-teal-400"
+                                      : "bg-teal-600 text-gray-900 hover:bg-teal-500"
                                   }`}
                                 >
                                   Continue Learning
@@ -864,7 +865,7 @@ export default function DashboardSetting() {
                     className={`flex items-center gap-2 px-6 py-2 rounded-md font-medium transition-colors ${
                       loading
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-amber-400 text-black hover:bg-amber-500"
+                        : "bg-teal-600 text-black hover:bg-teal-500"
                     }`}
                     disabled={loading}
                   >
@@ -885,7 +886,7 @@ export default function DashboardSetting() {
                       exit={{ opacity: 0, y: -10 }}
                       className={`mt-4 p-4 rounded-md flex items-center gap-3 ${
                         message.type === "success"
-                          ? "bg-green-100 text-green-800 border border-green-200"
+                          ? "bg-green-100 text-teal-800 border border-green-200"
                           : "bg-red-100 text-red-800 border border-red-200"
                       }`}
                     >

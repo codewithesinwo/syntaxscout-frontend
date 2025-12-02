@@ -52,7 +52,6 @@ export default function App() {
             element={
               <>
                 <Hero />
-                <Courses limit={3} />
                 <LearnBanner />
                 <WhyLearn />
                 <Stats />
@@ -68,8 +67,9 @@ export default function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/*" element={<PageNotFound />} />
-          <Route path="payment" element={<Payment />} />
+          <Route path="/payment" element={<Payment />} />
         </Route>
+        
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="settings" element={<DashboardSetting />} />

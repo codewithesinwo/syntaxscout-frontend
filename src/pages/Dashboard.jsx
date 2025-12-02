@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaCheckCircle,
@@ -19,6 +19,8 @@ import {
 import { useTheme } from "../context/ThemeContext";
 
 export default function Dashboard() {
+  const [username, setUsername] = useState("")
+
   const courses = [
     {
       id: 1,
@@ -159,6 +161,39 @@ export default function Dashboard() {
   ];
 
       const { darkMode } = useTheme();
+
+      useEffect(()=>{
+
+        const token = localStorage.getItem("token");        
+ 
+      
+      async function getUsername (){
+
+        const res= await fetch("http://localhost:8000/dashboard", {
+           method: "GET",
+           headers: {
+             "Content-Type": "application/json",
+             Authorization: `Bearer ${token}`,
+           },
+         });
+
+         if(!res.ok&&res.status===401){
+          alert('User not logged in')
+          localStorage.setItem("token", "");
+          window.location.href='/'
+         }
+
+         const user=await res.json()
+
+         console.log({user});
+
+         setUsername(`${user.user.firstName} ${user.user.lastName}`)
+        }
+
+
+
+        getUsername()
+      }, [])
   
 
   return (
@@ -178,7 +213,7 @@ export default function Dashboard() {
               : "text-3xl font-bold text-gray-900"
           }`}
         >
-          Hello, Abasubong! 👋
+          Hello, {username||'User'}! 👋
         </h1>
         <p className={`${darkMode ? "text-gray-100" : "text-gray-900"}`}>
           Welcome back! Ready to learn something new today?
@@ -371,7 +406,7 @@ export default function Dashboard() {
           <div className="space-y-3">
             {achievements.map((a, i) => (
               <div key={i} className="flex items-center gap-3">
-                <div className="text-yellow-500 text-xl">{a.icon}</div>
+                <div className="text-yellow-500 text-lg">{a.icon}</div>
                 <div>
                   <p className="text-sm font-medium">{a.title}</p>
                   <p className="text-xs text-gray-500">{a.date}</p>

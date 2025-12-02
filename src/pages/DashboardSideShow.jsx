@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { BiSolidDashboard, BiSolidMessageAltDetail } from "react-icons/bi";
-import { VscLayoutSidebarLeft } from "react-icons/vsc";
+// import { VscLayoutSidebarLeft } from "react-icons/vsc";
 import { SiDiscourse } from "react-icons/si";
 import { MdAssignmentAdd } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
@@ -14,8 +14,7 @@ import {
 import { removeToken } from "../utils/localstorage";
 
 export default function DashboardSideShow() {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isHovering, setIsHovering] = useState(false);
+
   const { darkMode } = useTheme();
 const navigate=useNavigate()
 
@@ -44,39 +43,14 @@ const navigate=useNavigate()
       transition={{ duration: 0.5 }}
       className={`hidden md:flex h-screen ${
         darkMode ? "bg-black border-r-2" : "bg-gray-200"
-      } text-white flex-col items-center py-6 shadow-lg ${
-        isOpen ? "w-60" : "w-20"
-      } duration-900 transition-colors`}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      } text-white flex-col items-center py-6 shadow-lg duration-900 transition-colors mt-15`}
     >
-      {/* Toggle Button */}
-      <div className="flex items-center justify-between w-full px-3 mt-15">
-        <div>
-          <img src="/Syntaxscout-logo.png" alt="Logo" className="w-10 h-10" />
-        </div>
-        {(isOpen || isHovering) && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className={`${
-              darkMode
-                ? "text-2xl text-white cursor-pointer"
-                : "text-2xl text-black cursor-pointer"
-            }`}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <VscLayoutSidebarLeft /> : <VscLayoutSidebarLeft />}
-          </motion.div>
-        )}
-      </div>
 
       {/* Logo */}
       <motion.h3
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={`font-extrabold text-2xl mt-5 ${!isOpen && "hidden"} ${
+        className={`font-extrabold text-2xl mt-5 ${
           darkMode ? "text-white" : "text-gray-950"
         } tracking-wide`}
       >
@@ -99,17 +73,17 @@ const navigate=useNavigate()
                 className={({ isActive }) =>
                   `flex items-center gap-4 p-3 rounded-md font-semibold transition-all duration-300 ${
                     isActive && darkMode
-                      ? "bg-amber-300 text-black "
-                      : isActive && !darkMode
-                      ? "bg-amber-300 text-red-900 "
+                      ? "bg-teal-600 text-gray-950 "
+                      : isActive 
+                      ? "bg-teal-600 text-gray-950 "
                       : !darkMode
                       ? "text-black  hover:bg-gray-500"
-                      : "text-white  hover:bg-gray-500"
+                      : "text-white hover:bg-gray-500"
                   }`
                 }
               >
                 <Icon className="text-xl text-center " />
-                {isOpen && <span>{item.label}</span>}
+                {<span>{item.label}</span>}
               </NavLink>
             </motion.div>
           );
@@ -131,7 +105,7 @@ const navigate=useNavigate()
             }`}
           >
             <FaUserLock className="text-xl text-center " />
-            {isOpen && <span>Logout</span>}
+            {<span>Logout</span>}
           </NavLink>
         </motion.div>
       </div>

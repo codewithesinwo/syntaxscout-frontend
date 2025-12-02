@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body{
-/* background: linear-gradient(#030712);   */
+background: linear-gradient(#030712);  
 }
 
 .multicolor-border{

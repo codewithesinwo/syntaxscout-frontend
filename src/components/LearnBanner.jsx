@@ -4,7 +4,7 @@ import { Code, Users, Laptop, Globe } from "lucide-react";
 
 const LearnBanner = () => {
   return (
-    <section className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-20 px-6 md:px-20 mt-5">
+    <section className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-20 px-6 md:px-20 ">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
         <motion.div

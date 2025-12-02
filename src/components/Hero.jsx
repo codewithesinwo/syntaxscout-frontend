@@ -55,7 +55,6 @@ const Hero = () => {
             <Link
               to="/signup"
               className=" bg-blue-700 py-3 px-8 rounded-e-2xl block text-lg text-white hover:underline text-center"
-              // className="bg-gray-800 px-8 py-3 rounded-md text-lg font-semibold hover:bg-gray-500 transition"
             >
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -75,8 +74,6 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
           className="border-4 border-transparent p-4 multicolor-border"
-          // className="flex-1 bg-gray-900/60 border border-gray-800 rounded-xl p-6 text-left shadow-xl backdrop-blur-lg w-full"
-          // className="flex-1 bg-gray-900/60 border border-gray-800 rounded-xl p-6 text-left shadow-xl backdrop-blur-lg w-full"
         >
           <div className="flex gap-3 mb-2 border-b-2 ">
             <div className="h-4 w-4 bg-red-600 rounded-full mb-2"></div>

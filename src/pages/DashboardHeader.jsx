@@ -91,7 +91,7 @@ export default function DashboardHeader() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-16 right-3 bg-gray-900 text-white rounded-b-2xl p-5 flex flex-col items-start gap-3 shadow-lg md:hidden"
+            className="absolute top-16 h-80 left-70 right-0 bg-gray-900 text-white rounded-b-2xl p-5 flex flex-col items-start gap-3 shadow-lg md:hidden"
           >
             {navLinks.map((link) => (
               <NavLink
