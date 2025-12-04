@@ -1,201 +1,132 @@
-import React, { useState } from "react";
-import { FaPaypal, FaApple, FaGooglePay } from "react-icons/fa"; // Payment method icons
+import React from "react";
+import { MdOutlineCancel } from "react-icons/md";
+import { IoCardSharp } from "react-icons/io5";
+import { FaGooglePay, FaHashtag } from "react-icons/fa";
+import { RiBankFill } from "react-icons/ri";
+import { TbTransfer } from "react-icons/tb";
+import { FaAngleDown } from "react-icons/fa6";
 
 export default function Payment() {
-  const [loading, setLoading] = useState(false);
-  const [cardValidate, setCardValidate] = useState({
-    cardholder: "",
-    cardnumber: "",
-    expiry: "",
-    cvv: "",
-  });
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      alert("Payment Processed Successfully!");
-    }, 2000);
-  };
-
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCardValidate({ ...cardValidate, [name]: value });
-  };
-
-  // Handle expiry date formatting (MM/YY)
-  const handleExpiryChange = (e) => {
-    let value = e.target.value;
-
-    // Add a slash automatically between MM and YY
-    if (value.length === 2 && !value.includes("/")) {
-      value = value + "/";
-    }
-
-    setCardValidate({ ...cardValidate, expiry: value });
-  };
-
   return (
-    <div className="w-full max-w-lg bg-white shadow-lg rounded-3xl p-8 mt-20 mx-auto">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-        Secure Checkout
-      </h2>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-        {/* Payment Method Selection */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <button
-            type="button"
-            name="paypal"
-            className="cursor-pointer h-14 bg-gray-100 rounded-xl flex justify-center items-center shadow-md transition-all duration-200 hover:bg-blue-50"
-          >
-            <FaPaypal size={24} className="text-blue-500" />
-            <h1 className="ml-2 text-sm text-gray-600">PayPal</h1>
-          </button>
-          <button
-            type="button"
-            name="apple-pay"
-            className="cursor-pointer h-14 bg-gray-100 rounded-xl flex justify-center items-center shadow-md transition-all duration-200 hover:bg-gray-50"
-          >
-            <FaApple size={24} className="text-gray-800" />
-            <h1 className="ml-2 text-sm text-gray-600">Apple Pay</h1>
-          </button>
-          <button
-            type="button"
-            name="google-pay"
-            className="cursor-pointer h-14 bg-gray-100 rounded-xl flex justify-center items-center shadow-md transition-all duration-200 hover:bg-blue-50"
-          >
-            <FaGooglePay size={24} className="text-blue-500" />
-            <h1 className="ml-2 text-sm text-gray-600">Google Pay</h1>
-          </button>
+    <div
+      className="
+        min-h-screen bg-white py-10 px-4 
+        flex flex-col md:flex-row 
+        items-center md:items-start 
+        justify-center gap-6 mt-15
+      "
+    >
+      {/* LEFT CARD FORM */}
+      <div className="w-full max-w-md bg-white shadow-xl rounded-3xl p-8 border">
+        <div className="flex justify-between items-center mb-3">
+          <MdOutlineCancel className="text-gray-500 hover:text-gray-700 cursor-pointer text-2xl font-bold" />
+          <h2 className="font-bold text-gray-800 text-lg">NGN 1,000</h2>
         </div>
 
-        {/* Divider */}
-        <div className="flex items-center justify-center my-6">
-          <hr className="w-40 border-t border-gray-300" />
-          <p className="text-sm text-center text-gray-600">
-            or pay using credit card
-          </p>
-          <hr className="w-40 border-t border-gray-300" />
-        </div>
+        <div className="border-b mb-6"></div>
 
-        {/* Card Details Section */}
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="cardholder"
-              className="text-xs font-semibold text-gray-600"
-            >
-              Cardholder Full Name
+        <p className="text-center text-gray-900 font-medium mb-6">
+          Enter your card details to pay
+        </p>
+
+        <form className="space-y-5">
+          <div>
+            <label className="block mb-1 text-sm font-medium text-gray-700">
+              CARD NUMBER
             </label>
             <input
-              id="cardholder"
-              name="cardholder"
-              value={cardValidate.cardholder}
-              onChange={handleInputChange}
-              className="h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
               type="text"
-              placeholder="Enter your full name"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="cardnumber"
-              className="text-xs font-semibold text-gray-600"
-            >
-              Card Number
-            </label>
-            <input
-              id="cardnumber"
-              name="cardnumber"
-              value={cardValidate.cardnumber}
-              onChange={handleInputChange}
-              className="h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-yellow-400"
               placeholder="0000 0000 0000 0000"
-              required
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="expiry"
-                className="text-xs font-semibold text-gray-600"
-              >
-                Expiry Date (MM/YY)
+          <div className="flex space-x-4">
+            <div className="w-1/2">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                VALID TILL
               </label>
               <input
-                id="expiry"
-                name="expiry"
-                value={cardValidate.expiry}
-                onChange={handleExpiryChange}
-                className="h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                 type="text"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg 
+                focus:ring-2 focus:ring-yellow-400"
                 placeholder="MM/YY"
-                required
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="cvv"
-                className="text-xs font-semibold text-gray-600"
-              >
+
+            <div className="w-1/2">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 CVV
               </label>
               <input
-                id="cvv"
-                name="cvv"
-                value={cardValidate.cvv}
-                onChange={handleInputChange}
-                className="h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                 type="text"
-                placeholder="CVV"
-                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg 
+                focus:ring-2 focus:ring-yellow-400"
+                placeholder="123"
               />
             </div>
           </div>
-        </div>
 
-        {/* Checkout Button */}
-        <button
-          type="submit"
-          className="h-14 bg-gradient-to-b from-blue-500 to-blue-700 text-white font-semibold rounded-xl mt-6 transition-all duration-300 hover:bg-blue-600"
-          disabled={loading}
-        >
-          {loading ? (
-            <span className="flex justify-center items-center">
-              <svg
-                className="animate-spin h-5 w-5 mr-3"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 1116 0A8 8 0 014 12z"
-                ></path>
-              </svg>
-              Processing...
-            </span>
-          ) : (
-            "Checkout"
-          )}
-        </button>
-      </form>
+          <div className="flex items-center mt-2">
+            <input type="checkbox" id="saveCard" />
+            <label htmlFor="saveCard" className="ml-2 text-gray-700">
+              Remember this card next time
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-yellow-500 text-black py-3 rounded-lg 
+            font-medium hover:bg-yellow-600 transition"
+          >
+            Pay NGN 1,000
+          </button>
+        </form>
+
+        <div className="flex justify-center mt-5">
+          <p className="text-gray-500 text-xs border px-3 py-1 rounded-lg">
+            🔒 SECURED BY SYNTAXSCOUT
+          </p>
+        </div>
+      </div>
+
+      {/* PAYMENT OPTIONS */}
+      <div
+        className="
+        w-full max-w-xs bg-gray-100 shadow-md rounded-3xl p-6  
+      "
+      >
+        <p className="text-center text-gray-950 font-semibold mb-6">
+          PAYMENT OPTIONS
+        </p>
+
+        <PaymentOption icon={<IoCardSharp />} label="Card" active />
+        <PaymentOption icon={<FaGooglePay />} label="Google Pay" />
+        <PaymentOption icon={<FaHashtag />} label="USSD" />
+        <PaymentOption icon={<RiBankFill />} label="Bank" />
+        <PaymentOption icon={<TbTransfer />} label="Bank Transfer" />
+
+        <div className="flex justify-center items-center mt-5 cursor-pointer text-gray-700">
+          <span>More payment options</span>
+          <FaAngleDown className="ml-2" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PaymentOption({ icon, label, active }) {
+  return (
+    <div
+      className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer
+        ${active ? "bg-yellow-100 shadow-md" : "hover:bg-gray-200"}
+      `}
+    >
+      <div className="p-3 bg-white rounded-full shadow-sm ml-6 text-xl">
+        {icon}
+      </div>
+      <h1 className="text-gray-950 font-medium">{label}</h1>
     </div>
   );
 }

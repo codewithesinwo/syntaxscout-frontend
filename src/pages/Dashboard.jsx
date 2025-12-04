@@ -190,8 +190,6 @@ export default function Dashboard() {
          setUsername(`${user.user.firstName} ${user.user.lastName}`)
         }
 
-
-
         getUsername()
       }, [])
   
