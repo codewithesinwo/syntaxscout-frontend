@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState} from "react";
 import { motion } from "framer-motion";
 
 const stats = [
@@ -9,6 +10,24 @@ const stats = [
 ];
 
 const Stats = () => {
+
+const [count, setCount] = useState(0)
+
+const target = 100000
+
+useEffect(()=>{
+  const interval = setInterval(() => {
+    setCount((prev) => {
+      if (prev >= target) {
+        clearInterval(interval);
+        return target
+      }
+      return prev + 50000
+    });
+  }, []);
+})
+
+
   return (
     <section className="w-full bg-gray-900 text-white py-20 px-6 md:px-20">
       <div className="max-w-6xl mx-auto text-center mb-12">

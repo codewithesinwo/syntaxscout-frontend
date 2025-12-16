@@ -22,6 +22,8 @@ import DashboardGrade from './pages/DashboardGrade'
 import DashboardAssignment from './pages/DashboardAssignment'
 import DashboardMessage from './pages/DashboardMessage'
 import Payment from './pages/Payment'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminDashboardLayout from './components/AdminDashboardLayout'
 
 export default function App() {
   const location = useLocation();
@@ -78,6 +80,12 @@ export default function App() {
           <Route path="grades" element={<DashboardGrade />} />
           <Route path="assignments" element={<DashboardAssignment />} />
           <Route path="messages" element={<DashboardMessage />} />
+        </Route>
+
+        
+        <Route path="/admin-dashboard" element={<AdminDashboardLayout />}>
+          <Route index element={<AdminDashboard />} />
+          {/* <Route path="settings" element={<DashboardSetting />} /> */}
         </Route>
       </Routes>
     </ThemeProvider>
