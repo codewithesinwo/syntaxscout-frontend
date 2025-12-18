@@ -8,12 +8,12 @@ export default function PageNotFound() {
     <>
       <div className="flex items-center justify-center text-center">
         <div className="my-50 w-auto">
-          <h1 className="text-6xl text-gray-900 font-extrabold">Oops!</h1>
-          <p className="text-3xl text-gray-900 font-extrabold mt-2">
+          <h1 className="text-6xl text-gray-100 font-extrabold">Oops!</h1>
+          <p className="text-3xl text-gray-100 font-extrabold mt-2">
             PAGE NOT FOUND
           </p>
-          <p className='mt-5 text-gray-900 text-3xl'>It seems the page you requested is unavailable or may have been moved.</p>
-          <p className='text-gray-900 text-2xl mt-5'> Kindly retun to the homepage or use the navigation above</p>
+          <p className='mt-5 text-gray-100 text-3xl'>It seems the page you requested is unavailable or may have been moved.</p>
+          <p className='text-gray-100 text-2xl mt-5'> Kindly retun to the homepage or use the navigation above</p>
           <Link to="/">
           <button
             type="button"

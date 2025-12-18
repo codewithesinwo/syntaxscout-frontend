@@ -20,7 +20,7 @@ export default function DashboardLayout() {
     <div className="grid grid-rows-[auto_1fr] h-screen overflow-hidden">
       <DashboardHeader />
 
-      <main className="w-full flex  ">
+      <main className="w-full flex">
         <div className="hidden md:flex ">
           <DashboardSideShow />
         </div>

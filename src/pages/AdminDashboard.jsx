@@ -18,7 +18,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8 p-6 bg-slate-100 min-h-screen">
-      {/* ================= TOP STATS ================= */}
+      {/* TOP STATS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {stats.map((stat) => (
           <motion.div
@@ -49,8 +49,9 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      {/* ================= EARNINGS + CALENDAR ================= */}
+      {/* EARNINGS + CALENDAR */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
         {/* Earnings Chart */}
         <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm">
           <h3 className="font-semibold mb-6">Monthly Earnings</h3>
@@ -87,7 +88,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ================= MIDDLE SECTION ================= */}
+      {/* MIDDLE SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Activity */}
         <div className="bg-white rounded-2xl p-6 shadow-sm">
@@ -140,7 +141,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ================= PAYMENTS TABLE ================= */}
+      {/* PAYMENTS TABLE */}
       <div className="bg-white rounded-2xl p-6 shadow-sm">
         <h3 className="font-semibold mb-4">Recent Payments</h3>
 

@@ -45,7 +45,7 @@ import React from "react";
      price: "NGN 75,900",
      oldPrice: "NGN 250,000",
      duration: "38h",
-     image: "/javascript.png",
+     image: "/react.jpg",
    },
    {
      id: 6,

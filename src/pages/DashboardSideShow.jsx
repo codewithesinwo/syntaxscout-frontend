@@ -42,8 +42,8 @@ const navigate=useNavigate()
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className={`hidden md:flex h-screen ${
-        darkMode ? "bg-black border-r-2" : "bg-gray-200"
-      } text-white flex-col items-center py-6 shadow-lg duration-900 transition-colors mt-15`}
+        darkMode ? "bg-black border-r-gray-200" : "bg-gray-200"
+      } flex-col items-center py-6 shadow-lg duration-900 transition-colors mt-15 border-2 w-60`}
     >
 
       {/* Logo */}
@@ -70,17 +70,14 @@ const navigate=useNavigate()
             >
               <NavLink
                 to={item.to}
-                className={({ isActive }) =>
-                  `flex items-center gap-4 p-3 rounded-md font-semibold transition-all duration-300 ${
-                    isActive && darkMode
-                      ? "bg-teal-600 text-gray-950 "
-                      : isActive 
-                      ? "bg-teal-600 text-gray-950 "
-                      : !darkMode
-                      ? "text-black  hover:bg-gray-500"
-                      : "text-white hover:bg-gray-500"
-                  }`
-                }
+                className={`flex items-center gap-4 p-3 rounded-md font-semibold transition-all duration-300 ${
+                  darkMode
+                    ? "text-white hover:bg-gray-500 "
+                    : // ? "bg-teal-600 text-gray-950 "
+                    !darkMode
+                    ? "text-black  hover:bg-gray-500"
+                    : ""
+                }`}
               >
                 <Icon className="text-xl text-center " />
                 {<span>{item.label}</span>}
@@ -96,7 +93,7 @@ const navigate=useNavigate()
           <NavLink
             to={"/"}
             onClick={handleLogout}
-            className={`flex items-center gap-4 p-3 rounded-md font-semibold transition-all duration-300 ${
+            className={`flex items-center gap-4 p-3 rounded-md font-semibold transition-all duration-300 mt-30 ${
               darkMode
                 ? "text-white hover:bg-gray-500"
                 : !darkMode

@@ -199,9 +199,9 @@ export default function DashboardCourses() {
           {courses.map((course) => (
             <div
               key={course.id}
-              className="bg-[#0D0D0D] p-4 rounded-xl w-full border border-[#1a1a1a] shadow-lg "
+              className="bg-gray-200 p-4 rounded-xl w-full border border-[#1a1a1a] shadow-lg "
             >
-              <div className="rounded-lg overflow-hidden bg-black">
+              <div className="rounded-lg overflow-hidden bg-gray-900 text-gray-200">
                 <img
                   src={course.image}
                   alt={course.title}
@@ -211,22 +211,22 @@ export default function DashboardCourses() {
 
               <div className="mt-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-white text-lg font-semibold leading-tight">
+                  <h3 className="text-black text-lg font-semibold leading-tight">
                     {course.title}
                   </h3>
 
-                  <span className="text-sm bg-[#2A2A2A] text-white px-3 py-1 rounded-md">
+                  <span className="text-sm bg-[#050404] text-white px-3 py-1 rounded-md">
                     {course.duration}
                   </span>
                 </div>
 
-                <p className="text-gray-400 text-sm mt-2 leading-snug">
+                <p className="text-gray-900 text-sm mt-2 leading-snug">
                   {course.desc}
                 </p>
 
                 <div className="flex items-center justify-between mt-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-white font-bold text-lg">
+                    <span className="text-black font-bold text-lg">
                       {course.price}
                     </span>
 

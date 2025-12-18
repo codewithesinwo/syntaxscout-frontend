@@ -14,7 +14,7 @@ export default function AdminDashboardSideShow() {
   ];
 
   return (
-    <aside className="w-64 bg-slate-800 text-white flex flex-col">
+    <div className="w-64 bg-slate-800 text-white flex flex-col">
       <div className="p-6 text-xl font-bold tracking-wide">SCHOOL</div>
 
       <nav className="flex-1 px-4 space-y-2">
@@ -40,6 +40,6 @@ export default function AdminDashboardSideShow() {
           <span>Logout</span>
         </div>
       </div>
-    </aside>
+    </div>
   );
 }
