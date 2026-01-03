@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-body{
-background: linear-gradient(#030712);  
-}
-
 .multicolor-border{
   border-image: linear-gradient(to right, red, yellow, green, blue);
   border-image-slice: 1;
@@ -30,4 +26,8 @@ html {
 #contact,
 #feedback {
   scroll-margin-top: 5rem;
+}
+
+.setting-links{
+  list-style-type: none;
 }

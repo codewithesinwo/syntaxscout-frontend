@@ -13,7 +13,7 @@ export default function Footer() {
 
   return (
     <footer>
-      <div className="bg-gray-900 text-gray-300 py-4 md:flex justify-center items-center gap-20 ">
+      <div className="bg-gray-900 text-gray-300 py-4 md:flex justify-center items-center gap-20">
         <Link to="/">
           <div>
             <p className="font-bold flex justify-center items-center">

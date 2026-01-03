@@ -83,7 +83,7 @@ const Hero = () => {
 
           <div className="text-xs text-gray-500 my-5">App.jsx</div>
           <pre className="text-left text-lg leading-relaxed">
-            <code>
+            <div>
               <span className="text-indigo-400">import</span> React{" "}
               <span className="text-indigo-400">from</span> 'react';{"\n"}
               <span className="text-indigo-400">import</span> Button{" "}
@@ -105,7 +105,7 @@ const Hero = () => {
               {"}"}
               {"\n\n"}
               <span className="text-indigo-400">export default</span> App;
-            </code>
+            </div>
           </pre>
         </motion.div>
       </motion.div>

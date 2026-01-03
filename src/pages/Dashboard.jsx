@@ -185,9 +185,7 @@ export default function Dashboard() {
 
          const user=await res.json()
 
-         console.log({user});
-
-         setUsername(`${user.user.firstName} ${user.user.lastName}`)
+         setUsername(`${user.user.firstName}`)
         }
 
         getUsername()

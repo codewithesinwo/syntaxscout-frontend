@@ -27,7 +27,7 @@ export default function DashboardHeader() {
       transition={{ duration: 0.5 }}
       className={`flex justify-evenly items-center ${
         darkMode ? "bg-black text-white border-b-2" : "bg-gray-100 text-white"
-      } shadow-md gap-2 py-3 fixed w-full top-0 left-0 z-40 transition-colors duration-300`}
+      } shadow-md gap-2 py-3 fixed w-full top-0 left-0 z-40 transition-colors duration-300 shadow-gray-900/40`}
     >
       <Link to="/">
         <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export default function DashboardHeader() {
       {/* Mobile menu button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden text-gray-700 text-2xl"
+        className="md:hidden text-gray-700 text-2xl border-2 rounded-md"
       >
         {isOpen ? <IoMdCloseCircle /> : <GiHamburgerMenu />}
       </button>
@@ -92,7 +92,7 @@ export default function DashboardHeader() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-16 h-80 left-55 right-0 bg-gray-900 text-white rounded-b-2xl p-5 flex flex-col items-start gap-3 shadow-lg md:hidden"
+            className="shadow-black absolute top-16 h-75 left-55 right-0 bg-gray-200 text-black font-semibold rounded-b-2xl p-5 flex flex-col items-start gap-3 shadow-lg md:hidden"
           >
             {navLinks.map((link) => (
               <NavLink
@@ -105,7 +105,7 @@ export default function DashboardHeader() {
               </NavLink>
             ))}
 
-            <button className="cursor-pointer hover:text-amber-400 mt-5 bg-amber-700 w-full rounded-2xl p-3 font-bold">
+            <button className="cursor-pointer hover:text-amber-400  bg-amber-700 w-full rounded-2xl p-3 font-bold text-white">
               LOG-OUT
             </button>
           </motion.div>
