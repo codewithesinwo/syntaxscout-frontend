@@ -3,10 +3,6 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 
-
-
-
-
 export default function SignUp() {
   const [formData, setFormData] = useState({
     firstName: "",
