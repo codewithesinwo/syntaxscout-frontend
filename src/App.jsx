@@ -6,7 +6,7 @@ import Courses from './components/Courses'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import ResetPassword from './pages/ResetPassword'
-import PageNotFound from './pages/PageNotFound'
+// import PageNotFound from './pages/PageNotFound'
 import Dashboard from './pages/Dashboard'
 import DashboardSetting from './pages/DashboardSetting'
 import WebLayout from './components/WebLayout'
@@ -21,6 +21,7 @@ import DashboardGrade from './pages/DashboardGrade'
 import DashboardAssignment from './pages/DashboardAssignment'
 import DashboardMessage from './pages/DashboardMessage'
 import Payment from './pages/Payment'
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 export default function App() {
@@ -73,13 +74,12 @@ export default function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="settings" element={<DashboardSetting />} />
-          <Route path="*" element={<PageNotFound />} />
           <Route path="grades" element={<DashboardGrade />} />
           <Route path="assignments" element={<DashboardAssignment />} />
           <Route path="messages" element={<DashboardMessage />} />
+          <Route path="admin" element={<AdminDashboard />} />
         </Route>
       </Routes>
-      <PageNotFound />
     </ThemeProvider>
   );
 }
