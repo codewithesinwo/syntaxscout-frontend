@@ -16,7 +16,6 @@ import WhyLearn from './components/WhyLearn'
 import Stats from './components/Stats'
 import ContactForm from './pages/ContactForm'
 import LifetimeAccess from './pages/LifetimeAccess'
-import DashboardCourses from './pages/DashboardCourses'
 import Path from './pages/Path'
 import DashboardGrade from './pages/DashboardGrade'
 import DashboardAssignment from './pages/DashboardAssignment'
@@ -67,20 +66,20 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/*" element={<PageNotFound />} />
+          {/* <Route path="/*" element={<PageNotFound />} /> */}
           <Route path="/payment" element={<Payment />} />
         </Route>
-        
+
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="settings" element={<DashboardSetting />} />
-          <Route path="courses" element={<DashboardCourses />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="grades" element={<DashboardGrade />} />
           <Route path="assignments" element={<DashboardAssignment />} />
           <Route path="messages" element={<DashboardMessage />} />
         </Route>
       </Routes>
+      <PageNotFound />
     </ThemeProvider>
   );
 }

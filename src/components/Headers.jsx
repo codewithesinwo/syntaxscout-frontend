@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { NavLink, Link } from "react-router-dom";
+import { getToken } from "../utils/localstorage";
 
 const navLinks = [
   { name: "Courses", href: "/courses" },
@@ -14,6 +15,7 @@ const navLinks = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const isLoggedIn = !!getToken();
 
   return (
     <header className="bg-gray-900 text-white fixed w-full top-0 left-0 z-50 shadow-md">
@@ -44,13 +46,21 @@ export default function Header() {
           ))}
         </ul>
 
-          {/* Navigate to login page */}
+          {/* Navigate to login or dashboard page */}
           <div className="hidden lg:flex">
-            <NavLink to="/login">
-              <button className="border p-2 px-5 rounded-2xl cursor-pointer hover:bg-teal-300/70 font-bold transition-colors duration-900">
-                Login
-              </button>
-            </NavLink>
+            {isLoggedIn ? (
+              <NavLink to="/dashboard">
+                <button className="border p-2 px-5 rounded-2xl cursor-pointer hover:bg-teal-300/70 font-bold transition-colors duration-900">
+                  Dashboard
+                </button>
+              </NavLink>
+            ) : (
+              <NavLink to="/login">
+                <button className="border p-2 px-5 rounded-2xl cursor-pointer hover:bg-teal-300/70 font-bold transition-colors duration-900">
+                  Login
+                </button>
+              </NavLink>
+            )}
           </div>
 
         {/* Hamburger (Mobile Only) */}
@@ -82,14 +92,20 @@ export default function Header() {
             </NavLink>
           ))}
 
-        
-          {/* Navigate to login page */}
           <div>
-            <NavLink to="/login">
-              <button className="border p-2 px-5 rounded-2xl cursor-pointer hover:bg-teal-300/70 font-bold transition-colors duration-900">
-                Login
-              </button>
-            </NavLink>
+            {isLoggedIn ? (
+              <NavLink to="/dashboard">
+                <button className="border p-2 px-5 rounded-2xl cursor-pointer hover:bg-teal-300/70 font-bold transition-colors duration-900">
+                  Dashboard
+                </button>
+              </NavLink>
+            ) : (
+              <NavLink to="/login">
+                <button className="border p-2 px-5 rounded-2xl cursor-pointer hover:bg-teal-300/70 font-bold transition-colors duration-900">
+                  Login
+                </button>
+              </NavLink>
+            )}
           </div>
         </div>
       </nav>

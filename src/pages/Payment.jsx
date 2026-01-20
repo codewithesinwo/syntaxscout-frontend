@@ -170,7 +170,7 @@ export default function Payment() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10 px-4 flex flex-col items-center justify-center gap-6">
+    <div className="min-h-screen bg-slate-50 py-10 px-4 flex flex-col items-center justify-center gap-6 mt-20">
       {/* REGION SWITCHER */}
       <div className="flex bg-gray-200 p-1 rounded-xl w-full max-w-sm mb-4">
         <button

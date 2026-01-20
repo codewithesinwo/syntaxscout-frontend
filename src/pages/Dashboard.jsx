@@ -16,10 +16,78 @@ import {
   FaChalkboardTeacher,
   FaCertificate,
 } from "react-icons/fa";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  Cell,
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PieChart,
+  Pie,
+} from "recharts";
+import {
+  Terminal,
+  Code2,
+  Rocket,
+  Zap,
+  Trophy,
+  Target,
+  ChevronRight,
+  BrainCircuit,
+  Timer,
+  Github,
+} from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Dashboard() {
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState("");
+
+  // --- DATA MOCKUPS ---
+  const activityData = [
+    { day: "Mon", codeTime: 120, bugsFixed: 5 },
+    { day: "Tue", codeTime: 210, bugsFixed: 12 },
+    { day: "Wed", codeTime: 180, bugsFixed: 8 },
+    { day: "Thu", codeTime: 240, bugsFixed: 15 },
+    { day: "Fri", codeTime: 100, bugsFixed: 4 },
+    { day: "Sat", codeTime: 320, bugsFixed: 20 },
+    { day: "Sun", codeTime: 200, bugsFixed: 10 },
+  ];
+
+  const skillRadar = [
+    { subject: "Logic", A: 120, fullMark: 150 },
+    { subject: "UI/UX", A: 98, fullMark: 150 },
+    { subject: "Backend", A: 86, fullMark: 150 },
+    { subject: "Database", A: 99, fullMark: 150 },
+    { subject: "DevOps", A: 85, fullMark: 150 },
+    { subject: "Git", A: 65, fullMark: 150 },
+  ];
+
+  const currentModule = {
+    title: "Advanced React Patterns",
+    lesson: "Lesson 14: Compound Components",
+    progress: 68,
+    timeLeft: "12 mins left",
+  };
+
+  // --- ANIMATION VARIANTS ---
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  };
 
   const courses = [
     {
@@ -160,37 +228,33 @@ export default function Dashboard() {
     },
   ];
 
-      const { darkMode } = useTheme();
+  const { darkMode } = useTheme();
 
-      useEffect(()=>{
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-        const token = localStorage.getItem("token");        
- 
-      
-      async function getUsername (){
+    async function getUsername() {
+      const res = await fetch("http://localhost:8000/dashboard", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        const res= await fetch("http://localhost:8000/dashboard", {
-           method: "GET",
-           headers: {
-             "Content-Type": "application/json",
-             Authorization: `Bearer ${token}`,
-           },
-         });
+      if (!res.ok && res.status === 401) {
+        alert("User not logged in");
+        localStorage.setItem("token", "");
+        window.location.href = "/";
+      }
 
-         if(!res.ok&&res.status===401){
-          alert('User not logged in')
-          localStorage.setItem("token", "");
-          window.location.href='/'
-         }
+      const user = await res.json();
 
-         const user=await res.json()
+      setUsername(`${user.user.firstName}`);
+    }
 
-         setUsername(`${user.user.firstName}`)
-        }
-
-        getUsername()
-      }, [])
-  
+    getUsername();
+  }, []);
 
   return (
     <motion.div
@@ -204,12 +268,12 @@ export default function Dashboard() {
       <div className="mb-8">
         <h1
           className={`${
-            darkMode
-              ? "text-3xl font-bold text-gray-100"
-              : "text-3xl font-bold text-gray-900"
+            darkMode ?
+              "text-3xl font-bold text-gray-100"
+            : "text-3xl font-bold text-gray-900"
           }`}
         >
-          Hello, {username||'User'}! 👋
+          Hello, {username || "User"}! 👋
         </h1>
         <p className={`${darkMode ? "text-gray-100" : "text-gray-900"}`}>
           Welcome back! Ready to learn something new today?
@@ -219,9 +283,9 @@ export default function Dashboard() {
       {/* CATEGORIES */}
       <h2
         className={`${
-          darkMode
-            ? "text-2xl font-semibold mb-4 text-gray-100"
-            : "text-2xl font-semibold mb-4 text-gray-900"
+          darkMode ?
+            "text-2xl font-semibold mb-4 text-gray-100"
+          : "text-2xl font-semibold mb-4 text-gray-900"
         }`}
       >
         Top Categories
@@ -245,9 +309,9 @@ export default function Dashboard() {
             </div>
             <p
               className={`${
-                darkMode
-                  ? "text-sm font-medium text-center text-white"
-                  : "text-sm font-medium text-center text-gray-950"
+                darkMode ?
+                  "text-sm font-medium text-center text-white"
+                : "text-sm font-medium text-center text-gray-950"
               }`}
             >
               {cat.title}
@@ -259,9 +323,9 @@ export default function Dashboard() {
       {/* COURSES */}
       <h2
         className={`${
-          darkMode
-            ? "text-2xl font-semibold mb-4 text-white"
-            : "text-2xl font-semibold mb-4"
+          darkMode ?
+            "text-2xl font-semibold mb-4 text-white"
+          : "text-2xl font-semibold mb-4"
         }`}
       >
         Your Courses
@@ -317,9 +381,9 @@ export default function Dashboard() {
       {/* RECOMMENDED */}
       <h2
         className={`${
-          darkMode
-            ? "text-2xl font-semibold mb-4 text-white"
-            : "text-2xl font-semibold mb-4"
+          darkMode ?
+            "text-2xl font-semibold mb-4 text-white"
+          : "text-2xl font-semibold mb-4"
         }`}
       >
         Recommended for You
@@ -330,9 +394,9 @@ export default function Dashboard() {
             key={i}
             whileHover={{ y: -5 }}
             className={`${
-              darkMode
-                ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
-                : `bg-gradient-to-br ${rec.gradient} text-white p-5 rounded-2xl shadow-md`
+              darkMode ?
+                "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+              : `bg-gradient-to-br ${rec.gradient} text-white p-5 rounded-2xl shadow-md`
             }`}
           >
             <h3 className="font-semibold text-lg">{rec.title}</h3>
@@ -349,9 +413,9 @@ export default function Dashboard() {
         {/* NEWS */}
         <div
           className={`${
-            darkMode
-              ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
-              : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+            darkMode ?
+              "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+            : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
           }`}
         >
           <h2 className="font-bold text-xl mb-3">Tech News</h2>
@@ -370,9 +434,9 @@ export default function Dashboard() {
         {/* EVENTS */}
         <div
           className={`${
-            darkMode
-              ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
-              : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+            darkMode ?
+              "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+            : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
           }`}
         >
           <h2 className="font-bold text-xl mb-3">Upcoming Events</h2>
@@ -381,7 +445,11 @@ export default function Dashboard() {
               key={i}
               className="border-b border-gray-100 py-3 last:border-none"
             >
-              <p className={`${darkMode ? "font-semibold text-white" : "font-semibold text-gray-800"}`}>{event.title}</p>
+              <p
+                className={`${darkMode ? "font-semibold text-white" : "font-semibold text-gray-800"}`}
+              >
+                {event.title}
+              </p>
               <p className="text-xs text-gray-500">
                 {event.date} • {event.time}
               </p>
@@ -393,9 +461,9 @@ export default function Dashboard() {
         {/* ACHIEVEMENTS */}
         <div
           className={`${
-            darkMode
-              ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
-              : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+            darkMode ?
+              "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+            : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
           }`}
         >
           <h2 className="font-bold text-xl mb-3">Achievements</h2>
@@ -418,12 +486,11 @@ export default function Dashboard() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={`${
-          darkMode
-            ? "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
-            : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
+          darkMode ?
+            "bg-neutral-950 text-white p-5 rounded-2xl shadow-md"
+          : "bg-white p-5 rounded-2xl shadow-md border border-gray-200"
         }`}
       >
-        
         <h2 className="font-bold text-xl mb-3">Recent Activity</h2>
         <ul className="space-y-3">
           {activities.map((act, i) => (
@@ -442,6 +509,117 @@ export default function Dashboard() {
             </motion.li>
           ))}
         </ul>
+
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={staggerContainer}
+          className={`min-h-screen p-4 md:p-8 mt-10 transition-all duration-500 ${
+            darkMode ? "bg-[#0a0a0a] text-white" : "bg-slate-50 text-slate-900"
+          }`}
+        >
+
+          {/* 2. MIDDLE SECTION: THE LEARNING HUB */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Learning Activity (Area Chart) */}
+            <motion.div
+              variants={fadeInUp}
+              className={`lg:col-span-2 p-6 rounded-3xl border shadow-sm ${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-slate-200"}`}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                  <Timer size={20} className="text-indigo-500" /> Focus
+                  Intensity
+                </h3>
+                <span className="text-xs font-bold text-slate-400">
+                  Weekly Minutes Spent Coding
+                </span>
+              </div>
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={activityData}>
+                    <defs>
+                      <linearGradient
+                        id="colorTime"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#6366f1"
+                          stopOpacity={0.3}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#6366f1"
+                          stopOpacity={0}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      vertical={false}
+                      stroke={darkMode ? "#333" : "#e2e8f0"}
+                    />
+                    <XAxis
+                      dataKey="day"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: "#94a3b8", fontSize: 12 }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        borderRadius: "12px",
+                        border: "none",
+                        backgroundColor: darkMode ? "#171717" : "#fff",
+                        boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="codeTime"
+                      stroke="#6366f1"
+                      strokeWidth={3}
+                      fillOpacity={1}
+                      fill="url(#colorTime)"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </motion.div>
+
+            {/* Skill Hexagon (Radar Chart) */}
+            <motion.div
+              variants={fadeInUp}
+              className={`p-6 rounded-3xl border shadow-sm ${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-slate-200"}`}
+            >
+              <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+                <BrainCircuit size={20} className="text-emerald-500" /> Skill
+                Profile
+              </h3>
+              <div className="h-[280px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={skillRadar}>
+                    <PolarGrid stroke={darkMode ? "#333" : "#e2e8f0"} />
+                    <PolarAngleAxis
+                      dataKey="subject"
+                      tick={{ fill: "#94a3b8", fontSize: 10 }}
+                    />
+                    <Radar
+                      name="Student"
+                      dataKey="A"
+                      stroke="#10b981"
+                      fill="#10b981"
+                      fillOpacity={0.6}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
