@@ -73,16 +73,27 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className="border-4 border-transparent p-4 multicolor-border"
+          // 1. Changed padding: p-2 on mobile, p-4 on larger screens
+          // 2. max-w-full ensures it doesn't overflow the screen width
+          className="max-w-full border-2 md:border-4 border-transparent p-2 md:p-4 multicolor-border overflow-hidden"
         >
-          <div className="flex gap-3 mb-2 border-b-2 ">
-            <div className="h-4 w-4 bg-red-600 rounded-full mb-2"></div>
-            <div className="h-4 w-4 bg-yellow-300 rounded-full mb-2"></div>
-            <div className="h-4 w-4 bg-white rounded-full mb-2"></div>
+          {/* Window Controls Header */}
+          <div className="flex gap-2 md:gap-3 mb-2 border-b-2">
+            {/* 3. Circles are smaller on mobile (h-3 w-3) and grow on desktop (md:h-4) */}
+            <div className="h-3 w-3 md:h-4 md:w-4 bg-red-600 rounded-full mb-2"></div>
+            <div className="h-3 w-3 md:h-4 md:w-4 bg-yellow-300 rounded-full mb-2"></div>
+            <div className="h-3 w-3 md:h-4 md:w-4 bg-white rounded-full mb-2"></div>
           </div>
 
-          <div className="text-xs text-gray-500 my-5">App.jsx</div>
-          <pre className="text-left text-lg leading-relaxed">
+          {/* File Name */}
+          <div className="text-[10px] md:text-xs text-gray-500 my-3 md:my-5">
+            App.jsx
+          </div>
+
+          {/* Code Block */}
+          {/* 4. Font size scales: text-xs (mobile) -> text-sm -> text-lg (desktop) */}
+          {/* 5. Added overflow-x-auto to allow horizontal scrolling on very small phones */}
+          <pre className="text-left text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed overflow-x-auto">
             <div>
               <span className="text-indigo-400">import</span> React{" "}
               <span className="text-indigo-400">from</span> 'react';{"\n"}
