@@ -24,15 +24,6 @@ const LearnBanner = () => {
             or teach, this platform connects you with opportunities to grow,
             build, and inspire others in tech.
           </p>
-
-          <div className="flex flex-wrap gap-4">
-            <button className="bg-indigo-500 hover:bg-indigo-600 px-6 py-3 rounded-xl font-semibold transition-all">
-              Start Learning
-            </button>
-            <button className="border border-indigo-400 hover:bg-indigo-500/20 px-6 py-3 rounded-xl font-semibold transition-all">
-              Become a Tutor
-            </button>
-          </div>
         </motion.div>
 
         {/* Right Side: Illustration or Feature Highlights */}
@@ -43,7 +34,7 @@ const LearnBanner = () => {
           viewport={{ once: true }}
           className="flex justify-center"
         >
-          <div className="bg-gray-800/10 p-10 rounded-3xl shadow-2xl border border-gray-700 w-[90%] md:w-[80%]">
+          <div className="bg-gray-800/70 p-10 rounded-3xl shadow-2xl border border-gray-700 w-[90%] md:w-[80%]">
             <div className="grid grid-cols-2 gap-6">
               <div className="flex flex-col items-center text-center">
                 <Code className="w-10 h-10 text-indigo-400 mb-2" />
