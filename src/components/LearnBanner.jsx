@@ -4,7 +4,7 @@ import { Code, Users, Laptop, Globe } from "lucide-react";
 
 const LearnBanner = () => {
   return (
-    <section className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-20 px-6 md:px-20 ">
+    <section className="w-full text-white py-20 px-6 md:px-20 bg-gray-950">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
         <motion.div
@@ -14,25 +14,25 @@ const LearnBanner = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Learn <span className="text-indigo-400">Coding Online</span> <br />{" "}
+            Learn <span className="text-indigo-800">Coding Online</span> <br />{" "}
             from Anywhere 🌍
           </h2>
 
-          <p className="text-gray-300 mb-6 leading-relaxed">
+          <p className="text-gray-100 mb-6 leading-relaxed">
             Master web development, design, and emerging technologies through
             real-world projects and expert mentorship. Whether you want to learn
             or teach, this platform connects you with opportunities to grow,
             build, and inspire others in tech.
           </p>
 
-          {/* <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4">
             <button className="bg-indigo-500 hover:bg-indigo-600 px-6 py-3 rounded-xl font-semibold transition-all">
               Start Learning
             </button>
             <button className="border border-indigo-400 hover:bg-indigo-500/20 px-6 py-3 rounded-xl font-semibold transition-all">
               Become a Tutor
             </button>
-          </div> */}
+          </div>
         </motion.div>
 
         {/* Right Side: Illustration or Feature Highlights */}
@@ -43,7 +43,7 @@ const LearnBanner = () => {
           viewport={{ once: true }}
           className="flex justify-center"
         >
-          <div className="bg-gray-800/70 p-10 rounded-3xl shadow-2xl border border-gray-700 w-[90%] md:w-[80%]">
+          <div className="bg-gray-800/10 p-10 rounded-3xl shadow-2xl border border-gray-700 w-[90%] md:w-[80%]">
             <div className="grid grid-cols-2 gap-6">
               <div className="flex flex-col items-center text-center">
                 <Code className="w-10 h-10 text-indigo-400 mb-2" />
