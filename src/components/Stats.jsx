@@ -1,61 +1,81 @@
-import React from "react";
-import { useEffect, useState} from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState, useRef } from "react";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 
 const stats = [
-  { number: "10M+", label: "Students taught" },
-  { number: "4M", label: "YouTube fans" },
-  { number: "20+", label: "Years of experience" },
-  { number: "52", label: "Coding courses" },
+  { value: 10, suffix: "M+", label: "Students taught" },
+  { value: 4, suffix: "M", label: "YouTube fans" },
+  { value: 20, suffix: "+", label: "Years of experience" },
+  { value: 52, suffix: "", label: "Coding courses" },
 ];
 
-const Stats = () => {
+const StatItem = ({ value, suffix, label, delay }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-const [count, setCount] = useState(0)
+  // Framer Motion Number Animation
+  const motionValue = useMotionValue(0);
+  const springValue = useSpring(motionValue, {
+    damping: 30,
+    stiffness: 100,
+  });
 
-const target = 100000
+  const [displayValue, setDisplayValue] = useState(0);
 
-useEffect(()=>{
-  const interval = setInterval(() => {
-    setCount((prev) => {
-      if (prev >= target) {
-        clearInterval(interval);
-        return target
-      }
-      return prev + 50000
+  useEffect(() => {
+    if (isInView) {
+      setTimeout(() => {
+        motionValue.set(value);
+      }, delay * 1000);
+    }
+  }, [isInView, value, motionValue, delay]);
+
+  useEffect(() => {
+    return springValue.on("change", (latest) => {
+      setDisplayValue(Math.floor(latest));
     });
-  }, []);
-})
-
+  }, [springValue]);
 
   return (
-    <section className="w-full bg-gray-900 text-white py-20 px-6 md:px-20">
-      <div className="max-w-6xl mx-auto text-center mb-12">
-        <h2 className="text-4xl font-bold mb-4 text-white">
-          Our Impact in Numbers
-        </h2>
-        <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-          Millions of learners, years of expertise, and dozens of high-quality
-          courses.
-        </p>
-      </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay }}
+      className="flex flex-col items-center justify-center p-6"
+    >
+      <span className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-indigo-300 to-indigo-500 mb-2">
+        {displayValue}
+        {suffix}
+      </span>
+      <p className="text-gray-400 text-sm md:text-lg font-medium uppercase tracking-wider text-center">
+        {label}
+      </p>
+    </motion.div>
+  );
+};
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-6xl mx-auto">
-        {stats.map((stat, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-center"
-          >
-            <span className="text-4xl md:text-5xl font-bold text-indigo-400 mb-2">
-              {stat.number}
-            </span>
-            <p className="text-gray-300 text-lg text-center">{stat.label}</p>
-          </motion.div>
-        ))}
+const Stats = () => {
+  return (
+    <section className="w-full bg-gray-950 text-white py-24 px-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+            Our Impact in <span className="text-indigo-500">Numbers</span>
+          </h2>
+          <div className="h-1 w-20 bg-indigo-600 mx-auto rounded-full mb-6"></div>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+            From first-time coders to industry professionals, we've built a
+            global community dedicated to mastering the craft of development.
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+          {stats.map((stat, index) => (
+            <StatItem key={index} {...stat} delay={index * 0.1} />
+          ))}
+        </div>
       </div>
     </section>
   );

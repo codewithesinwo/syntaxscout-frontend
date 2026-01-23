@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaArrowRight, FaLock } from "react-icons/fa";
+import { MdErrorOutline, MdCheckCircleOutline } from "react-icons/md";
 import { setToken } from "../utils/localstorage";
 
 export default function Login() {
@@ -10,6 +12,7 @@ export default function Login() {
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
@@ -27,136 +30,132 @@ export default function Login() {
     if (!formData.email || !emailRegex.test(formData.email))
       newErrors.email = "Please enter a valid email address.";
     if (!formData.password || formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters long.";
+      newErrors.password = "Password must be at least 6 characters.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
 
-    fetch("http://localhost:8000/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: formData.email,
-        password: formData.password,
-      }),
-    })
-      .then((res) => {
-        return res.json().then((data) => {
-          return { ok: res.ok, data };
-        });
-      })
-      .then(({ ok, data }) => {
-        if (!ok) {
-          setErrors({ general: data.message || "Invalid login details." });
-          return;
-        }
+    setIsSubmitting(true);
+    setErrors({});
 
-        const token = data?.data?.token;
-        if (token) {
-          setToken(token);
-        }
-
-        setSuccess(true);
-
-        navigate("/dashboard", { replace: true, state: { token } });
-      })
-
-      .catch((err) => {
-        console.error("Error:", err);
-        setErrors({ general: "Something went wrong. Try again." });
+    try {
+      const res = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
+
+      const result = await res.json();
+      const { ok, data } = { ok: res.ok, data: result };
+
+      if (!ok) {
+        setErrors({ general: data.message || "Invalid login credentials." });
+        return;
+      }
+
+      const token = data?.data?.token;
+      if (token) {
+        setToken(token);
+      }
+
+      setSuccess(true);
+      // Brief delay to allow the user to see the success state
+      setTimeout(() => {
+        navigate("/dashboard", { replace: true, state: { token } });
+      }, 1500);
+    } catch (err) {
+      console.error("Error:", err);
+      setErrors({ general: "Connection failed. Please check your network." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const isFormValid =
-    formData.email &&
-    formData.password &&
-    Object.values(errors).every((error) => !error);
+  const isFormValid = formData.email && formData.password.length >= 6;
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-[url('/BackendDevelopment.webp')] bg-cover bg-center">
+    <div className="min-h-screen flex items-center justify-center py-20 px-4 bg-gray-950 relative overflow-hidden">
+      {/* Decorative Brand Glow */}
+      <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
       <motion.div
-        className="mt-20 mb-5 w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-2xl dark:bg-gray-800"
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md p-8 md:p-10 space-y-8 bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl z-10"
       >
-        <div className="flex flex-col items-center">
-          <div className="p-2 bg-blue-100 rounded-full dark:bg-blue-900/50">
-            <img src="/Syntaxscout-logo.png" alt="Logo" className="w-20 h-20" />
+        <div className="flex flex-col items-center text-center">
+          <div className="p-4 bg-indigo-600/10 rounded-2xl mb-6 border border-indigo-500/20">
+            <img
+              src="/Syntaxscout-logo.png"
+              alt="Syntax Scout"
+              className="w-12 h-12 object-contain"
+            />
           </div>
-        </div>
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Welcome back
+          <h2 className="text-3xl font-bold text-white tracking-tight">
+            Welcome Back
           </h2>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Log in to continue — access your courses and profile.
+          <p className="mt-2 text-sm text-gray-400">
+            Continue your journey to becoming a pro developer.
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Email <span className="text-red-400">*</span>
+
+        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
+              Email Address
             </label>
             <input
               type="email"
-              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 text-gray-900 bg-gray-100 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 ${
-                errors.email
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 dark:border-gray-500 focus:ring-blue-500"
+              className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none transition-all ${
+                errors.email ? "border-red-500" : (
+                  "border-white/10 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                )
               }`}
-              placeholder="Enter your email"
-              aria-describedby={errors.email ? "email-error" : undefined}
+              placeholder="name@example.com"
             />
             {errors.email && (
-              <p
-                id="email-error"
-                className="mt-1 text-xs text-red-500"
-                role="alert"
-              >
+              <p className="text-[10px] text-red-400 font-medium ml-1">
                 {errors.email}
               </p>
             )}
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Password <span className="text-red-400">*</span>
-            </label>
+
+          <div className="space-y-1">
+            <div className="flex justify-between items-center mb-1">
+              <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
+                Password
+              </label>
+              <Link
+                to="/reset-password"
+                size="sm"
+                className="text-[10px] text-indigo-400 hover:text-indigo-300 font-bold uppercase tracking-tighter"
+              >
+                Forgot?
+              </Link>
+            </div>
             <input
               type="password"
-              id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full px-3 py-2 text-gray-900 bg-gray-100 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 ${
-                errors.password
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 dark:border-gray-500 focus:ring-blue-500"
+              className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none transition-all ${
+                errors.password ? "border-red-500" : (
+                  "border-white/10 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                )
               }`}
-              placeholder="Enter your password"
-              aria-describedby={errors.password ? "password-error" : undefined}
+              placeholder="••••••••"
             />
             {errors.password && (
-              <p
-                id="password-error"
-                className="mt-1 text-xs text-red-500"
-                role="alert"
-              >
+              <p className="text-[10px] text-red-400 font-medium ml-1">
                 {errors.password}
               </p>
             )}
@@ -164,39 +163,52 @@ export default function Login() {
 
           <motion.button
             type="submit"
-            disabled={!isFormValid}
-            className="w-full px-4 py-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            disabled={!isFormValid || isSubmitting}
+            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-indigo-600/20 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
+            whileHover={isFormValid ? { scale: 1.02 } : {}}
+            whileTap={isFormValid ? { scale: 0.98 } : {}}
           >
-            Log In
+            {isSubmitting ? "Authenticating..." : "Log In"}
+            {!isSubmitting && (
+              <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform" />
+            )}
           </motion.button>
 
-          {success && (
-            <p className="text-sm text-center text-green-600 dark:text-green-400">
-              Login successful!
-            </p>
-          )}
+          <AnimatePresence>
+            {success && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center justify-center gap-2 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-sm font-medium"
+              >
+                <MdCheckCircleOutline size={20} /> Access Granted.
+                Redirecting...
+              </motion.div>
+            )}
+            {errors.general && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center justify-center gap-2 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm font-medium"
+              >
+                <MdErrorOutline size={20} /> {errors.general}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </form>
 
-        <div className="text-sm text-center">
-          <Link
-            to="/reset-password"
-            className="font-medium text-blue-600 hover:underline dark:text-blue-400"
-          >
-            Can't log in | Reset your password?
-          </Link>
-        </div>
-        <div className="text-sm text-center">
-          <Link
-            to="/signup"
-            className="font-medium text-blue-600 hover:underline dark:text-blue-400"
-          >
-            Don't have an account? Sign up
-          </Link>
+        <div className="pt-4 text-center border-t border-white/5">
+          <p className="text-sm text-gray-500">
+            New to Syntax Scout?{" "}
+            <Link
+              to="/signup"
+              className="text-indigo-400 font-bold hover:text-indigo-300 underline underline-offset-4 decoration-2"
+            >
+              Create an account
+            </Link>
+          </p>
         </div>
       </motion.div>
     </div>
   );
 }
-

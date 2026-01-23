@@ -1,14 +1,20 @@
 import React, { useState } from "react";
+import { Send, Loader2 } from "lucide-react";
 
 const ContactForm = ({ id }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    subject: "General Inquiry",
     message: "",
   });
 
-  const [status, setStatus] = useState({ loading: false, success: "", error: "" });
+  const [status, setStatus] = useState({
+    loading: false,
+    success: "",
+    error: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,70 +31,118 @@ const ContactForm = ({ id }) => {
     setStatus({ loading: true, success: "", error: "" });
 
     if (!formData.name || !formData.email || !formData.message) {
-      setStatus({ loading: false, error: "Please fill in all required fields.", success: "" });
+      setStatus({
+        loading: false,
+        error: "Please fill in all required fields.",
+        success: "",
+      });
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      setStatus({ loading: false, error: "Please enter a valid email address.", success: "" });
+      setStatus({
+        loading: false,
+        error: "Please enter a valid email address.",
+        success: "",
+      });
       return;
     }
 
     try {
-      // Simulate API submission (replace this with your backend endpoint)
+      // Simulate API submission
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      setStatus({ loading: false, success: "Your message has been sent successfully!", error: "" });
-      setFormData({ name: "", email: "", phone: "", subject: "General Inquiry", message: "" });
+      setStatus({
+        loading: false,
+        success: "Your message has been sent successfully!",
+        error: "",
+      });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "General Inquiry",
+        message: "",
+      });
     } catch {
-      setStatus({ loading: false, error: "Something went wrong. Please try again later.", success: "" });
+      setStatus({
+        loading: false,
+        error: "Something went wrong. Please try again later.",
+        success: "",
+      });
     }
   };
 
   return (
-    // accept optional id so the section can be targeted via hash
     <div
       id={id}
-      className="flex justify-center items-center bg-gray-950 min-h-screen p-4"
+      className="flex justify-center items-center bg-gray-950 py-24 px-6 border-t border-white/5"
     >
-      <section className="bg-gray-900/10 rounded-2xl shadow-lg p-8 w-full max-w-2xl mx-auto my-25 border border-gray-100">
-        <h2 className="text-3xl font-semibold text-gray-100 mb-6 text-center">
-          Contact Us
-        </h2>
+      <section className="bg-gray-900/40 backdrop-blur-xl rounded-3xl p-8 md:p-12 w-full max-w-3xl mx-auto border border-white/10 shadow-2xl">
+        <div className="text-center mb-10">
+          <h2 className="text-4xl font-bold text-white mb-3">
+            Get in <span className="text-indigo-500">Touch</span>
+          </h2>
+          <p className="text-gray-400">
+            Have questions about our courses or the Lifetime Access? We're here
+            to help.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           {/* Name */}
-          <div>
-            <label className="block text-gray-100 font-medium mb-2">
-              Full Name <span className="text-yellow-500">*</span>
+          <div className="col-span-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2 ml-1">
+              Full Name <span className="text-indigo-500">*</span>
             </label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Enter your full name"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
+              placeholder="John Doe"
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-gray-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all"
             />
           </div>
 
           {/* Email */}
-          <div>
-            <label className="block text-gray-100 font-medium mb-2">
-              Email Address <span className="text-yellow-500">*</span>
+          <div className="col-span-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2 ml-1">
+              Email Address <span className="text-indigo-500">*</span>
             </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter your email address"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
+              placeholder="john@example.com"
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-gray-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all"
             />
           </div>
 
+          {/* Subject Dropdown */}
+          <div className="col-span-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2 ml-1">
+              Subject
+            </label>
+            <select
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="w-full bg-gray-900 border border-white/10 rounded-xl p-4 text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all appearance-none"
+            >
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Course Support">Course Support</option>
+              <option value="Billing">Billing & Refunds</option>
+              <option value="Partnership">Partnerships</option>
+            </select>
+          </div>
+
           {/* Phone */}
-          <div>
-            <label className="block text-gray-100 font-medium mb-2">
+          <div className="col-span-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2 ml-1">
               Phone Number
             </label>
             <input
@@ -96,49 +150,62 @@ const ContactForm = ({ id }) => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Enter your phone number"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
+              placeholder="+234 ..."
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-gray-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all"
             />
           </div>
 
           {/* Message */}
-          <div>
-            <label className="block text-gray-100 font-medium mb-2">
-              Message <span className="text-yellow-500">*</span>
+          <div className="col-span-full">
+            <label className="block text-sm font-semibold text-gray-300 mb-2 ml-1">
+              Message <span className="text-indigo-500">*</span>
             </label>
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
-              placeholder="Write your message here..."
+              placeholder="How can we help you?"
               rows="5"
               maxLength="1000"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 text-white outline-none"
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-gray-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all resize-none"
             ></textarea>
-            <p className="text-sm text-gray-500 mt-1">
-              {formData.message.length}/1000 characters
-            </p>
+            <div className="flex justify-end mt-2">
+              <span className="text-xs text-gray-500">
+                {formData.message.length}/1000 characters
+              </span>
+            </div>
           </div>
 
           {/* Status Messages */}
-          {status.error && (
-            <p className="text-red-600 font-medium">{status.error}</p>
-          )}
-          {status.success && (
-            <p className="text-green-600 font-medium">{status.success}</p>
-          )}
+          <div className="col-span-full">
+            {status.error && (
+              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm font-medium">
+                {status.error}
+              </div>
+            )}
+            {status.success && (
+              <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-500 text-sm font-medium">
+                {status.success}
+              </div>
+            )}
+          </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={status.loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 flex justify-center items-center"
+            className="col-span-full w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-xl shadow-indigo-600/20 flex justify-center items-center gap-2 group"
           >
-            {status.loading ? (
-              <span className="animate-pulse">Sending...</span>
-            ) : (
-              "Send Message"
-            )}
+            {status.loading ?
+              <>
+                <Loader2 className="animate-spin h-5 w-5" />
+                Sending...
+              </>
+            : <>
+                Send Message
+                <Send className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </>
+            }
           </button>
         </form>
       </section>

@@ -6,7 +6,7 @@ import Courses from './components/Courses'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import ResetPassword from './pages/ResetPassword'
-// import PageNotFound from './pages/PageNotFound'
+import PageNotFound from './pages/PageNotFound'
 import Dashboard from './pages/Dashboard'
 import DashboardSetting from './pages/DashboardSetting'
 import WebLayout from './components/WebLayout'
@@ -68,7 +68,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          {/* <Route path="/*" element={<PageNotFound />} /> */}
+          <Route path="/*" element={<PageNotFound />} />
           <Route path="/payment" element={<Payment />} />
         </Route>
 

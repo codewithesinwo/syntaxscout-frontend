@@ -1,108 +1,28 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle, Plus, Minus, ShieldCheck, Zap } from "lucide-react";
 import Feedback from "./Feedback";
-
-
-// const testimonials = [
-//   {
-//     name: "Linda Adewale", // Nigeria
-//     content:
-//       "Syntax Scout courses transformed how I approach coding. The lessons are clear, practical, and perfect for real-world projects.",
-//     stars: 5,
-//   },
-//   {
-//     name: "Aisha Bello", // Nigeria
-//     content:
-//       "I finally feel confident building web apps thanks to Syntax Scout structured and engaging lessons. Highly recommend!",
-//     stars: 5,
-//   },
-//   {
-//     name: "Li Wei", // China
-//     content:
-//       "Sy teaching style is very structured and detailed. I learned so much about full-stack development in a short time.",
-//     stars: 5,
-//   },
-//   {
-//     name: "Yuki Tanaka", // Japan
-//     content:
-//       "The lessons are easy to follow and practical. Thanks to Esinwo, I completed my first web application project.",
-//     stars: 5,
-//   },
-//   {
-//     name: "Rohan Kapoor", // India
-//     content:
-//       "Esinwo provides clear guidance and explains concepts thoroughly. I now feel confident applying coding skills professionally.",
-//     stars: 5,
-//   },
-//   {
-//     name: "Fatima Al-Hassan", // Arab region
-//     content:
-//       "Learning with Esinwo has been incredibly rewarding. Every lesson is focused on real-world results.",
-//     stars: 5,
-//   },
-//   {
-//     name: "Chinedu Okafor", // Nigeria
-//     content:
-//       "Esinwo made learning coding fun and straightforward. The community support helped me stay motivated throughout.",
-//     stars: 5,
-//   },
-//   {
-//     name: "Mei Ling", // China
-//     content:
-//       "Thanks to Esinwo, I finally understood complex topics like React hooks and Node.js integration. Excellent instructor!",
-//     stars: 5,
-//   },
-//   {
-//     name: "Hiroshi Yamamoto", // Japan
-//     content:
-//       "The lessons are engaging and clear. I was able to build a portfolio project in weeks thanks to Syntax Scout guidance.",
-//     stars: 5,
-//   },
-//   {
-//     name: "Sara Khan", // India
-//     content:
-//       "Esinwo provides actionable knowledge that I could immediately apply to freelance projects. Truly practical learning.",
-//     stars: 5,
-//   },
-// ];
-
 
 const faqs = [
   {
     question: "What’s included with Lifetime Access?",
     answer:
-      "With Lifetime Access, you get immediate access to all current courses and all future releases—forever. Pay once, and you’ll never need to pay again.",
-  },
-  {
-    question:
-      "What's the difference between a single course and Lifetime Access?",
-    answer:
-      "Buying a single course gives you lifetime access to just that course. Lifetime Access unlocks everything ever created—and everything released in the future—with a single payment.",
+      "You get immediate access to all 50+ current courses and every single future release—forever. One payment, no subscriptions, no hidden fees.",
   },
   {
     question: "Is there a money-back guarantee?",
     answer:
-      "Yes! You can contact us within 30 days of purchase for a full refund—no questions asked.",
+      "Absolutely. If you aren't satisfied, contact us within 30 days for a full refund. We want you to learn with zero risk.",
   },
   {
     question: "Can I download the courses?",
-    answer: "Yes, all videos and resources can be downloaded to learn offline.",
+    answer:
+      "Yes! All videos, code samples, and resources are available for offline download so you can learn anywhere.",
   },
   {
-    question: "Do I receive certificates for completed courses?",
+    question: "Do I receive certificates?",
     answer:
-      "Yes, each completed course comes with a certificate of completion.",
-  },
-  {
-    question: "How often are new courses added?",
-    answer:
-      "Typically 3–4 high-quality courses per year. Lifetime Access users receive all future courses at no extra cost.",
-  },
-  {
-    question: "Is this suitable for beginners?",
-    answer:
-      "Absolutely! Courses guide you step-by-step, whether you're a beginner or want to deepen your knowledge.",
+      "Yes, you receive a verified certificate of completion for every course you finish to showcase on your LinkedIn or Resume.",
   },
 ];
 
@@ -110,104 +30,140 @@ const LifetimeAccess = () => {
   const [openFAQ, setOpenFAQ] = useState(null);
 
   return (
-    <section className="w-full bg-gray-950 py-20 px-6 md:px-20">
-      {/* Pricing Section */}
-      <div className="max-w-6xl mx-auto text-center mb-16 items-center flex flex-col justify-center mt-5">
-        <h2 className="text-md mb-3 font-medium md:font-bold bg-gradient-to-r from-[#7c3aed] to-[#e879f9] inline-block text-transparent bg-clip-text">
-          One Payment. Lifetime Access
+    <section className="w-full bg-gray-950 py-24 px-6 md:px-20 border-t border-white/5">
+      {/* Header */}
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <motion.span
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="px-4 py-1.5 rounded-full border border-indigo-500/30 text-indigo-400 text-sm font-bold tracking-widest uppercase mb-6 inline-block"
+        >
+          Limited Time Offer
+        </motion.span>
+        <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white tracking-tight">
+          Own Every Course, <span className="text-indigo-500">Forever.</span>
         </h2>
-        <h1 className="text-4xl font-bold mb-5 text-gray-50">
-          Own All My Courses, Forever
-        </h1>
-        <p className="text-gray-100 text-lg max-w-2xl mx-auto mb-8">
-          Pay once. Get lifetime access to 50+ coding courses designed to make
-          you a real-world developer. No subscriptions. No recurring charges.
-          Just practical, job-focused learning yours to keep, forever.
+        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          Skip the monthly subscriptions. Pay once and unlock our entire library
+          of 50+ coding courses and all future updates.
         </p>
+      </div>
 
-        <div className="w-100 p-5 rounded-2xl bg-gray-300">
-          <div className="flex justify-between">
-            <h1 className="font-bold text-2xl">Get Lifetime Access</h1>
-            <button className="bg-gray-900 px-2 rounded-2xl text-white font-bold">
+      {/* Pricing Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="max-w-2xl mx-auto mb-24 relative"
+      >
+        {/* Glow Effect */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2.5rem] blur opacity-20"></div>
+
+        <div className="relative bg-gray-900 border border-white/10 rounded-[2rem] p-8 md:p-12 overflow-hidden">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+            <div>
+              <h3 className="text-2xl font-bold text-white">
+                The Lifetime Bundle
+              </h3>
+              <p className="text-gray-400">All-in-one developer toolkit</p>
+            </div>
+            <span className="bg-indigo-500/10 text-indigo-400 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-tighter border border-indigo-500/20">
               Best Value
-            </button>
+            </span>
           </div>
 
-          <div className=" text-left">
-            <p>All current & future courses — one payment.</p>
+          <div className="mb-10">
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-black text-white">
+                NGN 572,986
+              </span>
+              <span className="text-gray-500 line-through text-xl">
+                NGN 1,250,000
+              </span>
+            </div>
+            <p className="text-gray-500 text-sm mt-2">
+              One-time payment • No recurring fees
+            </p>
           </div>
 
-          <div className="text-3xl font-extrabold text-indigo-900 mb-1 mt-5 text-center">
-            NGN 572,986
-          </div>
-          <p className="text-gray-700 mb-6 text-center">
-            You'll be charged $399 + tax
-          </p>
-          <button className="bg-indigo-900 hover:bg-gray-900 text-white px-8 py-3 rounded-xl font-semibold transition-all cursor-pointer">
-            Unlock All Courses
+          <button className="w-full py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold text-lg transition-all shadow-xl shadow-indigo-600/20 mb-10 flex items-center justify-center gap-3 group">
+            <Zap className="fill-current group-hover:scale-110 transition-transform" />
+            Unlock Lifetime Access
           </button>
 
-          <h3 className="text-2xl font-bold mb-4 text-gray-900 mt-5">
-            What's included:
-          </h3>
-          <ul className="list-inside text-gray-950 space-y-2 text-left list-disc">
-            <li>50+ premium courses worth $4,850+</li>
-            <li>All future courses included</li>
-            <li>330 hours of HD video</li>
-            <li>Lifetime access</li>
-            <li>Downloadable content</li>
-            <li>Early access to new courses</li>
-            <li>Help shape future course topics</li>
-          </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              "50+ Premium Courses",
+              "All Future Releases",
+              "330+ Hours of Content",
+              "Downloadable Materials",
+              "Verified Certificates",
+              "Private Discord Access",
+            ].map((feature, idx) => (
+              <div key={idx} className="flex items-center gap-3 text-gray-300">
+                <CheckCircle className="text-indigo-500 w-5 h-5 shrink-0" />
+                <span className="text-sm font-medium">{feature}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Included Features */}
-      <div className="flex justify-center items-center">
-        <div className="w-150 text-center items-center flex flex-col justify-center p-5">
-          <h1 className="font-bold mb-4 text-gray-100 text-3xl">
-            Try It, Risk-Free
-          </h1>
-          <p className="text-gray-300 mb-4">
-            I’m confident you’ll love the courses. But if it’s not the right
-            fit, get a refund within 30 days no questions asked.
+      {/* Trust Section */}
+      <div className="max-w-xl mx-auto text-center mb-24">
+        <div className="bg-indigo-500/5 border border-indigo-500/10 p-8 rounded-3xl">
+          <ShieldCheck className="w-16 h-16 text-indigo-500 mx-auto mb-4" />
+          <h4 className="text-2xl font-bold text-white mb-2">
+            30-Day Risk-Free Trial
+          </h4>
+          <p className="text-gray-400">
+            If it's not the right fit for your career, we'll refund every penny.
+            No questions, no hassle.
           </p>
-
-          <img src="/moneyback.svg" className="mt-5" />
         </div>
       </div>
 
-{/* Feed back Section */}
-      <div>
-        <Feedback />
-      </div>
-
+      <Feedback />
 
       {/* FAQ Section */}
-      <div className="max-w-2xl mx-auto">
-        <h3 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mt-5">
-          Frequently Asked Questions
+      <div className="max-w-3xl mx-auto mt-32">
+        <h3 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
+          Common Questions
         </h3>
         <div className="space-y-4">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="border border-gray-200 rounded-2xl overflow-hidden"
+              className="bg-gray-900/50 border border-white/5 rounded-2xl overflow-hidden"
             >
               <button
                 onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                className="w-full text-left px-6 py-4 bg-gray-100 hover:bg-gray-200 flex justify-between items-center font-semibold text-gray-900"
+                className="w-full text-left px-6 py-5 flex justify-between items-center transition-colors hover:bg-white/5"
               >
-                {faq.question}
-                <span className="text-gray-500">
-                  {openFAQ === index ? "−" : "+"}
+                <span className="font-semibold text-white pr-4">
+                  {faq.question}
+                </span>
+                <span className="text-indigo-500 shrink-0">
+                  {openFAQ === index ?
+                    <Minus size={20} />
+                  : <Plus size={20} />}
                 </span>
               </button>
-              {openFAQ === index && (
-                <div className="px-6 py-4 text-gray-700 bg-white">
-                  {faq.answer}
-                </div>
-              )}
+
+              <AnimatePresence>
+                {openFAQ === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  >
+                    <div className="px-6 pb-6 text-gray-400 leading-relaxed text-sm">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>

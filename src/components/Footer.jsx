@@ -1,4 +1,4 @@
-// import React, { useState } from "react";
+import React from "react";
 import {
   FaTwitter,
   FaFacebookF,
@@ -9,55 +9,91 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+const socialLinks = [
+  {
+    icon: <FaYoutube />,
+    href: "https://youtube.com/codewithesinwo",
+    color: "hover:bg-red-600",
+  },
+  {
+    icon: <FaLinkedinIn />,
+    href: "https://linkedin.com/codewithesinwo",
+    color: "hover:bg-blue-600",
+  },
+  {
+    icon: <FaFacebookF />,
+    href: "https://facebook.com/codewithesinwo",
+    color: "hover:bg-blue-800",
+  },
+  {
+    icon: <FaTwitter />,
+    href: "https://x.com/codewithesinwo",
+    color: "hover:bg-black",
+  },
+  {
+    icon: <FaInstagram />,
+    href: "https://instagram.com/codewithesinwo",
+    color: "hover:bg-pink-600",
+  },
+  {
+    icon: <FaTiktok />,
+    href: "https://tiktok.com/codewithesinwo",
+    color: "hover:bg-black",
+  },
+];
+
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer>
-      <div className="bg-gray-900 text-gray-300 py-4 md:flex justify-center items-center gap-20">
-        <Link to="/">
-          <div>
-            <p className="font-bold flex justify-center items-center">
-              &copy; Syntax Scout
+    <footer className="bg-gray-950 border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          {/* Logo & Copyright */}
+          <div className="flex flex-col items-center md:items-start">
+            <Link to="/" className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+              <img
+                src="/Syntaxscout-logo.png"
+                alt="Logo"
+                className="h-8 w-auto"
+              />
+              Syntax<span className="text-indigo-500">Scout</span>
+            </Link>
+            <p className="text-gray-500 text-sm">
+              &copy; {currentYear} Syntax Scout. All rights reserved.
             </p>
           </div>
-        </Link>
 
-        <div className="md:flex gap-5 justify-center items-center flex">
-          <div className="border p-2 rounded-full hover:bg-red-600 transition-all cursor-pointer">
-            <a href="https://youtube.com/codewithesinwo" target="_blank">
-              <FaYoutube />
-            </a>
+          {/* Social Icons */}
+          <div className="flex flex-wrap justify-center gap-4">
+            {socialLinks.map((social, index) => (
+              <a
+                key={index}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`border border-white/10 p-2.5 rounded-full text-gray-400 transition-all duration-300 hover:text-white ${social.color}`}
+              >
+                {social.icon}
+              </a>
+            ))}
           </div>
-          <div className="border p-2 rounded-full hover:bg-blue-600 transition-all cursor-pointer">
-            <a href="https://linkedin.com/codewithesinwo" target="_blank">
-              <FaLinkedinIn />
-            </a>
-          </div>
-          <div className="border p-2 rounded-full hover:bg-blue-900 transition-all cursor-pointer">
-            <a href="https://facebook.com/codewithesinwo" target="_blank">
-              <FaFacebookF />
-            </a>
-          </div>
-          <div className="border p-2 rounded-full hover:bg-black transition-all cursor-pointer">
-            <a href="https://x.com/codewithesinwo" target="_blank">
-              <FaTwitter />
-            </a>
-          </div>
-          <div className="border p-2 rounded-full hover:bg-red-700 transition-all cursor-pointer">
-            <a href="https://instagram.com/codewithesinwo" target="_blank">
-              <FaInstagram />
-            </a>
-          </div>
-          <div className="border p-2 rounded-full hover:bg-black transition-all cursor-pointer">
-            <a href="https://tiktok.com/codewithesinwo" target="_blank">
-              <FaTiktok />
-            </a>
-          </div>
-        </div>
 
-        <div className="flex gap-5.5 justify-center items-center">
-          <p>Terms os Use</p>
-          <p>Privacy Policy</p>
+          {/* Secondary Links */}
+          <div className="flex gap-6 text-sm font-medium text-gray-500">
+            <Link
+              to="/terms"
+              className="hover:text-indigo-400 transition-colors"
+            >
+              Terms of Use
+            </Link>
+            <Link
+              to="/privacy"
+              className="hover:text-indigo-400 transition-colors"
+            >
+              Privacy Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

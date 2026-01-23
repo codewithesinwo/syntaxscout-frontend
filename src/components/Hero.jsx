@@ -5,11 +5,11 @@ import { FaArrowRight } from "react-icons/fa";
 
 const Hero = () => {
   return (
-    <section className="relative flex flex-col items-center justify-center text-center px-6 py-24 overflow-hidden bg-gray-950 text-white">
+    <section className="relative flex flex-col items-center justify-center px-6 py-20 lg:py-32 overflow-hidden bg-gray-950 text-white">
       {/* Background Glow */}
-      <div className="absolute inset-0">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px]"></div>
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]"></div>
       </div>
 
       {/* Hero Content */}
@@ -17,7 +17,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="z-10 flex flex-col lg:flex-row items-center justify-between gap-20 w-full max-w-7xl text-justify"
+        className="z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 w-full max-w-7xl"
       >
         {/* Text Section */}
         <div className="flex-1 text-center lg:text-left">
@@ -25,7 +25,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-4xl sm:text-6xl font-bold mb-6 leading-tight"
+            className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6 leading-[1.1]"
           >
             Empowering the Future of{" "}
             <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -37,13 +37,11 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-gray-400 text-lg mb-10 text-justify"
+            className="text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
           >
-            Syntax Scout is a forward-thinking hub for developers, designers,
-            and tech enthusiasts. We build and share sleek, reusable UI
-            components, modern frameworks, and tools that power the next
-            generation of digital experiences. Code smarter, build faster, and
-            deploy with confidence.
+            Syntax Scout is a forward-thinking hub for developers. Build sleek,
+            reusable UI components and modern frameworks that power the next
+            generation of digital experiences.
           </motion.p>
 
           <motion.div
@@ -54,70 +52,69 @@ const Hero = () => {
           >
             <Link
               to="/signup"
-              className=" bg-blue-700 py-3 px-8 rounded-e-2xl block text-lg text-white hover:underline text-center"
+              className="group bg-indigo-600 hover:bg-indigo-500 transition-colors py-4 px-8 rounded-xl block text-lg font-medium text-white shadow-lg shadow-indigo-500/20"
             >
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-4"
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-3"
               >
                 Sign up for free
-                <FaArrowRight />
+                <FaArrowRight className="text-sm transition-transform group-hover:translate-x-1" />
               </motion.div>
             </Link>
           </motion.div>
         </div>
 
-        {/* Animated Code */}
+        {/* Animated Code Window */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          // 1. Changed padding: p-2 on mobile, p-4 on larger screens
-          // 2. max-w-full ensures it doesn't overflow the screen width
-          className="max-w-full border-2 md:border-4 border-transparent p-2 md:p-4 multicolor-border overflow-hidden"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="w-full lg:w-1/2 max-w-2xl border border-white/10 bg-slate-900/50 backdrop-blur-sm rounded-xl p-1 shadow-2xl overflow-hidden"
         >
-          {/* Window Controls Header */}
-          <div className="flex gap-2 md:gap-3 mb-2 border-b-2">
-            {/* 3. Circles are smaller on mobile (h-3 w-3) and grow on desktop (md:h-4) */}
-            <div className="h-3 w-3 md:h-4 md:w-4 bg-red-600 rounded-full mb-2"></div>
-            <div className="h-3 w-3 md:h-4 md:w-4 bg-yellow-300 rounded-full mb-2"></div>
-            <div className="h-3 w-3 md:h-4 md:w-4 bg-white rounded-full mb-2"></div>
-          </div>
-
-          {/* File Name */}
-          <div className="text-[10px] md:text-xs text-gray-500 my-3 md:my-5">
-            App.jsx
+          {/* Window Header */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-white/5">
+            <div className="flex gap-2">
+              <div className="h-3 w-3 bg-red-500/80 rounded-full"></div>
+              <div className="h-3 w-3 bg-amber-500/80 rounded-full"></div>
+              <div className="h-3 w-3 bg-emerald-500/80 rounded-full"></div>
+            </div>
+            <span className="text-xs text-gray-500 font-mono">App.jsx</span>
+            <div className="w-10"></div> {/* Spacer */}
           </div>
 
           {/* Code Block */}
-          {/* 4. Font size scales: text-xs (mobile) -> text-sm -> text-lg (desktop) */}
-          {/* 5. Added overflow-x-auto to allow horizontal scrolling on very small phones */}
-          <pre className="text-left text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed overflow-x-auto">
-            <div>
-              <span className="text-indigo-400">import</span> React{" "}
-              <span className="text-indigo-400">from</span> 'react';{"\n"}
-              <span className="text-indigo-400">import</span> Button{" "}
-              <span className="text-indigo-400">from</span>{" "}
-              './components/Button';{"\n\n"}
-              <span className="text-green-400">function</span> App() {"{"}
-              {"\n"}
-              {"  "}return ({"\n"}
-              {"    "}&lt;<span className="text-purple-400">div</span>{" "}
-              className="app"&gt;{"\n"}
-              {"      "}&lt;<span className="text-purple-400">h1</span>
-              &gt;Welcome to Syntax Scout&lt;/
-              <span className="text-purple-400">h1</span>&gt;{"\n"}
-              {"      "}&lt;<span className="text-pink-400">Button</span>{" "}
-              text="Click Me" /&gt;{"\n"}
-              {"    "}&lt;/<span className="text-purple-400">div</span>&gt;
-              {"\n"}
-              {"  "});{"\n"}
-              {"}"}
-              {"\n\n"}
-              <span className="text-indigo-400">export default</span> App;
-            </div>
-          </pre>
+          <div className="p-6 overflow-x-auto">
+            <pre className="text-left text-sm md:text-base font-mono leading-relaxed">
+              <code>
+                <span className="text-indigo-400">import</span> React{" "}
+                <span className="text-indigo-400">from</span> 'react';{"\n"}
+                <span className="text-indigo-400">import</span> Button{" "}
+                <span className="text-indigo-400">from</span>{" "}
+                './components/Button';
+                {"\n\n"}
+                <span className="text-emerald-400">function</span>{" "}
+                <span className="text-blue-400">App</span>() {"{"}
+                {"\n"}
+                {"  "}return ({"\n"}
+                {"    "}&lt;<span className="text-pink-400">div</span>{" "}
+                className="app"&gt;{"\n"}
+                {"      "}&lt;<span className="text-pink-400">h1</span>&gt;
+                Welcome to Syntax Scout&lt;/
+                <span className="text-pink-400">h1</span>&gt;
+                {"\n"}
+                {"      "}&lt;<span className="text-blue-300">Button</span>{" "}
+                text="Click Me" /&gt;
+                {"\n"}
+                {"    "}&lt;/<span className="text-pink-400">div</span>&gt;
+                {"\n"}
+                {"  "});{"\n"}
+                {"}"}
+                {"\n\n"}
+                <span className="text-indigo-400">export default</span> App;
+              </code>
+            </pre>
+          </div>
         </motion.div>
       </motion.div>
     </section>
