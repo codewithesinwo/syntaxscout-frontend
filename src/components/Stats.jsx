@@ -43,7 +43,7 @@ const StatItem = ({ value, suffix, label, delay }) => {
       transition={{ duration: 0.6, delay }}
       className="flex flex-col items-center justify-center p-6"
     >
-      <span className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-indigo-300 to-indigo-500 mb-2">
+      <span className="text-5xl md:text-6xl font-extrabold text-white mb-2">
         {displayValue}
         {suffix}
       </span>
