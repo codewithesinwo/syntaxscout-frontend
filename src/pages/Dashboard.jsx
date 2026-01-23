@@ -226,7 +226,7 @@ export default function Dashboard() {
       {/* 2. RESUME LEARNING (Hero Section) */}
       <motion.div
         whileHover={{ scale: 1.01 }}
-        className="relative overflow-hidden mb-10 p-8 rounded-[2rem] bg-gradient-to-r from-indigo-600 to-purple-700 text-white shadow-2xl shadow-indigo-500/20"
+        className="relative overflow-hidden mb-10 p-8 rounded-[2rem] bg-amber-950 text-white shadow-2xl shadow-indigo-500/20"
       >
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div>
