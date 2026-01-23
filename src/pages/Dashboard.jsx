@@ -171,7 +171,7 @@ export default function Dashboard() {
     const token = localStorage.getItem("token");
     async function fetchData() {
       try {
-        const res = await fetch("http://localhost:8000/dashboard", {
+        const res = await fetch("https://syntaxscout-backend.onrender.com/dashboard", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
