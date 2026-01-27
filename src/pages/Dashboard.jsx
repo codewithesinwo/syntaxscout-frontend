@@ -32,6 +32,17 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const { darkMode } = useTheme();
 
+  // --- DYNAMIC CALENDAR LOGIC ---
+  const today = new Date();
+  const currentDay = today.getDate();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+
+  // Calculate total days in current month
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  // Calculate which day of the week the 1st falls on (0 = Sunday)
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
   // --- DATA MOCKUPS ---
   const activityData = [
     { day: "Mon", codeTime: 120 },
@@ -114,13 +125,13 @@ export default function Dashboard() {
   const events = [
     {
       title: "Web Dev Bootcamp Live",
-      date: "Nov 20, 2025",
+      date: "Jan 20, 2026",
       time: "10:00 AM",
       location: "Online",
     },
     {
       title: "AI in Business Summit",
-      date: "Dec 05, 2025",
+      date: "Feb 05, 2026",
       time: "3:00 PM",
       location: "Google Meet",
     },
@@ -169,34 +180,59 @@ export default function Dashboard() {
   // --- BACKEND FETCH ---
   useEffect(() => {
     const token = localStorage.getItem("token");
+
+    // 1. If no token, don't even try to fetch; redirect to login
+    if (!token) {
+      setLoading(false);
+      // window.location.href = "/login"; // Uncomment this if you want auto-redirect
+      return;
+    }
+
     async function fetchData() {
       try {
-        const res = await fetch("https://syntaxscout-backend.onrender.com/dashboard", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+        const res = await fetch(
+          "https://syntaxscout-backend.onrender.com/dashboard",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // Ensure space after 'Bearer'
+            },
           },
-        });
+        );
 
-        if (!res.ok && res.status === 401) {
-          localStorage.setItem("token", "");
+        if (res.status === 401) {
+          localStorage.removeItem("token");
           window.location.href = "/";
           return;
         }
 
-        const user = await res.json();
-        setUsername(user.user.firstName);
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        // Check if your backend returns { user: { firstName: "..." } }
+        // or just { firstName: "..." }
+        if (data.user) {
+          setUsername(data.user.firstName);
+        } else {
+          setUsername(data.firstName);
+        }
       } catch (err) {
-        console.error("Failed to fetch user data", err);
+        console.error("Fetch failed:", err.message);
+        // Fallback name if server is down
+        setUsername("Learner");
       } finally {
-        // Smooth transition from skeleton to content
-        setTimeout(() => setLoading(false), 800);
+        setLoading(false);
       }
     }
+
     fetchData();
   }, []);
 
+  
   if (loading) return <SkeletonLoader darkMode={darkMode} />;
 
   return (
@@ -207,7 +243,7 @@ export default function Dashboard() {
         darkMode ? "bg-black text-white" : "bg-gray-50 text-slate-900"
       }`}
     >
-      {/* 1. HEADER & STREAK */}
+      {/* 1. HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
         <div>
           <h1 className="text-4xl font-extrabold tracking-tight">
@@ -223,10 +259,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 2. RESUME LEARNING (Hero Section) */}
+      {/* 2. HERO SECTION */}
       <motion.div
         whileHover={{ scale: 1.01 }}
-        className="relative overflow-hidden mb-10 p-8 rounded-[2rem] bg-amber-950 text-white shadow-2xl shadow-indigo-500/20"
+        className="relative overflow-hidden mb-10 p-8 rounded-[2rem] bg-indigo-950 text-white shadow-2xl shadow-indigo-500/20"
       >
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div>
@@ -249,7 +285,7 @@ export default function Dashboard() {
         </div>
       </motion.div>
 
-      {/* 3. SNAPSHOT STATS */}
+      {/* 3. STATS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {statsViews.map((stat, i) => (
           <motion.div
@@ -275,9 +311,8 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* 4. CORE ANALYTICS GRID */}
+      {/* 4. CORE ANALYTICS */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-10">
-        {/* Main Chart */}
         <div
           className={`lg:col-span-2 p-8 rounded-3xl border ${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-slate-200 shadow-sm"}`}
         >
@@ -303,7 +338,6 @@ export default function Dashboard() {
                     borderRadius: "16px",
                     border: "none",
                     backgroundColor: darkMode ? "#171717" : "#fff",
-                    boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
                   }}
                 />
                 <Area
@@ -318,7 +352,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Weekly Goal Gauge */}
         <div
           className={`p-8 rounded-3xl border flex flex-col items-center justify-center ${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-slate-200 shadow-sm"}`}
         >
@@ -332,7 +365,6 @@ export default function Dashboard() {
                   outerRadius={80}
                   startAngle={90}
                   endAngle={450}
-                  paddingAngle={0}
                   dataKey="value"
                 >
                   {goalData.map((entry, index) => (
@@ -344,15 +376,12 @@ export default function Dashboard() {
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-3xl font-black">75%</span>
               <span className="text-[10px] uppercase font-bold opacity-50 text-center">
-                of 20hrs
-                <br />
-                target
+                of 20hrs <br /> target
               </span>
             </div>
           </div>
         </div>
 
-        {/* Skill Radar */}
         <div
           className={`p-8 rounded-3xl border ${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-slate-200 shadow-sm"}`}
         >
@@ -380,28 +409,40 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 5. CALENDAR & UPCOMING */}
+      {/* 5. DYNAMIC CALENDAR & EVENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
         <div
           className={`${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-gray-200"} p-8 rounded-3xl shadow-sm border`}
         >
           <h2 className="font-bold text-xl mb-6 flex items-center gap-2">
-            <FaCalendarPlus className="text-indigo-500" /> Schedule
+            <FaCalendarPlus className="text-indigo-500" />
+            {today.toLocaleString("default", { month: "long" })} {currentYear}
           </h2>
+
           <div className="grid grid-cols-7 gap-2 text-center text-xs">
             {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
               <div key={d} className="font-black text-gray-400 mb-2">
                 {d}
               </div>
             ))}
-            {Array.from({ length: 31 }).map((_, i) => (
-              <div
-                key={i}
-                className={`p-2 rounded-xl transition-all font-medium ${i === 21 ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30" : "hover:bg-gray-200 dark:hover:bg-neutral-800"}`}
-              >
-                {i + 1}
-              </div>
+
+            {Array.from({ length: firstDayOfMonth }).map((_, i) => (
+              <div key={`empty-${i}`} />
             ))}
+
+            {Array.from({ length: daysInMonth }).map((_, i) => {
+              const dayNumber = i + 1;
+              const isToday = dayNumber === currentDay;
+              return (
+                <div
+                  key={dayNumber}
+                  className={`p-2 rounded-xl transition-all font-medium cursor-default
+                    ${isToday ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30" : "hover:bg-gray-200 dark:hover:bg-neutral-800"}`}
+                >
+                  {dayNumber}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -435,7 +476,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 6. COURSE GRID */}
+      {/* 6. COURSES */}
       <div className="mb-10">
         <h2 className="text-2xl font-bold mb-6">Your Active Courses</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -473,7 +514,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 7. SECONDARY LOGS GRID */}
+      {/* 7. SECONDARY FEED */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div
           className={`${darkMode ? "bg-neutral-900" : "bg-white"} p-8 rounded-3xl border shadow-sm border-neutral-800`}
@@ -531,7 +572,6 @@ export default function Dashboard() {
   );
 }
 
-// --- SKELETON LOADER COMPONENT ---
 function SkeletonLoader({ darkMode }) {
   return (
     <div
@@ -540,11 +580,6 @@ function SkeletonLoader({ darkMode }) {
       <div className="h-10 w-64 bg-gray-300 dark:bg-neutral-800 rounded-lg mb-4" />
       <div className="h-6 w-48 bg-gray-200 dark:bg-neutral-900 rounded-lg mb-10" />
       <div className="h-48 w-full bg-gray-200 dark:bg-neutral-900 rounded-[2rem] mb-10" />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="h-64 bg-gray-200 dark:bg-neutral-900 rounded-3xl" />
-        <div className="h-64 bg-gray-200 dark:bg-neutral-900 rounded-3xl" />
-        <div className="h-64 bg-gray-200 dark:bg-neutral-900 rounded-3xl" />
-      </div>
     </div>
   );
 }
