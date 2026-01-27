@@ -231,7 +231,6 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
-
   
   if (loading) return <SkeletonLoader darkMode={darkMode} />;
 

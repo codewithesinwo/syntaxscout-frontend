@@ -23,6 +23,7 @@ import DashboardMessage from './pages/DashboardMessage'
 import Payment from './pages/Payment'
 import AdminDashboard from "./pages/AdminDashboard";
 import CourseDetail from './pages/CourseDetail'
+import AdminLogin from './pages/AdminLogin'
 
 
 export default function App() {
@@ -66,6 +67,7 @@ export default function App() {
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/*" element={<PageNotFound />} />

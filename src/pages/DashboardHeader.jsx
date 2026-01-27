@@ -101,21 +101,6 @@ export default function DashboardHeader() {
           : <FaMoon size={19} />}
         </button>
 
-        {/* User Profile Avatar (Desktop) */}
-        <div className="h-8 w-[1px] bg-white/10 mx-1 hidden md:block"></div>
-
-        <div className="hidden md:flex items-center gap-3 pl-2">
-          <div className="text-right">
-            <p className="text-xs font-bold leading-none">Alex Dev</p>
-            <p className="text-[10px] text-indigo-400 font-medium">
-              Pro Student
-            </p>
-          </div>
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-600/20 cursor-pointer">
-            AD
-          </div>
-        </div>
-
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}

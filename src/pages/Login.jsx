@@ -200,7 +200,7 @@ export default function Login() {
           </AnimatePresence>
         </form>
 
-        <div className="pt-4 text-center border-t border-white/5">
+        <div className="pt-4 text-center border-t border-white/5 flex items-center justify-center space-y-3">
           <p className="text-sm text-gray-500">
             New to Syntax Scout?{" "}
             <Link
@@ -210,6 +210,15 @@ export default function Login() {
               Create an account
             </Link>
           </p>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-white/5 text-center">
+          <button
+            onClick={() => navigate("/admin-login")}
+            className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-indigo-400 transition-colors"
+          >
+            Admin? Go to Admin Login
+          </button>
         </div>
       </motion.div>
     </div>
