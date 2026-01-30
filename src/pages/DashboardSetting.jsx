@@ -1,38 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
   FaUser,
   FaBell,
   FaLock,
   FaCamera,
-  FaShieldAlt,
   FaSave,
   FaExclamationTriangle,
-  FaSignOutAlt,
   FaCheckCircle,
+  FaPalette,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 
 export default function DashboardSetting() {
-  const { darkMode } = useTheme();
+  const { darkMode, toggleDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState("Account");
   const [showToast, setShowToast] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Handle Save Logic
+  // Image Upload Logic
+  const [profileImg, setProfileImg] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const tabs = [
+    { name: "Account", icon: <FaUser />, desc: "Personal info & avatar" },
+    { name: "Security", icon: <FaLock />, desc: "Password & protection" },
+    { name: "Appearance", icon: <FaPalette />, desc: "Theme preferences" },
+  ];
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImg(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = () => {
     setIsSaving(true);
+    // Simulate API Call
     setTimeout(() => {
       setIsSaving(false);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
     }, 1200);
   };
-
-  const tabs = [
-    { name: "Account", icon: <FaUser />, desc: "Personal information" },
-    { name: "Security", icon: <FaLock />, desc: "Password & protection" },
-  ];
 
   return (
     <div
@@ -73,7 +94,7 @@ export default function DashboardSetting() {
                   activeTab === tab.name ?
                     "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20"
                   : darkMode ? "hover:bg-neutral-900 text-neutral-400"
-                  : "hover:bg-white text-gray-500"
+                  : "hover:bg-white text-gray-500 shadow-sm border border-transparent"
                 }`}
               >
                 <div
@@ -108,30 +129,55 @@ export default function DashboardSetting() {
                   : "bg-white border-gray-100 shadow-sm"
                 }`}
               >
+                {/* ACCOUNT TAB */}
                 {activeTab === "Account" && (
                   <div className="space-y-10">
                     <section>
                       <h3 className="text-lg font-black mb-6">
                         Personal Details
                       </h3>
+
                       <div className="flex flex-col md:flex-row gap-10 items-start md:items-center mb-10">
-                        <div className="relative group overflow-hidden rounded-[2.5rem] w-28 h-28 bg-indigo-600 shadow-2xl">
-                          <div className="absolute inset-0 flex items-center justify-center text-3xl font-black text-white">
-                            JD
-                          </div>
-                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer">
-                            <FaCamera className="text-white mb-1" />
-                            <span className="text-[8px] font-black uppercase text-white">
+                        {/* Hidden File Input */}
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileChange}
+                          accept="image/*"
+                          className="hidden"
+                        />
+
+                        <div
+                          onClick={handleImageClick}
+                          className="relative group overflow-hidden rounded-[2.5rem] w-28 h-28 bg-indigo-600 shadow-2xl cursor-pointer"
+                        >
+                          {profileImg ?
+                            <img
+                              src={profileImg}
+                              alt="Profile"
+                              className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                            />
+                          : <div className="absolute inset-0 flex items-center justify-center text-3xl font-black text-white">
+                              JD
+                            </div>
+                          }
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+                            <FaCamera className="text-white mb-1" size={20} />
+                            <span className="text-[8px] font-black uppercase text-white tracking-widest">
                               Change
                             </span>
                           </div>
                         </div>
+
                         <div className="space-y-2">
                           <h4 className="font-black text-xl">John Doe</h4>
                           <p className="text-xs opacity-50 font-bold uppercase tracking-widest">
                             Premium Student Account
                           </p>
-                          <button className="text-xs text-indigo-500 font-black hover:underline">
+                          <button
+                            onClick={() => setProfileImg(null)}
+                            className="text-xs text-red-500 font-black hover:underline"
+                          >
                             Remove Avatar
                           </button>
                         </div>
@@ -150,7 +196,7 @@ export default function DashboardSetting() {
                         />
                         <FormGroup
                           label="Email"
-                          placeholder="john@university.edu"
+                          placeholder="john@syntaxscout.com"
                           darkMode={darkMode}
                         />
                         <FormGroup
@@ -161,7 +207,7 @@ export default function DashboardSetting() {
                       </div>
                     </section>
 
-                    <div className="pt-6 border-t border-neutral-800 flex justify-end">
+                    <div className="pt-6 border-t border-neutral-800/10 flex justify-end">
                       <button
                         onClick={handleSave}
                         disabled={isSaving}
@@ -178,6 +224,7 @@ export default function DashboardSetting() {
                   </div>
                 )}
 
+                {/* SECURITY TAB */}
                 {activeTab === "Security" && (
                   <div className="space-y-8">
                     <h3 className="text-lg font-black mb-6">Security Center</h3>
@@ -224,6 +271,42 @@ export default function DashboardSetting() {
                     </div>
                   </div>
                 )}
+
+                {/* APPEARANCE TAB */}
+                {activeTab === "Appearance" && (
+                  <div className="space-y-8">
+                    <h3 className="text-lg font-black mb-6">
+                      Interface Preferences
+                    </h3>
+                    <div
+                      className={`p-6 rounded-3xl border flex items-center justify-between transition-all ${
+                        darkMode ?
+                          "bg-black border-neutral-800"
+                        : "bg-gray-50 border-gray-100"
+                      }`}
+                    >
+                      <div>
+                        <p className="font-bold text-sm">Dark Mode</p>
+                        <p className="text-xs opacity-50 mt-1">
+                          Switch between light and dark themes.
+                        </p>
+                      </div>
+                      <button
+                        onClick={toggleDarkMode}
+                        className={`w-14 h-8 rounded-full p-1 transition-colors relative ${darkMode ? "bg-indigo-600" : "bg-gray-300"}`}
+                      >
+                        <motion.div
+                          animate={{ x: darkMode ? 24 : 0 }}
+                          className="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-md"
+                        >
+                          {darkMode ?
+                            <FaMoon size={10} className="text-indigo-600" />
+                          : <FaSun size={10} className="text-amber-500" />}
+                        </motion.div>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -233,7 +316,6 @@ export default function DashboardSetting() {
   );
 }
 
-// Internal Helper Components
 function FormGroup({ label, placeholder, type = "text", darkMode }) {
   return (
     <div className="space-y-3">

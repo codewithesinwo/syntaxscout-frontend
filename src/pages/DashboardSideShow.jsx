@@ -24,13 +24,7 @@ export default function DashboardSideShow() {
       icon: BiSolidMessageAltDetail,
       label: "Messages",
     },
-    { to: "/dashboard/settings", icon: IoSettings, label: "Settings" },
   ];
-
-  function handleLogout() {
-    removeToken();
-    navigate("/");
-  }
 
   return (
     <motion.div
@@ -86,37 +80,6 @@ export default function DashboardSideShow() {
           );
         })}
       </nav>
-
-      {/* User Footer / Logout */}
-      <div className="w-full px-4 pb-4">
-        <button
-          onClick={handleLogout}
-          className={`flex items-center gap-4 px-4 py-4 rounded-2xl font-bold transition-all duration-300 w-full group ${
-            darkMode ?
-              "bg-white/[0.03] hover:bg-red-500/10"
-            : "bg-gray-50 hover:bg-red-50"
-          }`}
-        >
-          <div
-            className={`p-2 rounded-lg transition-all ${
-              darkMode ?
-                "bg-white/5 text-red-400 group-hover:bg-red-500 group-hover:text-white"
-              : "bg-red-500/10 text-red-500 group-hover:bg-red-500 group-hover:text-white"
-            }`}
-          >
-            <FaUserLock size={18} />
-          </div>
-          <span
-            className={`text-sm transition-colors ${
-              darkMode ?
-                "text-white/40 group-hover:text-red-400"
-              : "text-gray-500 group-hover:text-red-500"
-            }`}
-          >
-            Logout
-          </span>
-        </button>
-      </div>
     </motion.div>
   );
 }
