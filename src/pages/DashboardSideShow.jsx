@@ -85,31 +85,6 @@ export default function DashboardSideShow() {
             </motion.div>
           );
         })}
-
-        {/* Admin Section */}
-        <div className="pt-6 mt-6 border-t border-white/5">
-          <p
-            className={`px-2 mb-4 text-[10px] font-black uppercase tracking-[0.2em] ${
-              darkMode ? "text-white/30" : "text-gray-400"
-            }`}
-          >
-            Management
-          </p>
-          <NavLink
-            to="/dashboard/admin"
-            className={({ isActive }) =>
-              `flex items-center gap-4 px-4 py-3.5 rounded-2xl font-bold transition-all duration-300 group ${
-                isActive ?
-                  "bg-purple-600 text-white shadow-lg shadow-purple-600/20"
-                : darkMode ? "text-white/50 hover:bg-white/5 hover:text-white"
-                : "text-gray-600 hover:bg-purple-50 hover:text-purple-600"
-              }`
-            }
-          >
-            <FaUserShield className="text-xl" />
-            <span className="text-sm tracking-tight">Admin Portal</span>
-          </NavLink>
-        </div>
       </nav>
 
       {/* User Footer / Logout */}

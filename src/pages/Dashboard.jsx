@@ -164,7 +164,7 @@ export default function Dashboard() {
       time: "2h ago",
     },
     {
-      icon: <FaCalendarPlus className="text-indigo-500" />,
+      icon: <FaCalendarPlus className="text-indigo-500" />, 
       text: "Joined Live Session",
       time: "1d ago",
     },
@@ -275,7 +275,7 @@ export default function Dashboard() {
               Compound Components & Context API
             </p>
           </div>
-          <button className="flex items-center gap-3 bg-white text-indigo-600 px-8 py-4 rounded-2xl font-black hover:bg-gray-100 transition-all shadow-xl">
+          <button className="flex items-center gap-3 bg-white text-indigo-600 px-8 py-4 rounded-2xl font-black hover:bg-gray-100 transition-all shadow-xl cursor-pointer">
             <FaPlay size={14} /> Resume Lesson
           </button>
         </div>
@@ -503,7 +503,7 @@ export default function Dashboard() {
                   />
                 </div>
                 <button
-                  className={`w-full py-3 rounded-xl text-xs font-bold mt-4 transition-all ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white"}`}
+                  className={`w-full py-3 rounded-xl text-xs font-bold mt-4 transition-all cursor-pointer ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white"}`}
                 >
                   Resume Lesson
                 </button>
