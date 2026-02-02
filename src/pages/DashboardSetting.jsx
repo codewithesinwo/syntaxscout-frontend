@@ -26,8 +26,8 @@ export default function DashboardSetting() {
 
   const tabs = [
     { name: "Account", icon: <FaUser />, desc: "Personal info & avatar" },
-    { name: "Security", icon: <FaLock />, desc: "Password & protection" },
-    { name: "Appearance", icon: <FaPalette />, desc: "Theme preferences" },
+    // { name: "Security", icon: <FaLock />, desc: "Password & protection" },
+    // { name: "Appearance", icon: <FaPalette />, desc: "Theme preferences" },
   ];
 
   const handleImageClick = () => {
