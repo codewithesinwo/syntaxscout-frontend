@@ -64,8 +64,7 @@ export default function SignUp() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
+          fullName: formData.fullName,
           email: formData.email,
           password: formData.password,
         }),
@@ -91,78 +90,67 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen flex items-center justify-center py-20 px-4 bg-gray-950 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+      {/* Decorative Brand Glow */}
+      <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <header className="absolute top-0 left-0 w-full p-6 md:p-10 z-50">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 group transition-all duration-300"
+        >
+          <img
+            src="/Syntaxscout-logo.png"
+            alt="SyntaxScout Logo"
+            className="w-10 h-10 mb-5 group-hover:scale-110 transition-transform"
+          />
+        </Link>
+      </header>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-xl bg-gray-900/50 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-[2.5rem] shadow-2xl z-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md p-8 md:p-10 space-y-8 bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl z-10"
       >
-        <div className="text-center mb-10">
-          <div className="inline-block p-4 bg-indigo-600/10 rounded-2xl mb-6 border border-indigo-500/20">
+        <div className="flex flex-col items-center text-center">
+          {/* <div className="inline-block p-4 bg-indigo-600/10 rounded-2xl mb-6 border border-indigo-500/20">
             <img
               src="/Syntaxscout-logo.png"
               alt="Syntax Scout Logo"
               className="w-12 h-12 object-contain"
             />
-          </div>
+          </div> */}
           <h2 className="text-4xl font-bold text-white tracking-tight">
             Create Account
           </h2>
           <p className="text-gray-400 mt-2">
-            Join the next generation of full-stack developers.
+            Join the next generation of programmers.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="John"
-                className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none focus:ring-2 transition-all ${
-                  errors.firstName ?
-                    "border-red-500 focus:ring-red-500/20"
-                  : "border-white/10 focus:ring-indigo-500/20 focus:border-indigo-500"
-                }`}
-              />
-              {errors.firstName && (
-                <p className="text-[10px] text-red-400 font-medium ml-1">
-                  {errors.firstName}
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Doe"
-                className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none focus:ring-2 transition-all ${
-                  errors.lastName ?
-                    "border-red-500 focus:ring-red-500/20"
-                  : "border-white/10 focus:ring-indigo-500/20 focus:border-indigo-500"
-                }`}
-              />
-              {errors.lastName && (
-                <p className="text-[10px] text-red-400 font-medium ml-1">
-                  {errors.lastName}
-                </p>
-              )}
-            </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
+              Full Name
+            </label>
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              placeholder="John Doe"
+              className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none transition-all ${
+                errors.fullName ? "border-red-500" : (
+                  "border-white/10 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                )
+              }`}
+            />
+            {errors.fullName && (
+              <p className="text-[10px] text-red-400 font-medium ml-1">
+                {errors.fullName}
+              </p>
+            )}
           </div>
 
           <div className="space-y-1">
@@ -188,31 +176,30 @@ export default function SignUp() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none focus:ring-2 transition-all ${
-                  errors.password ?
-                    "border-red-500 focus:ring-red-500/20"
-                  : "border-white/10 focus:ring-indigo-500/20 focus:border-indigo-500"
-                }`}
-              />
-              {errors.password && (
-                <p className="text-[10px] text-red-400 font-medium ml-1">
-                  {errors.password}
-                </p>
-              )}
-            </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none transition-all ${
+                errors.password ? "border-red-500" : (
+                  "border-white/10 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                )
+              }`}
+            />
+            {errors.password && (
+              <p className="text-[10px] text-red-400 font-medium ml-1">
+                {errors.password}
+              </p>
+            )}
+          </div>
 
-            <div className="space-y-1">
+          {/* <div className="space-y-1">
               <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
                 Confirm
               </label>
@@ -233,8 +220,7 @@ export default function SignUp() {
                   {errors.confirmPassword}
                 </p>
               )}
-            </div>
-          </div>
+            </div> */}
 
           <button
             type="submit"
@@ -271,19 +257,6 @@ export default function SignUp() {
         </form>
 
         <div className="mt-8 space-y-6">
-          <div className="flex items-center gap-4 text-xs font-bold text-gray-600 uppercase tracking-widest">
-            <div className="flex-1 h-px bg-white/5"></div>
-            <span>Social Sign Up</span>
-            <div className="flex-1 h-px bg-white/5"></div>
-          </div>
-
-          <button className="w-full flex items-center justify-center gap-3 p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-white font-medium transition-all group">
-            <div className="p-2 bg-white rounded-lg group-hover:scale-110 transition-transform">
-              <FaGoogle className="text-gray-900" />
-            </div>
-            Sign up with Google
-          </button>
-
           <p className="text-center text-sm text-gray-400">
             Already have an account?{" "}
             <Link

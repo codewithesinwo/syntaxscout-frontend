@@ -54,7 +54,7 @@ export default function Header() {
 
         {/* Desktop CTA */}
         <div className="lg:flex">
-          <NavLink to={isLoggedIn ? "/dashboard" : "/login"}>
+          <NavLink to={"/login"}>
             <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 p-2 px-6 rounded-xl cursor-pointer font-bold transition-all active:scale-95">
               <LogIn size={16} className="text-teal-400" />
               Member Area
@@ -79,7 +79,7 @@ export default function Header() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="fixed top-16 right-4 w-64 bg-gray-900 border border-gray-800 text-white flex flex-col items-start p-6 gap-6 text-lg font-semibold lg:hidden rounded-3xl shadow-2xl"
+              className="fixed top-16 right-0 w-full h-screen bg-gray-900  text-white flex flex-col items-start p-6 gap-6 text-lg font-semibold lg:hidden shadow-2xl max-h-screen overflow-y-auto"
             >
               {navLinks.map((link) => (
                 <NavLink
@@ -91,8 +91,6 @@ export default function Header() {
                   {link.name}
                 </NavLink>
               ))}
-
-              <hr className="w-full border-gray-800" />
             </motion.div>
           )}
         </AnimatePresence>

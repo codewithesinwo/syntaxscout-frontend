@@ -11,8 +11,9 @@ import Stats from './components/Stats'
 import ContactForm from './pages/ContactForm'
 import LifetimeAccess from './pages/LifetimeAccess'
 import Path from './pages/Path'
-import AuthPage from './pages/AuthPage'
 import WebLayout from './components/WebLayout'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
 
 
 export default function App() {
@@ -56,12 +57,11 @@ export default function App() {
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/*" element={<PageNotFound />} />
         </Route>
 
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} /> */}
-          <Route path="/login/*" element={<AuthPage />} />
+          <Route path="/*" element={<PageNotFound />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
       </Routes>
     </ThemeProvider>
   );

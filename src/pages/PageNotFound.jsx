@@ -48,14 +48,6 @@ export default function PageNotFound() {
               Back to Base
             </button>
           </Link>
-
-          {/* Secondary Action: Outline */}
-          <button
-            onClick={() => window.history.back()}
-            className="w-full sm:w-auto px-10 py-4 rounded-2xl font-bold border border-white/10 text-white hover:bg-white/5 transition-all duration-300 cursor-pointer"
-          >
-            Go Back
-          </button>
         </div>
       </motion.div>
     </div>

@@ -102,7 +102,7 @@ function LoginForm({ switchToSignUp, navigate }) {
     e.preventDefault();
     setIsSubmitting(true);
     // Simulating success
-    setTimeout(() => navigate("/dashboard"), 1500);
+    setTimeout(() => navigate("/member"), 1500);
   };
 
   return (
@@ -155,8 +155,7 @@ function LoginForm({ switchToSignUp, navigate }) {
 // --- SIGNUP FORM SUB-COMPONENT ---
 function SignUpForm({ switchToLogin, navigate }) {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     password: "",
   });
@@ -183,19 +182,19 @@ function SignUpForm({ switchToLogin, navigate }) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <input
-            name="firstName"
-            placeholder="First Name"
+            name="fullName"
+            placeholder="Full Name"
             className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-indigo-500"
             onChange={handleChange}
             required
           />
-          <input
+          {/* <input
             name="lastName"
             placeholder="Last Name"
             className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-indigo-500"
             onChange={handleChange}
             required
-          />
+          /> */}
         </div>
         <input
           name="email"
