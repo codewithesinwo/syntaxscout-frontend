@@ -21,6 +21,7 @@ import DashboardGrade from './pages/DashboardGrade'
 import DashboardAssignment from './pages/DashboardAssignment'
 import DashboardMessage from './pages/DashboardMessage'
 import Payment from './pages/Payment'
+import Library from './pages/Library'
 
 
 export default function App() {
@@ -76,6 +77,7 @@ export default function App() {
           <Route path="grades" element={<DashboardGrade />} />
           <Route path="assignments" element={<DashboardAssignment />} />
           <Route path="messages" element={<DashboardMessage />} />
+          <Route path="resources" element={<Library />} />
         </Route>
       </Routes>
     </ThemeProvider>

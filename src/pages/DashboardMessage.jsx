@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom"; // Add this import
 import {
   FaSearch,
   FaDownload,
@@ -25,41 +26,15 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function DashboardMessage() {
   const { darkMode } = useTheme();
-  const [selectedId, setSelectedId] = useState(1);
-  const [showInfo, setShowInfo] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [activeTab, setActiveTab] = useState("feed"); // "chats", "community", or "feed"
+  const location = useLocation();
   const scrollRef = useRef(null);
 
-  // 1. Social Feed Data
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      author: "Jordan Smith",
-      level: "Pro",
-      content:
-        "Just finished the Advanced React module! If anyone is struggling with 'useImperativeHandle', feel free to reach out. 🚀",
-      likes: 24,
-      comments: 5,
-      isLiked: false,
-      isBookmarked: false,
-      time: "2h ago",
-    },
-    {
-      id: 2,
-      author: "Kenji Sato",
-      level: "Beginner",
-      content:
-        "Does anyone have a good resource for learning CSS Grid? Flexbox is making sense but Grid feels like a whole different beast.",
-      likes: 12,
-      comments: 18,
-      isLiked: true,
-      isBookmarked: true,
-      time: "5h ago",
-    },
-  ]);
+  // 1. Unified State for Selected Chat
+  const [selectedId, setSelectedId] = useState(1);
+  const [activeTab, setActiveTab] = useState("chats"); // Default to chats if coming from feed
+  const [inputValue, setInputValue] = useState("");
 
-  // 2. Chat Data (Centralized)
+  // 2. Unified Chat Data
   const [chatData, setChatData] = useState({
     1: {
       name: "Dr. Sarah Miller",
@@ -89,11 +64,65 @@ export default function DashboardMessage() {
     },
   });
 
+  // 3. Social Feed Data
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      author: "Jordan Smith",
+      level: "Pro",
+      content:
+        "Just finished the Advanced React module! If anyone is struggling with 'useImperativeHandle', feel free to reach out. 🚀",
+      likes: 24,
+      comments: 5,
+      isLiked: false,
+      isBookmarked: false,
+      time: "2h ago",
+    },
+    {
+      id: 2,
+      author: "Kenji Sato",
+      level: "Beginner",
+      content:
+        "Does anyone have a good resource for learning CSS Grid? Flexbox is making sense but Grid feels like a whole different beast.",
+      likes: 12,
+      comments: 18,
+      isLiked: true,
+      isBookmarked: true,
+      time: "5h ago",
+    },
+  ]);
+
+  // 4. Handle Incoming Navigation from Global Feed
+  useEffect(() => {
+    if (location.state?.startChatWith) {
+      const targetName = location.state.startChatWith;
+      const existingChatId = Object.keys(chatData).find(
+        (id) => chatData[id].name === targetName,
+      );
+
+      if (existingChatId) {
+        setSelectedId(Number(existingChatId));
+      } else {
+        const newId = Date.now();
+        setChatData((prev) => ({
+          ...prev,
+          [newId]: {
+            name: targetName,
+            status: "Online",
+            messages: [],
+            files: [],
+          },
+        }));
+        setSelectedId(newId);
+      }
+      setActiveTab("chats");
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]); // Removed chatData from dependencies to prevent infinite loops
+
   const activeChat = chatData[selectedId];
 
-  // Logic to "Message Anyone" from the feed/community
   const startMessage = (name) => {
-    // Check if chat exists, otherwise create a shell
     const existingId = Object.keys(chatData).find(
       (id) => chatData[id].name === name,
     );
@@ -108,20 +137,6 @@ export default function DashboardMessage() {
       setSelectedId(newId);
     }
     setActiveTab("chats");
-  };
-
-  const toggleLike = (postId) => {
-    setPosts(
-      posts.map((p) =>
-        p.id === postId ?
-          {
-            ...p,
-            isLiked: !p.isLiked,
-            likes: p.isLiked ? p.likes - 1 : p.likes + 1,
-          }
-        : p,
-      ),
-    );
   };
 
   const handleSendMessage = (e) => {
@@ -143,6 +158,20 @@ export default function DashboardMessage() {
     setInputValue("");
   };
 
+  const toggleLike = (postId) => {
+    setPosts(
+      posts.map((p) =>
+        p.id === postId ?
+          {
+            ...p,
+            isLiked: !p.isLiked,
+            likes: p.isLiked ? p.likes - 1 : p.likes + 1,
+          }
+        : p,
+      ),
+    );
+  };
+
   return (
     <div
       className={`mt-16 min-h-[calc(100vh-64px)] transition-colors duration-500 ${darkMode ? "bg-black text-white" : "bg-gray-50 text-slate-900"}`}
@@ -151,7 +180,6 @@ export default function DashboardMessage() {
         <div
           className={`flex-1 flex overflow-hidden md:rounded-[2.5rem] border transition-all ${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-gray-200 shadow-2xl"}`}
         >
-          {/* NAVIGATION SIDEBAR */}
           <aside
             className={`${selectedId && activeTab === "chats" ? "hidden" : "flex"} lg:flex w-full lg:w-80 xl:w-96 border-r flex-col ${darkMode ? "border-neutral-800" : "border-gray-100"}`}
           >
@@ -197,28 +225,6 @@ export default function DashboardMessage() {
                       <p className="text-sm leading-relaxed mb-4">
                         {post.content}
                       </p>
-                      <div
-                        className={`flex justify-between items-center pt-4 border-t ${darkMode ? "border-neutral-700" : "border-gray-50"}`}
-                      >
-                        <div className="flex gap-4">
-                          <button
-                            onClick={() => toggleLike(post.id)}
-                            className={`flex items-center gap-1.5 text-xs font-bold ${post.isLiked ? "text-red-500" : "opacity-40"}`}
-                          >
-                            {post.isLiked ?
-                              <FaHeart />
-                            : <FaRegHeart />}{" "}
-                            {post.likes}
-                          </button>
-                          <button className="flex items-center gap-1.5 text-xs font-bold opacity-40 hover:opacity-100">
-                            <FaRegComment /> {post.comments}
-                          </button>
-                        </div>
-                        <div className="flex gap-4 opacity-40">
-                          <FaShare className="cursor-pointer hover:text-indigo-500" />
-                          <FaRegBookmark className="cursor-pointer hover:text-indigo-500" />
-                        </div>
-                      </div>
                     </div>
                   ))}
                 </div>
@@ -246,19 +252,9 @@ export default function DashboardMessage() {
                     </div>
                   </button>
                 ))}
-
-              {activeTab === "community" && (
-                <div className="text-center py-10 opacity-30">
-                  <FaUserFriends size={40} className="mx-auto mb-2" />
-                  <p className="text-xs font-bold uppercase tracking-widest">
-                    Connect with Peers
-                  </p>
-                </div>
-              )}
             </div>
           </aside>
 
-          {/* CHAT WINDOW (Only shows if a chat is selected) */}
           <main className="flex-1 flex flex-col min-w-0">
             {selectedId && activeTab === "chats" ?
               <>
@@ -311,7 +307,7 @@ export default function DashboardMessage() {
                   </div>
                 </form>
               </>
-            : <div className="flex-1 flex flex-col items-center justify-center opacity-20">
+            : <div className="flex-1 flex flex-col items-center justify-center opacity-20 text-center p-10">
                 <FaGlobe size={60} className="mb-4" />
                 <p className="font-black uppercase tracking-widest text-xl">
                   Global Learning Feed

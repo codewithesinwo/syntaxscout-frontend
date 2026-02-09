@@ -22,8 +22,6 @@ export default function DashboardSideShow() {
 
   const menu = [
     { to: "/dashboard", icon: BiSolidDashboard, label: "Dashboard" },
-    // NEW: The Social Feed
-    { to: "/dashboard/feed", icon: BiWorld, label: "Global Feed" },
     {
       to: "/dashboard/assignments",
       icon: MdAssignmentAdd,
@@ -35,9 +33,6 @@ export default function DashboardSideShow() {
       icon: BiSolidMessageAltDetail,
       label: "Messages",
     },
-    // NEW: Community Directory
-    { to: "/dashboard/community", icon: FaUserFriends, label: "Study Groups" },
-    // NEW: Course Resources
     { to: "/dashboard/resources", icon: MdLibraryBooks, label: "Library" },
   ];
 
