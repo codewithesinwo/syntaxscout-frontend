@@ -8,8 +8,9 @@ import { LayoutDashboard, LogIn, Code2 } from "lucide-react"; // Added modern ic
 
 const navLinks = [
   { name: "Courses", href: "/courses" },
-  { name: "Paths", href: "/leaning-paths" },
-  { name: "Access", href: "/lifetime-access" },
+  { name: "Leaning Paths", href: "/leaning-paths" },
+  { name: "Lifetime Access", href: "/lifetime-access" },
+  { name: "Forum", href: "/forum" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -55,16 +56,8 @@ export default function Header() {
         <div className="hidden lg:flex">
           <NavLink to={isLoggedIn ? "/dashboard" : "/login"}>
             <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 p-2 px-6 rounded-xl cursor-pointer font-bold transition-all active:scale-95">
-              {isLoggedIn ?
-                <>
-                  <LayoutDashboard size={16} className="text-teal-400" />
-                  Dashboard
-                </>
-              : <>
                   <LogIn size={16} className="text-teal-400" />
-                  Login
-                </>
-              }
+                  Member Area
             </button>
           </NavLink>
         </div>
@@ -100,16 +93,6 @@ export default function Header() {
               ))}
 
               <hr className="w-full border-gray-800" />
-
-              <NavLink
-                to={isLoggedIn ? "/dashboard" : "/login"}
-                className="w-full"
-                onClick={() => setIsOpen(false)}
-              >
-                <button className="w-full bg-teal-500 hover:bg-teal-400 text-gray-900 p-3 rounded-2xl font-bold transition-colors">
-                  {isLoggedIn ? "Dashboard" : "Login"}
-                </button>
-              </NavLink>
             </motion.div>
           )}
         </AnimatePresence>
