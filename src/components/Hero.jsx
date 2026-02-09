@@ -20,7 +20,7 @@ const Hero = () => {
         className="z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 w-full max-w-7xl"
       >
         {/* Text Section */}
-        <div className="flex-1 text-center lg:text-left">
+        <div className="flex-1 text-left lg:text-left">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6 }}
-            className="flex gap-4 flex-wrap justify-center lg:justify-start"
+            className="flex gap-4 flex-wrap lg:justify-start"
           >
             <Link
               to="/signup"
@@ -73,7 +73,7 @@ const Hero = () => {
           className="w-full lg:w-1/2 max-w-2xl border border-white/10 bg-slate-900/50 backdrop-blur-sm rounded-xl p-1 shadow-2xl overflow-hidden"
         >
           {/* Window Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-white/5">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
             <div className="flex gap-2">
               <div className="h-3 w-3 bg-red-500/80 rounded-full"></div>
               <div className="h-3 w-3 bg-amber-500/80 rounded-full"></div>

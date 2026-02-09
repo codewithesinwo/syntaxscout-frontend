@@ -35,8 +35,8 @@ export default function Header() {
               alt="Logo"
               className="h-8 w-auto"
             />
-            <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              Syntax Scout
+            <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent md:inline-block hidden">
+              SYNTAXSCOUT
             </span>
           </div>
         </Link>
@@ -53,11 +53,11 @@ export default function Header() {
         </ul>
 
         {/* Desktop CTA */}
-        <div className="hidden lg:flex">
+        <div className="lg:flex">
           <NavLink to={isLoggedIn ? "/dashboard" : "/login"}>
             <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 p-2 px-6 rounded-xl cursor-pointer font-bold transition-all active:scale-95">
-                  <LogIn size={16} className="text-teal-400" />
-                  Member Area
+              <LogIn size={16} className="text-teal-400" />
+              Member Area
             </button>
           </NavLink>
         </div>
