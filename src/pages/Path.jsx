@@ -3,11 +3,111 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export default function Path() {
+  // const steps = [
+  //   {
+  //     id: 1,
+  //     title: "Beginner Foundation",
+  //     about: "Build solid core skills before moving into advanced topics.",
+  //     bullets: [
+  //       "Introduction to the Web",
+  //       "HTML Basics",
+  //       "CSS Fundamentals",
+  //       "TailwindCSS Essentials",
+  //       "Basic JavaScript",
+  //     ],
+  //     image:
+  //       "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Frontend Development",
+  //     about: "Build modern and responsive interfaces.",
+  //     bullets: [
+  //       "Advanced TailwindCSS",
+  //       "Responsive Design",
+  //       "JavaScript DOM & Events",
+  //       "Git & GitHub Basics",
+  //       "Intro to React",
+  //     ],
+  //     image:
+  //       "https://images.unsplash.com/photo-1547658719-da2b511691ee?w=800&q=80",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "React Mastery",
+  //     about: "Build scalable and production-ready applications.",
+  //     bullets: [
+  //       "React Components",
+  //       "Hooks & State Management",
+  //       "Routing & Navigation",
+  //       "API Requests (REST)",
+  //       "Best Practices",
+  //     ],
+  //     image:
+  //       "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Backend & APIs",
+  //     about: "Understand server-side logic and data handling.",
+  //     bullets: [
+  //       "Node.js Fundamentals",
+  //       "Express.js Framework",
+  //       "Building REST APIs",
+  //       "Databases (MongoDB/Postgres)",
+  //       "Authentication",
+  //     ],
+  //     image:
+  //       "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?w=800&q=80",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Full-Stack Projects",
+  //     about: "Apply your skills in real-world projects.",
+  //     bullets: [
+  //       "Authentication Systems",
+  //       "Dashboard UI",
+  //       "Blog or CMS",
+  //       "E-Commerce Mini App",
+  //     ],
+  //     image:
+  //       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Deployment & DevOps",
+  //     about: "Learn how to launch and maintain your applications.",
+  //     bullets: [
+  //       "Netlify / Vercel Deployment",
+  //       "GitHub Actions Intro",
+  //       "Environment Variables",
+  //       "Domain Management",
+  //     ],
+  //     image:
+  //       "https://images.unsplash.com/photo-1667372333374-0d2450b65ff1?w=800&q=80",
+  //   },
+  //   {
+  //     id: 7,
+  //     title: "Career & Growth",
+  //     about: "Prepare for real-world opportunities.",
+  //     bullets: [
+  //       "Writing a Tech Resume",
+  //       "Building a Portfolio",
+  //       "Interview Preparation",
+  //       "Freelancing Tips",
+  //     ],
+  //     image:
+  //       "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
+  //   },
+  // ];
+
   const steps = [
     {
       id: 1,
       title: "Beginner Foundation",
       about: "Build solid core skills before moving into advanced topics.",
+      description:
+        "Every expert was once a beginner. You'll start by mastering the skeletal structure of the web and the styling logic that makes it beautiful.",
       bullets: [
         "Introduction to the Web",
         "HTML Basics",
@@ -22,6 +122,8 @@ export default function Path() {
       id: 2,
       title: "Frontend Development",
       about: "Build modern and responsive interfaces.",
+      description:
+        "Transition from static pages to dynamic experiences. Learn how to handle user interactions and manage code versioning like a pro.",
       bullets: [
         "Advanced TailwindCSS",
         "Responsive Design",
@@ -36,6 +138,8 @@ export default function Path() {
       id: 3,
       title: "React Mastery",
       about: "Build scalable and production-ready applications.",
+      description:
+        "Dive deep into the world's most popular UI library. Master component architecture and state logic to build lightning-fast applications.",
       bullets: [
         "React Components",
         "Hooks & State Management",
@@ -50,6 +154,8 @@ export default function Path() {
       id: 4,
       title: "Backend & APIs",
       about: "Understand server-side logic and data handling.",
+      description:
+        "Peek behind the curtain. Learn how to store data, manage users, and create the hidden logic that powers your frontend interface.",
       bullets: [
         "Node.js Fundamentals",
         "Express.js Framework",
@@ -64,6 +170,8 @@ export default function Path() {
       id: 5,
       title: "Full-Stack Projects",
       about: "Apply your skills in real-world projects.",
+      description:
+        "Tie everything together. You will build end-to-end applications that handle real data, user sessions, and complex business logic.",
       bullets: [
         "Authentication Systems",
         "Dashboard UI",
@@ -77,6 +185,8 @@ export default function Path() {
       id: 6,
       title: "Deployment & DevOps",
       about: "Learn how to launch and maintain your applications.",
+      description:
+        "Code is only useful if people can use it. Master the art of shipping code to the cloud and automating your workflow.",
       bullets: [
         "Netlify / Vercel Deployment",
         "GitHub Actions Intro",
@@ -90,6 +200,8 @@ export default function Path() {
       id: 7,
       title: "Career & Growth",
       about: "Prepare for real-world opportunities.",
+      description:
+        "The final sprint. We'll polish your professional presence and prepare you to ace technical interviews and land your dream role.",
       bullets: [
         "Writing a Tech Resume",
         "Building a Portfolio",
@@ -191,7 +303,7 @@ export default function Path() {
                   <ArrowRight
                     size={16}
                     className="group-hover/btn:translate-x-1 transition-transform"
-                  />
+                  /> 
                 </button>
               </div>
             </motion.article>

@@ -28,24 +28,24 @@ export default function DashboardMessage() {
       online: true,
       unread: 2,
     },
-    {
-      id: 2,
-      name: "Student Support",
-      role: "System",
-      lastMsg: "Transcript ready.",
-      time: "Yesterday",
-      online: true,
-      unread: 0,
-    },
-    {
-      id: 3,
-      name: "Alex Rivera",
-      role: "Peer",
-      lastMsg: "Did you finish the lab?",
-      time: "Wed",
-      online: false,
-      unread: 0,
-    },
+    // {
+    //   id: 2,
+    //   name: "Student Support",
+    //   role: "System",
+    //   lastMsg: "Transcript ready.",
+    //   time: "Yesterday",
+    //   online: true,
+    //   unread: 0,
+    // },
+    // {
+    //   id: 3,
+    //   name: "Alex Rivera",
+    //   role: "Peer",
+    //   lastMsg: "Did you finish the lab?",
+    //   time: "Wed",
+    //   online: false,
+    //   unread: 0,
+    // },
   ];
 
   const sharedFiles = [

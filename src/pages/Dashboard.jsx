@@ -68,33 +68,6 @@ export default function Dashboard() {
     { name: "Remaining", value: 25 },
   ];
 
-  const statsViews = [
-    {
-      label: "Profile Views",
-      value: "1,284",
-      icon: <FaGlobe className="text-blue-500" />,
-      trend: "+12%",
-    },
-    {
-      label: "Study Hours",
-      value: "458h",
-      icon: <Timer className="text-purple-500" />,
-      trend: "+5.4%",
-    },
-    {
-      label: "Completion",
-      value: "82%",
-      icon: <Rocket className="text-orange-500" />,
-      trend: "+2%",
-    },
-    {
-      label: "Rank",
-      value: "Top 5%",
-      icon: <Trophy className="text-yellow-500" />,
-      trend: "Steady",
-    },
-  ];
-
   const courses = [
     {
       id: 1,
@@ -284,30 +257,42 @@ export default function Dashboard() {
         </div>
       </motion.div>
 
-      {/* 3. STATS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        {statsViews.map((stat, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -5 }}
-            className={`${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-slate-200"} p-6 rounded-3xl border shadow-sm flex items-center justify-between transition-all`}
-          >
-            <div>
-              <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">
-                {stat.label}
-              </p>
-              <h4 className="text-2xl font-black mt-1">{stat.value}</h4>
-              <span className="text-xs text-green-500 font-bold">
-                {stat.trend} from last month
-              </span>
-            </div>
-            <div
-              className={`p-4 rounded-2xl ${darkMode ? "bg-neutral-800" : "bg-slate-100"}`}
+      {/* 6. COURSES */}
+      <div className="mb-10">
+        <h2 className="text-2xl font-bold mb-6">Your Active Courses</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {courses.map((course) => (
+            <motion.div
+              key={course.id}
+              whileHover={{ scale: 1.03 }}
+              className={`${darkMode ? "bg-neutral-900 border-neutral-700" : "bg-white border"} p-6 rounded-3xl shadow-sm`}
             >
-              {stat.icon}
-            </div>
-          </motion.div>
-        ))}
+              <h3 className="font-bold text-lg mb-2">{course.title}</h3>
+              <p className="text-xs font-bold opacity-50 uppercase mb-6">
+                {course.lessons} lessons • {course.level}
+              </p>
+              <div className="space-y-3">
+                <div className="flex justify-between text-xs font-bold">
+                  <span>Progress</span>
+                  <span>{course.progress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-neutral-800 h-2 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${course.progress}%` }}
+                    transition={{ duration: 1 }}
+                    className={`h-full bg-gradient-to-r ${course.gradient}`}
+                  />
+                </div>
+                <button
+                  className={`w-full py-3 rounded-xl text-xs font-bold mt-4 transition-all cursor-pointer ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white"}`}
+                >
+                  Resume Lesson
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* 4. CORE ANALYTICS */}
@@ -472,44 +457,6 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* 6. COURSES */}
-      <div className="mb-10">
-        <h2 className="text-2xl font-bold mb-6">Your Active Courses</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {courses.map((course) => (
-            <motion.div
-              key={course.id}
-              whileHover={{ scale: 1.03 }}
-              className={`${darkMode ? "bg-neutral-900 border-neutral-700" : "bg-white border"} p-6 rounded-3xl shadow-sm`}
-            >
-              <h3 className="font-bold text-lg mb-2">{course.title}</h3>
-              <p className="text-xs font-bold opacity-50 uppercase mb-6">
-                {course.lessons} lessons • {course.level}
-              </p>
-              <div className="space-y-3">
-                <div className="flex justify-between text-xs font-bold">
-                  <span>Progress</span>
-                  <span>{course.progress}%</span>
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-neutral-800 h-2 rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${course.progress}%` }}
-                    transition={{ duration: 1 }}
-                    className={`h-full bg-gradient-to-r ${course.gradient}`}
-                  />
-                </div>
-                <button
-                  className={`w-full py-3 rounded-xl text-xs font-bold mt-4 transition-all cursor-pointer ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white"}`}
-                >
-                  Resume Lesson
-                </button>
-              </div>
-            </motion.div>
-          ))}
         </div>
       </div>
 
