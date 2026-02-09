@@ -1,29 +1,44 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
-import { BiSolidDashboard, BiSolidMessageAltDetail } from "react-icons/bi";
-import { MdAssignmentAdd } from "react-icons/md";
+import {
+  BiSolidDashboard,
+  BiSolidMessageAltDetail,
+  BiWorld,
+} from "react-icons/bi";
+import { MdAssignmentAdd, MdLibraryBooks } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
-import { FaGraduationCap, FaUserLock, FaUserShield } from "react-icons/fa";
+import { FaGraduationCap, FaUserFriends, FaSignOutAlt } from "react-icons/fa";
 import { removeToken } from "../utils/localstorage";
 
 export default function DashboardSideShow() {
   const { darkMode } = useTheme();
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    removeToken();
+    navigate("/login");
+  };
+
   const menu = [
     { to: "/dashboard", icon: BiSolidDashboard, label: "Dashboard" },
+    // NEW: The Social Feed
+    { to: "/dashboard/feed", icon: BiWorld, label: "Global Feed" },
     {
       to: "/dashboard/assignments",
       icon: MdAssignmentAdd,
       label: "Assignments",
     },
-    { to: "/dashboard/grades", icon: FaGraduationCap, label: "Grades" },
+    { to: "/dashboard/grades", icon: FaGraduationCap, label: "My Grades" },
     {
       to: "/dashboard/messages",
       icon: BiSolidMessageAltDetail,
       label: "Messages",
     },
+    // NEW: Community Directory
+    { to: "/dashboard/community", icon: FaUserFriends, label: "Study Groups" },
+    // NEW: Course Resources
+    { to: "/dashboard/resources", icon: MdLibraryBooks, label: "Library" },
   ];
 
   return (
@@ -31,7 +46,6 @@ export default function DashboardSideShow() {
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      // Updated: strictly bg-gray-950 for dark mode
       className={`hidden md:flex sticky top-[60px] h-[calc(100vh-60px)] flex-col items-center py-8 transition-all duration-300 border-r w-64 z-30 ${
         darkMode ?
           "bg-black border-white/5"
@@ -41,16 +55,14 @@ export default function DashboardSideShow() {
       {/* Section Label */}
       <div className="w-full px-6 mb-6">
         <p
-          className={`text-[10px] font-black uppercase tracking-[0.2em] ${
-            darkMode ? "text-white/30" : "text-gray-400"
-          }`}
+          className={`text-[10px] font-black uppercase tracking-[0.2em] ${darkMode ? "text-white/30" : "text-gray-400"}`}
         >
           Main Menu
         </p>
       </div>
 
       {/* Navigation Links */}
-      <nav className="w-full px-4 space-y-1.5 flex-1">
+      <nav className="w-full px-4 space-y-1.5 flex-1 overflow-y-auto">
         {menu.map((item, index) => {
           const Icon = item.icon;
           return (
@@ -80,6 +92,29 @@ export default function DashboardSideShow() {
           );
         })}
       </nav>
+
+      {/* BOTTOM SECTION: Account & Logout */}
+      <div className="w-full px-4 pt-4 mt-4 border-t border-transparent space-y-1">
+        <NavLink
+          to="/dashboard/settings"
+          className={({ isActive }) =>
+            `flex items-center gap-4 px-4 py-3.5 rounded-2xl font-bold transition-all ${
+              isActive ? "text-indigo-600" : "text-white/40 hover:text-white"
+            }`
+          }
+        >
+          <IoSettings className="text-xl" />
+          <span className="text-sm">Settings</span>
+        </NavLink>
+
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl font-bold text-red-500/60 hover:bg-red-500/10 hover:text-red-500 transition-all"
+        >
+          <FaSignOutAlt className="text-xl" />
+          <span className="text-sm">Logout</span>
+        </button>
+      </div>
     </motion.div>
   );
 }

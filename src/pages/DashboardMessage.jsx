@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FaSearch,
   FaDownload,
@@ -9,355 +9,321 @@ import {
   FaInfoCircle,
   FaChevronLeft,
   FaEdit,
+  FaCheckDouble,
+  FaGraduationCap,
+  FaUserFriends,
+  FaRegHeart,
+  FaHeart,
+  FaRegComment,
+  FaShare,
+  FaRegBookmark,
+  FaBookmark,
+  FaGlobe,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 
 export default function DashboardMessage() {
   const { darkMode } = useTheme();
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedId, setSelectedId] = useState(1);
   const [showInfo, setShowInfo] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [activeTab, setActiveTab] = useState("feed"); // "chats", "community", or "feed"
+  const scrollRef = useRef(null);
 
-  const contacts = [
+  // 1. Social Feed Data
+  const [posts, setPosts] = useState([
     {
       id: 1,
-      name: "Dr. Sarah Miller",
-      role: "Instructor",
-      lastMsg: "Check the PDF I sent.",
-      time: "10:24 AM",
-      online: true,
-      unread: 2,
-    },
-    // {
-    //   id: 2,
-    //   name: "Student Support",
-    //   role: "System",
-    //   lastMsg: "Transcript ready.",
-    //   time: "Yesterday",
-    //   online: true,
-    //   unread: 0,
-    // },
-    // {
-    //   id: 3,
-    //   name: "Alex Rivera",
-    //   role: "Peer",
-    //   lastMsg: "Did you finish the lab?",
-    //   time: "Wed",
-    //   online: false,
-    //   unread: 0,
-    // },
-  ];
-
-  const sharedFiles = [
-    {
-      id: 1,
-      name: "React_Hooks_Guide.pdf",
-      size: "2.4 MB",
-      type: "pdf",
-      date: "Jan 20",
+      author: "Jordan Smith",
+      level: "Pro",
+      content:
+        "Just finished the Advanced React module! If anyone is struggling with 'useImperativeHandle', feel free to reach out. 🚀",
+      likes: 24,
+      comments: 5,
+      isLiked: false,
+      isBookmarked: false,
+      time: "2h ago",
     },
     {
       id: 2,
-      name: "Dashboard_Draft.png",
-      size: "1.1 MB",
-      type: "image",
-      date: "Jan 18",
+      author: "Kenji Sato",
+      level: "Beginner",
+      content:
+        "Does anyone have a good resource for learning CSS Grid? Flexbox is making sense but Grid feels like a whole different beast.",
+      likes: 12,
+      comments: 18,
+      isLiked: true,
+      isBookmarked: true,
+      time: "5h ago",
     },
-  ];
+  ]);
+
+  // 2. Chat Data (Centralized)
+  const [chatData, setChatData] = useState({
+    1: {
+      name: "Dr. Sarah Miller",
+      status: "Online",
+      messages: [
+        {
+          id: 101,
+          sender: "them",
+          text: "Check the PDF I sent.",
+          time: "10:24 AM",
+        },
+      ],
+      files: [],
+    },
+    3: {
+      name: "Alex Rivera",
+      status: "Offline",
+      messages: [
+        {
+          id: 301,
+          sender: "them",
+          text: "Did you finish the lab?",
+          time: "Wed",
+        },
+      ],
+      files: [],
+    },
+  });
+
+  const activeChat = chatData[selectedId];
+
+  // Logic to "Message Anyone" from the feed/community
+  const startMessage = (name) => {
+    // Check if chat exists, otherwise create a shell
+    const existingId = Object.keys(chatData).find(
+      (id) => chatData[id].name === name,
+    );
+    if (existingId) {
+      setSelectedId(Number(existingId));
+    } else {
+      const newId = Date.now();
+      setChatData((prev) => ({
+        ...prev,
+        [newId]: { name, status: "Online", messages: [], files: [] },
+      }));
+      setSelectedId(newId);
+    }
+    setActiveTab("chats");
+  };
+
+  const toggleLike = (postId) => {
+    setPosts(
+      posts.map((p) =>
+        p.id === postId ?
+          {
+            ...p,
+            isLiked: !p.isLiked,
+            likes: p.isLiked ? p.likes - 1 : p.likes + 1,
+          }
+        : p,
+      ),
+    );
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+    const newMessage = {
+      id: Date.now(),
+      sender: "me",
+      text: inputValue,
+      time: "Just now",
+    };
+    setChatData((prev) => ({
+      ...prev,
+      [selectedId]: {
+        ...prev[selectedId],
+        messages: [...prev[selectedId].messages, newMessage],
+      },
+    }));
+    setInputValue("");
+  };
 
   return (
     <div
-      className={`mt-16 min-h-[calc(100vh-64px)] transition-colors duration-500 ${
-        darkMode ? "bg-black text-white" : "bg-gray-50 text-slate-900"
-      }`}
+      className={`mt-16 min-h-[calc(100vh-64px)] transition-colors duration-500 ${darkMode ? "bg-black text-white" : "bg-gray-50 text-slate-900"}`}
     >
       <div className="max-w-7xl mx-auto h-[calc(100vh-64px)] flex flex-col p-0 md:p-6 lg:p-8">
-        {/* DESKTOP PAGE TITLE */}
-        <div className="hidden md:flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-black tracking-tight">Messages</h1>
-          <div className="flex gap-2">
-            <button
-              className={`p-3 rounded-2xl border ${darkMode ? "border-neutral-800 bg-neutral-900" : "bg-white border-gray-200"}`}
-            >
-              <FaSearch size={16} className="text-gray-400" />
-            </button>
-            <button className="bg-indigo-600 text-white px-5 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-indigo-700 transition-all">
-              <FaEdit /> New Message
-            </button>
-          </div>
-        </div>
-
-        {/* MAIN CONTAINER */}
         <div
-          className={`flex-1 flex overflow-hidden md:rounded-[2.5rem] border transition-all ${
-            darkMode ?
-              "bg-neutral-900 border-neutral-800"
-            : "bg-white border-gray-200 shadow-2xl"
-          }`}
+          className={`flex-1 flex overflow-hidden md:rounded-[2.5rem] border transition-all ${darkMode ? "bg-neutral-900 border-neutral-800" : "bg-white border-gray-200 shadow-2xl"}`}
         >
-          {/* LEFT COLUMN: CONTACT LIST */}
+          {/* NAVIGATION SIDEBAR */}
           <aside
-            className={`${selectedChat ? "hidden" : "flex"} lg:flex w-full lg:w-80 xl:w-96 border-r flex-col ${
-              darkMode ? "border-neutral-800" : "border-gray-100"
-            }`}
+            className={`${selectedId && activeTab === "chats" ? "hidden" : "flex"} lg:flex w-full lg:w-80 xl:w-96 border-r flex-col ${darkMode ? "border-neutral-800" : "border-gray-100"}`}
           >
-            <div className="p-6 md:hidden flex justify-between items-center">
-              <h1 className="text-2xl font-black">Messages</h1>
-              <button className="p-3 bg-indigo-600 rounded-full text-white">
-                <FaEdit size={14} />
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto space-y-1 p-2">
-              {contacts.map((c) => (
+            <div className="p-4 grid grid-cols-3 gap-2 border-b border-transparent">
+              {["feed", "chats", "community"].map((tab) => (
                 <button
-                  key={c.id}
-                  onClick={() => setSelectedChat(c.id)}
-                  className={`w-full text-left p-4 flex gap-4 rounded-[1.5rem] transition-all ${
-                    selectedChat === c.id ?
-                      "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20"
-                    : darkMode ? "hover:bg-neutral-800"
-                    : "hover:bg-gray-50"
-                  }`}
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`py-2 rounded-xl text-[10px] font-black uppercase tracking-tighter transition-all flex flex-col items-center gap-1 ${activeTab === tab ? "bg-indigo-600 text-white shadow-lg" : "opacity-40"}`}
                 >
-                  <div className="relative flex-shrink-0">
-                    <div
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold shadow-inner ${
-                        selectedChat === c.id ?
-                          "bg-white/20"
-                        : "bg-indigo-500 text-white"
-                      }`}
-                    >
-                      {c.name[0]}
-                    </div>
-                    {c.online && (
-                      <span
-                        className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-4 ${
-                          darkMode ? "border-neutral-900" : "border-white"
-                        } bg-green-500`}
-                      ></span>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-center mb-1">
-                      <p className="text-sm font-bold truncate">{c.name}</p>
-                      <span
-                        className={`text-[10px] ${selectedChat === c.id ? "text-white/60" : "opacity-40"}`}
-                      >
-                        {c.time}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <p
-                        className={`text-xs truncate ${selectedChat === c.id ? "text-white/80" : "opacity-50"}`}
-                      >
-                        {c.lastMsg}
-                      </p>
-                      {c.unread > 0 && selectedChat !== c.id && (
-                        <span className="w-5 h-5 bg-indigo-500 text-white text-[10px] flex items-center justify-center rounded-full font-bold">
-                          {c.unread}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  {tab === "feed" && <FaGlobe />}
+                  {tab === "chats" && <FaPaperPlane />}
+                  {tab === "community" && <FaUserFriends />}
+                  {tab}
                 </button>
               ))}
             </div>
-          </aside>
 
-          {/* CENTER COLUMN: ACTIVE CHAT */}
-          <main
-            className={`${!selectedChat ? "hidden" : "flex"} flex-1 flex flex-col min-w-0`}
-          >
-            {/* CHAT HEADER */}
-            <div
-              className={`p-4 md:p-6 border-b flex items-center justify-between ${
-                darkMode ? "border-neutral-800" : "border-gray-100"
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => setSelectedChat(null)}
-                  className="lg:hidden p-2 -ml-2 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-full transition-colors"
-                >
-                  <FaChevronLeft />
-                </button>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
-                    S
-                  </div>
-                  <div>
-                    <h2 className="font-bold text-sm md:text-base leading-none">
-                      Dr. Sarah Miller
-                    </h2>
-                    <p className="text-[10px] md:text-xs text-green-500 font-medium mt-1">
-                      Online Now
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowInfo(!showInfo)}
-                className={`p-2 rounded-xl transition-colors ${showInfo ? "text-indigo-500 bg-indigo-500/10" : "text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800"}`}
-              >
-                <FaInfoCircle size={20} />
-              </button>
-            </div>
-
-            {/* MESSAGES AREA */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
-              <div className="flex justify-start">
-                <div
-                  className={`max-w-[85%] md:max-w-md p-4 rounded-3xl rounded-tl-none shadow-sm ${
-                    darkMode ?
-                      "bg-neutral-800 text-gray-200"
-                    : "bg-gray-100 text-slate-800"
-                  }`}
-                >
-                  <p className="text-sm leading-relaxed">
-                    I've attached the study guide for next week. Please review
-                    the Hooks section before Tuesday.
-                  </p>
-                  <p className="text-[9px] mt-2 opacity-40 text-right">
-                    10:24 AM
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-end">
-                <div className="max-w-[85%] md:max-w-md p-4 rounded-3xl rounded-tr-none bg-indigo-600 text-white shadow-lg shadow-indigo-500/20">
-                  <p className="text-sm leading-relaxed">
-                    Thanks, Dr. Miller! I'll go through it tonight and prepare
-                    questions.
-                  </p>
-                  <p className="text-[9px] mt-2 text-indigo-200 text-right">
-                    10:30 AM
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* INPUT AREA */}
-            <div
-              className={`p-4 md:p-6 border-t ${darkMode ? "border-neutral-800" : "border-gray-100"}`}
-            >
-              <div
-                className={`flex items-center gap-2 p-2 rounded-[2rem] border transition-all ${
-                  darkMode ?
-                    "bg-black border-neutral-800 focus-within:border-indigo-500"
-                  : "bg-gray-50 border-gray-200 focus-within:border-indigo-300"
-                }`}
-              >
-                <input
-                  type="text"
-                  placeholder="Write a message..."
-                  className="flex-1 bg-transparent px-4 py-2 text-sm outline-none"
-                />
-                <button className="bg-indigo-600 text-white p-3 md:p-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-500/40">
-                  <FaPaperPlane size={14} />
-                </button>
-              </div>
-            </div>
-          </main>
-
-          {/* RIGHT COLUMN: INFO PANEL (Desktop) */}
-          <AnimatePresence>
-            {showInfo && (
-              <motion.aside
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 320, opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                className={`hidden xl:flex border-l flex-col overflow-hidden ${
-                  darkMode ? "border-neutral-800" : "border-gray-100"
-                }`}
-              >
-                <div className="p-8 min-w-[320px]">
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-6">
-                    Shared Resources
-                  </h3>
-
-                  <div className="space-y-4">
-                    {sharedFiles.map((file) => (
-                      <div
-                        key={file.id}
-                        className={`group flex items-center gap-4 p-3 rounded-2xl border transition-all cursor-pointer ${
-                          darkMode ?
-                            "border-neutral-800 hover:bg-neutral-800"
-                          : "border-gray-100 hover:bg-gray-50 shadow-sm"
-                        }`}
-                      >
-                        <div
-                          className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                            file.type === "pdf" ?
-                              "bg-red-500/10 text-red-500"
-                            : "bg-blue-500/10 text-blue-500"
-                          }`}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {activeTab === "feed" && (
+                <div className="space-y-6">
+                  {posts.map((post) => (
+                    <div
+                      key={post.id}
+                      className={`p-5 rounded-[2rem] border ${darkMode ? "bg-neutral-800/50 border-neutral-800" : "bg-white border-gray-100 shadow-sm"}`}
+                    >
+                      <div className="flex justify-between items-center mb-3">
+                        <button
+                          onClick={() => startMessage(post.author)}
+                          className="flex items-center gap-2 hover:opacity-70 transition-opacity"
                         >
-                          {file.type === "pdf" ?
-                            <FaFilePdf />
-                          : <FaImage />}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold truncate">
-                            {file.name}
-                          </p>
-                          <p className="text-[10px] opacity-40 uppercase font-bold">
-                            {file.size} • {file.date}
-                          </p>
-                        </div>
-                        <FaDownload
-                          className="text-gray-400 group-hover:text-indigo-500 transition-colors"
-                          size={14}
-                        />
+                          <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-[10px] font-bold text-white">
+                            {post.author[0]}
+                          </div>
+                          <div className="text-left">
+                            <p className="text-xs font-black">{post.author}</p>
+                            <p className="text-[9px] opacity-40">
+                              {post.time} • {post.level}
+                            </p>
+                          </div>
+                        </button>
                       </div>
-                    ))}
-                  </div>
+                      <p className="text-sm leading-relaxed mb-4">
+                        {post.content}
+                      </p>
+                      <div
+                        className={`flex justify-between items-center pt-4 border-t ${darkMode ? "border-neutral-700" : "border-gray-50"}`}
+                      >
+                        <div className="flex gap-4">
+                          <button
+                            onClick={() => toggleLike(post.id)}
+                            className={`flex items-center gap-1.5 text-xs font-bold ${post.isLiked ? "text-red-500" : "opacity-40"}`}
+                          >
+                            {post.isLiked ?
+                              <FaHeart />
+                            : <FaRegHeart />}{" "}
+                            {post.likes}
+                          </button>
+                          <button className="flex items-center gap-1.5 text-xs font-bold opacity-40 hover:opacity-100">
+                            <FaRegComment /> {post.comments}
+                          </button>
+                        </div>
+                        <div className="flex gap-4 opacity-40">
+                          <FaShare className="cursor-pointer hover:text-indigo-500" />
+                          <FaRegBookmark className="cursor-pointer hover:text-indigo-500" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mt-10 mb-4">
-                    Media Links
-                  </h3>
-                  <div
-                    className={`p-4 rounded-2xl border border-dashed text-center ${
-                      darkMode ?
-                        "border-neutral-800 text-neutral-600"
-                      : "border-gray-200 text-gray-400"
+              {activeTab === "chats" &&
+                Object.entries(chatData).map(([id, chat]) => (
+                  <button
+                    key={id}
+                    onClick={() => setSelectedId(Number(id))}
+                    className={`w-full text-left p-4 flex gap-4 rounded-3xl transition-all ${
+                      selectedId === Number(id) ? "bg-indigo-600 text-white"
+                      : darkMode ? "hover:bg-neutral-800"
+                      : "hover:bg-gray-50"
                     }`}
                   >
-                    <FaLink className="mx-auto mb-2 opacity-20" size={20} />
-                    <p className="text-[10px] font-medium">
-                      No links found in this chat
-                    </p>
+                    <div className="w-10 h-10 rounded-2xl bg-indigo-500 flex-shrink-0 flex items-center justify-center font-bold">
+                      {chat.name[0]}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold truncate">{chat.name}</p>
+                      <p className="text-xs truncate opacity-60">
+                        Click to view messages
+                      </p>
+                    </div>
+                  </button>
+                ))}
+
+              {activeTab === "community" && (
+                <div className="text-center py-10 opacity-30">
+                  <FaUserFriends size={40} className="mx-auto mb-2" />
+                  <p className="text-xs font-bold uppercase tracking-widest">
+                    Connect with Peers
+                  </p>
+                </div>
+              )}
+            </div>
+          </aside>
+
+          {/* CHAT WINDOW (Only shows if a chat is selected) */}
+          <main className="flex-1 flex flex-col min-w-0">
+            {selectedId && activeTab === "chats" ?
+              <>
+                <div
+                  className={`p-6 border-b flex items-center justify-between ${darkMode ? "border-neutral-800" : "border-gray-100"}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
+                      {activeChat?.name[0]}
+                    </div>
+                    <h2 className="font-bold text-sm">{activeChat?.name}</h2>
                   </div>
                 </div>
-              </motion.aside>
-            )}
-          </AnimatePresence>
+                <div className="flex-1 overflow-y-auto p-8 space-y-4">
+                  {activeChat?.messages.map((msg) => (
+                    <div
+                      key={msg.id}
+                      className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
+                    >
+                      <div
+                        className={`max-w-[80%] p-4 rounded-2xl ${
+                          msg.sender === "me" ?
+                            "bg-indigo-600 text-white rounded-tr-none"
+                          : darkMode ?
+                            "bg-neutral-800 text-gray-200 rounded-tl-none"
+                          : "bg-gray-100 text-gray-800 rounded-tl-none"
+                        }`}
+                      >
+                        <p className="text-sm">{msg.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <form onSubmit={handleSendMessage} className="p-6">
+                  <div
+                    className={`flex items-center gap-2 p-2 rounded-full border ${darkMode ? "bg-black border-neutral-800" : "bg-gray-50 border-gray-200"}`}
+                  >
+                    <input
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      placeholder="Type your message..."
+                      className="flex-1 bg-transparent px-4 outline-none text-sm"
+                    />
+                    <button
+                      type="submit"
+                      className="bg-indigo-600 text-white p-3 rounded-full"
+                    >
+                      <FaPaperPlane size={12} />
+                    </button>
+                  </div>
+                </form>
+              </>
+            : <div className="flex-1 flex flex-col items-center justify-center opacity-20">
+                <FaGlobe size={60} className="mb-4" />
+                <p className="font-black uppercase tracking-widest text-xl">
+                  Global Learning Feed
+                </p>
+                <p className="text-xs mt-2">
+                  Select a chat or browse the community
+                </p>
+              </div>
+            }
+          </main>
         </div>
       </div>
-
-      {/* MOBILE OVERLAY INFO (Drawer) */}
-      <AnimatePresence>
-        {showInfo && (
-          <motion.div
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            className="fixed inset-0 z-50 xl:hidden flex flex-col"
-          >
-            <div
-              className="flex-1 bg-black/20 backdrop-blur-sm"
-              onClick={() => setShowInfo(false)}
-            ></div>
-            <div
-              className={`h-[70vh] rounded-t-[3rem] p-8 ${darkMode ? "bg-neutral-900" : "bg-white"}`}
-            >
-              <div className="w-12 h-1.5 bg-gray-300 dark:bg-neutral-700 rounded-full mx-auto mb-8"></div>
-              <h2 className="text-xl font-black mb-6">Conversation Details</h2>
-              {/* Mobile files content same as above */}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

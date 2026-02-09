@@ -3,41 +3,50 @@ import Logo from "../assets/Syntaxscout-logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { FaSearch, FaMoon, FaSun, FaBell } from "react-icons/fa";
+import {
+  FaSearch,
+  FaMoon,
+  FaSun,
+  FaBell,
+  FaUserCircle,
+  FaBookmark,
+  FaSignOutAlt,
+  FaChevronDown,
+} from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { name: "Dashboard", href: "/dashboard" },
-  { name: "Assignment", href: "/dashboard/assignments" },
-  { name: "Grades", href: "/dashboard/grades" },
+  { name: "Global Feed", href: "/dashboard/feed" }, // Added to match sidebar
   { name: "Messages", href: "/dashboard/messages" },
-  { name: "Settings", href: "/dashboard/settings" },
 ];
 
 export default function DashboardHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const { darkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
   const searchInputRef = useRef(null);
+  const profileRef = useRef(null);
 
-  // Example User Data - In a real app, get this from AuthContext
+  // Syncing with the "Social" data we built earlier
   const user = {
     name: "Alex Dev",
     role: "Pro Student",
     initials: "AD",
+    levelProgress: 75, // Matches the info panel we built
   };
 
-  // Keyboard Shortcut: CMD+K or CTRL+K to focus search
+  // Close profile dropdown when clicking outside
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        searchInputRef.current?.focus();
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfile(false);
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = () => {
@@ -55,7 +64,7 @@ export default function DashboardHeader() {
         : "bg-white/80 text-gray-900 border-b border-gray-200"
       }`}
     >
-      {/* Left: Logo & Brand */}
+      {/* Left: Logo */}
       <div className="flex items-center gap-8">
         <Link to="/" className="flex items-center gap-2 group">
           <img
@@ -63,47 +72,35 @@ export default function DashboardHeader() {
             alt="Syntax Scout"
             className="h-9 w-auto group-hover:scale-110 transition-transform"
           />
-          <span className="font-extrabold text-xl tracking-tighter hidden lg:inline">
+          <span className="font-extrabold text-xl tracking-tighter hidden lg:inline uppercase">
             SYNTAX<span className="text-indigo-500">SCOUT</span>
           </span>
         </Link>
       </div>
 
-      {/* Center: Search Bar (Desktop) */}
+      {/* Center: Search */}
       <div className="flex-1 max-w-xl mx-8 hidden sm:block">
         <div className="relative group">
           <FaSearch
-            className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
-              darkMode ?
-                "text-gray-500 group-focus-within:text-indigo-400"
-              : "text-gray-400"
-            }`}
+            className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${darkMode ? "text-gray-500 group-focus-within:text-indigo-400" : "text-gray-400"}`}
           />
           <input
             ref={searchInputRef}
             type="text"
-            placeholder="Search for lessons, snippets, or docs..."
+            placeholder="Search lessons or peers..."
             className={`w-full pl-12 pr-4 py-2.5 rounded-2xl border outline-none transition-all ${
               darkMode ?
-                "bg-white/5 border-white/10 text-gray-100 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10"
-              : "bg-gray-100 border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                "bg-white/5 border-white/10 text-gray-100 focus:border-indigo-500/50"
+              : "bg-gray-100 border-transparent focus:bg-white focus:border-indigo-500"
             }`}
           />
-          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] text-gray-500 font-mono pointer-events-none">
-            CMD K
-          </kbd>
         </div>
       </div>
 
-      {/* Right: Functional Actions */}
-      <div className="flex items-center gap-2 md:gap-5">
+      {/* Right: Actions & Profile */}
+      <div className="flex items-center gap-2 md:gap-4">
         <button
-          aria-label="Notifications"
-          className={`p-2.5 rounded-xl transition-all relative ${
-            darkMode ?
-              "text-gray-400 hover:bg-white/5"
-            : "text-gray-500 hover:bg-gray-100"
-          }`}
+          className={`p-2.5 rounded-xl transition-all relative ${darkMode ? "text-gray-400 hover:bg-white/5" : "text-gray-500 hover:bg-gray-100"}`}
         >
           <FaBell size={18} />
           <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-indigo-500 rounded-full border-2 border-gray-900"></span>
@@ -111,12 +108,7 @@ export default function DashboardHeader() {
 
         <button
           onClick={toggleDarkMode}
-          aria-label="Toggle Theme"
-          className={`p-2.5 rounded-xl transition-all ${
-            darkMode ?
-              "text-amber-400 hover:bg-white/5"
-            : "text-indigo-600 hover:bg-gray-100"
-          }`}
+          className={`p-2.5 rounded-xl transition-all ${darkMode ? "text-amber-400 hover:bg-white/5" : "text-indigo-600 hover:bg-gray-100"}`}
         >
           {darkMode ?
             <FaSun size={19} />
@@ -125,89 +117,83 @@ export default function DashboardHeader() {
 
         <div className="h-8 w-[1px] bg-white/10 mx-1 hidden md:block"></div>
 
-        {/* User Profile Avatar (Desktop) */}
-        <div className="hidden md:flex items-center gap-3 pl-2">
-          <div className="text-right">
-            <p className="text-xs font-bold leading-none">{user.name}</p>
-            <p className="text-[10px] text-indigo-400 font-medium">
-              {user.role}
-            </p>
-          </div>
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-600/20 cursor-pointer hover:scale-105 transition-transform">
-            {user.initials}
-          </div>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle Menu"
-          className={`md:hidden p-2 rounded-xl transition-all ${
-            darkMode ?
-              "text-gray-300 hover:bg-white/5"
-            : "text-gray-700 hover:bg-gray-100"
-          }`}
-        >
-          {isOpen ?
-            <IoMdCloseCircle className="text-indigo-500 text-2xl" />
-          : <GiHamburgerMenu className="text-xl" />}
-        </button>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 top-[64px] bg-black/60 backdrop-blur-sm z-[-1]"
+        {/* PROFILE SECTION */}
+        <div className="relative" ref={profileRef}>
+          <button
+            onClick={() => setShowProfile(!showProfile)}
+            className="flex items-center gap-3 pl-2 group"
+          >
+            <div className="hidden md:text-right md:block">
+              <p className="text-xs font-black leading-none group-hover:text-indigo-500 transition-colors">
+                {user.name}
+              </p>
+              <p className="text-[9px] text-indigo-400 font-bold uppercase tracking-tighter">
+                {user.role}
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-600/20 group-hover:scale-105 transition-transform">
+              {user.initials}
+            </div>
+            <FaChevronDown
+              size={10}
+              className={`opacity-30 transition-transform ${showProfile ? "rotate-180" : ""}`}
             />
+          </button>
 
-            <motion.div
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              className={`absolute top-full left-0 right-0 shadow-2xl overflow-hidden md:hidden border-t ${
-                darkMode ?
-                  "bg-gray-900 border-white/5"
-                : "bg-white border-gray-100"
-              }`}
-            >
-              <div className="flex flex-col p-5 gap-1">
-                {navLinks.map((link) => (
-                  <NavLink
-                    key={link.name}
-                    to={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center px-4 py-3 rounded-xl font-semibold transition-all ${
-                        isActive ?
-                          "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
-                        : darkMode ? "text-gray-400 hover:bg-white/5"
-                        : "text-gray-600 hover:bg-gray-50"
-                      }`
-                    }
+          {/* Profile Dropdown */}
+          <AnimatePresence>
+            {showProfile && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className={`absolute right-0 mt-4 w-64 rounded-[2rem] p-4 shadow-2xl border ${
+                  darkMode ?
+                    "bg-gray-900 border-white/5 text-white"
+                  : "bg-white border-gray-100 text-gray-900"
+                }`}
+              >
+                <div className="mb-4 p-4 rounded-3xl bg-indigo-600/5 border border-indigo-600/10">
+                  <p className="text-[10px] font-black text-indigo-500 uppercase mb-2">
+                    Learning Goal
+                  </p>
+                  <div className="w-full bg-gray-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+                    <div
+                      className="bg-indigo-500 h-full"
+                      style={{ width: `${user.levelProgress}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-[10px] mt-2 opacity-50">
+                    {user.levelProgress}% to Senior Level
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <button
+                    onClick={() => navigate("/dashboard/settings")}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-indigo-600 hover:text-white transition-all text-sm font-bold"
                   >
-                    {link.name}
-                  </NavLink>
-                ))}
-
-                <div className="my-4 h-px bg-gray-200 dark:bg-white/5"></div>
-
-                <button
-                  onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white font-bold py-4 rounded-2xl transition-all"
-                >
-                  Sign Out
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+                    <FaUserCircle className="opacity-50" /> Profile
+                  </button>
+                  <button
+                    onClick={() => navigate("/dashboard/favorites")}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-indigo-600 hover:text-white transition-all text-sm font-bold"
+                  >
+                    <FaBookmark className="opacity-50" /> Bookmarks
+                  </button>
+                  <div className="h-px bg-white/5 my-2"></div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500 hover:text-white transition-all text-sm font-bold text-red-500"
+                  >
+                    <FaSignOutAlt /> Sign Out
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </motion.header>
   );
 }
