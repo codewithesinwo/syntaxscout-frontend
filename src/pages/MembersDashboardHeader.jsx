@@ -177,33 +177,19 @@ export default function MembersDashboardHeader() {
                     className="w-10 h-10 rounded-full border border-gray-700"
                   />
                   <span className="text-gray-200 font-medium">
-                    Account Settings
+                    Abasiubong Esinwo
                   </span>
                 </div>
-                {/* Simple Arrow Icon */}
-                <svg
-                  className={`w-5 h-5 text-gray-500 transition-transform ${mobileProfileOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
               </button>
 
               {/* Collapsible Mobile Dropdown Content */}
               {mobileProfileOpen && (
-                <div className="mt-2 ml-4 flex flex-col gap-1 border-l border-gray-800 pl-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="mt-2 flex flex-col gap-1 pl-4 animate-in fade-in slide-in-from-top-2 duration-200">
                   {dashboardProfileLinks.map((link) => (
                     <NavLink
                       key={link.name}
                       to={link.href}
-                      className="text-gray-400 hover:text-white py-3 text-base border-b border-gray-900 last:border-0"
+                      className="text-gray-400 hover:text-white py-3 text-base"
                       onClick={() => setIsOpen(false)}
                     >
                       {link.name}
