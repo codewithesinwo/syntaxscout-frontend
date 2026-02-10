@@ -22,9 +22,9 @@ const dashboardProfileLinks = [
 export default function MembersDashboardHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [mobileProfileOpen, setMobileProfileOpen] = useState(false); // New state for mobile toggle
   const profileRef = useRef(null);
 
-  // Fix: Move useEffect inside the component
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -36,7 +36,6 @@ export default function MembersDashboardHeader() {
     };
   }, [isOpen]);
 
-  // Close profile dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -81,7 +80,7 @@ export default function MembersDashboardHeader() {
             ))}
           </ul>
 
-          {/* Profile Dropdown */}
+          {/* Desktop Profile Dropdown */}
           <div className="relative ml-4" ref={profileRef}>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
@@ -147,21 +146,17 @@ export default function MembersDashboardHeader() {
         </button>
       </nav>
 
-
       {/* Mobile Sidebar */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 flex flex-col h-[100dvh] mt-15">
-          {/* Use h-[100dvh] for dynamic viewport height on mobile */}
-
+        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 flex flex-col h-[100dvh] pt-20">
           <div className="flex-1 overflow-y-auto pb-32 overscroll-contain">
-            {/* overscroll-contain prevents the body behind it from bouncing */}
-
-            <div className="flex flex-col gap-4">
+            {/* Main Nav Links */}
+            <div className="flex flex-col gap-4 mb-8">
               {dashboardNavLinks.map((link) => (
                 <NavLink
                   key={link.name}
                   to={link.href}
-                  className="text-xl font-semibold text-gray-300 pb-2"
+                  className="text-xl font-semibold text-gray-300 pb-2 border-b border-gray-900"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
@@ -169,25 +164,56 @@ export default function MembersDashboardHeader() {
               ))}
             </div>
 
-            <div className="pt-8 border-t border-gray-800 mt-4">
-              <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">
-                Account Settings
-              </p>
-              <div className="grid grid-cols-1 gap-4">
-                {dashboardProfileLinks.map((link) => (
-                  <NavLink
-                    key={link.name}
-                    to={link.href}
-                    className="text-gray-400 hover:text-white py-1"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </NavLink>
-                ))}
-                <button className="text-left text-red-400 mt-2 py-2">
-                  Logout
-                </button>
-              </div>
+            {/* Mobile Profile Section */}
+            <div className="mt-4">
+              <button
+                onClick={() => setMobileProfileOpen(!mobileProfileOpen)}
+                className="flex items-center justify-between w-full p-3 bg-gray-900/50 rounded-xl border border-gray-800"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={profileImg}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full border border-gray-700"
+                  />
+                  <span className="text-gray-200 font-medium">
+                    Account Settings
+                  </span>
+                </div>
+                {/* Simple Arrow Icon */}
+                <svg
+                  className={`w-5 h-5 text-gray-500 transition-transform ${mobileProfileOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              {/* Collapsible Mobile Dropdown Content */}
+              {mobileProfileOpen && (
+                <div className="mt-2 ml-4 flex flex-col gap-1 border-l border-gray-800 pl-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                  {dashboardProfileLinks.map((link) => (
+                    <NavLink
+                      key={link.name}
+                      to={link.href}
+                      className="text-gray-400 hover:text-white py-3 text-base border-b border-gray-900 last:border-0"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </NavLink>
+                  ))}
+                  <button className="text-left text-red-400 py-3 text-base font-medium">
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
