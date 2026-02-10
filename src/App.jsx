@@ -14,6 +14,8 @@ import Path from './pages/Path'
 import WebLayout from './components/WebLayout'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
+import MembersDashboardLayout from './components/MembersDashboardLayout'
+import MembersDashboard from "./pages/MembersDashboard";
 
 
 export default function App() {
@@ -58,6 +60,10 @@ export default function App() {
           <Route path="/courses" element={<Courses />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
+
+                <Route path="/members" element={<MembersDashboardLayout />}>
+                  <Route index element={<MembersDashboard />} />
+                </Route>
 
           <Route path="/*" element={<PageNotFound />} />
           <Route path="/signup" element={<SignUp />} />

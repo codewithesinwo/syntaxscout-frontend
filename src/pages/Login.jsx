@@ -68,7 +68,7 @@ export default function Login() {
       setSuccess(true);
       // Brief delay to allow the user to see the success state
       setTimeout(() => {
-        navigate("/member   ", { replace: true, state: { token } });
+        navigate("/members", { replace: true, state: { token } });
       }, 1500);
     } catch (err) {
       console.error("Error:", err);
