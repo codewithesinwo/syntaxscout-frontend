@@ -124,13 +124,13 @@ export default function MembersDashboardHeader() {
 
       {/* Mobile Sidebar */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 space-y-6 h-screen mt-[64px] overflow-y-auto border-t border-gray-800">
+        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 space-y-6 h-screen mt-[64px] overflow-y-scroll">
           <div className="flex flex-col gap-4">
             {dashboardNavLinks.map((link) => (
               <NavLink
                 key={link.name}
                 to={link.href}
-                className="text-xl font-semibold text-gray-300 border-b border-gray-900 pb-2"
+                className="text-xl font-semibold text-gray-300 pb-2"
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
