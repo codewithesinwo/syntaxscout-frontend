@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import profileImg from "../assets/avater.png";
 
@@ -18,6 +18,18 @@ const dashboardProfileLinks = [
   { name: "Add / Change Credit Card", href: "/credit-card" },
   { name: "Address", href: "/address" }, 
 ];
+
+useEffect(() => {
+  if (isOpen){
+    document.body.style.overflow = 'hidden';
+  } else{
+    document.body.style.overflow = 'unset'
+  }
+
+  return ()=>{
+    document.body.style.overflow = 'unset'
+  };
+}, [isOpen]);
 
 export default function MembersDashboardHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -124,7 +136,8 @@ export default function MembersDashboardHeader() {
 
       {/* Mobile Sidebar/Menu */}
       {isOpen && (
-        <div className="lg:hidden bg-black border-t border-gray-800 p-4 space-y-2">
+        <div className="lg:hidden fixed inset-0 z-50 bg-black p-4 space-y-2 h-screen mt-15 overflow-y-auto">
+
           {dashboardNavLinks.map((link) => (
             <NavLink
               key={link.name}
@@ -135,6 +148,7 @@ export default function MembersDashboardHeader() {
               {link.name}
             </NavLink>
           ))}
+
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!profileOpen)}
@@ -148,13 +162,14 @@ export default function MembersDashboardHeader() {
             </button>
 
             {profileOpen && (
-              <div className="absolute right-30 mt-2 w-60 bg-black rounded-lg shadow-xl z-50">
+              <div className="mt-2 w-60 bg-black border border-gray-800 rounded-lg shadow-xl z-50">
                 <ul className="flex flex-col py-2">
                   {dashboardProfileLinks.map((link) => (
                     <li key={link.name}>
                       <NavLink
                         to={link.href}
                         className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition-colors"
+                        onClick={() => setIsOpen(false)} // Close menu on click
                       >
                         {link.name}
                       </NavLink>

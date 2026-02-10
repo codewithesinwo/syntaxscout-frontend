@@ -152,17 +152,17 @@ const coursesData = [
 export default function MembersDashboard() {
 
   return (
-    <div className="bg-black text-white pt-24 pb-10">
+    <div className="bg-black text-white pt-24 pb-10 p-5">
       <section>
         <div className="max-w-7xl mx-auto">
 
           {/* --- COURSE GRID --- */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {coursesData.map((course) => (
               <motion.div
                 key={course.id}
                 layoutId={`card-container-${course.id}`}
-                className="bg-black border-white/5 rounded-3xl border overflow-hidden hover:border-indigo-500/40 transition-all group cursor-pointer flex flex-col h-full"
+                className="bg-black border-white rounded-3xl border overflow-hidden hover:border-indigo-500/40 transition-all group cursor-pointer flex flex-col h-full"
               >
                 <div className="h-56 overflow-hidden relative">
                   <motion.img
