@@ -148,7 +148,7 @@ export default function MembersDashboardHeader() {
 
       {/* Mobile Sidebar */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 flex flex-col h-[100dvh] pt-20">
+        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 flex flex-col h-[100dvh] mt-15">
           <div className="flex-1 overflow-y-auto pb-32 overscroll-contain">
             {/* Main Nav Links */}
             <div className="flex flex-col gap-4 mb-8">
