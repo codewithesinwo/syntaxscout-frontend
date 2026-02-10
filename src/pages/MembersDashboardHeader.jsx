@@ -58,7 +58,11 @@ export default function MembersDashboardHeader() {
         {/* Logo */}
         <Link to="/" className="group">
           <div className="flex items-center space-x-3">
-            <img src="/Syntaxscout-logo.png" alt="Logo" className="h-8 w-auto" />
+            <img
+              src="/Syntaxscout-logo.png"
+              alt="Logo"
+              className="h-8 w-auto"
+            />
             <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent md:inline-block hidden">
               SYNTAXSCOUT
             </span>
@@ -83,7 +87,11 @@ export default function MembersDashboardHeader() {
               onClick={() => setProfileOpen(!profileOpen)}
               className="border border-gray-600 rounded-full p-1 hover:border-teal-400 transition-colors cursor-pointer focus:outline-none"
             >
-              <img src={profileImg} alt="Profile" className="w-8 h-8 rounded-full" />
+              <img
+                src={profileImg}
+                alt="Profile"
+                className="w-8 h-8 rounded-full"
+              />
             </button>
 
             {profileOpen && (
@@ -111,47 +119,75 @@ export default function MembersDashboardHeader() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="lg:hidden p-2 text-gray-400" onClick={() => setIsOpen(!isOpen)}>
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-            )}
+        <button
+          className="lg:hidden p-2 text-gray-400"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            {isOpen ?
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            : <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            }
           </svg>
         </button>
       </nav>
 
+
       {/* Mobile Sidebar */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 space-y-6 h-screen mt-[64px] mb-20 overflow-y-scroll">
-          <div className="flex flex-col gap-4">
-            {dashboardNavLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.href}
-                className="text-xl font-semibold text-gray-300 pb-2"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </NavLink>
-            ))}
-          </div>
+        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 pt-[80px] flex flex-col h-[100dvh] mt-15">
+          {/* Use h-[100dvh] for dynamic viewport height on mobile */}
 
-          <div className="pt-4">
-            <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Account Settings</p>
-            <div className="grid grid-cols-1 gap-3">
-              {dashboardProfileLinks.map((link) => (
+          <div className="flex-1 overflow-y-auto pb-32 overscroll-contain">
+            {/* overscroll-contain prevents the body behind it from bouncing */}
+
+            <div className="flex flex-col gap-4">
+              {dashboardNavLinks.map((link) => (
                 <NavLink
                   key={link.name}
                   to={link.href}
-                  className="text-gray-400 hover:text-white"
+                  className="text-xl font-semibold text-gray-300 pb-2"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
                 </NavLink>
               ))}
-              <button className="text-left text-red-400 mt-2">Logout</button>
+            </div>
+
+            <div className="pt-8 border-t border-gray-800 mt-4">
+              <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">
+                Account Settings
+              </p>
+              <div className="grid grid-cols-1 gap-4">
+                {dashboardProfileLinks.map((link) => (
+                  <NavLink
+                    key={link.name}
+                    to={link.href}
+                    className="text-gray-400 hover:text-white py-1"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.name}
+                  </NavLink>
+                ))}
+                <button className="text-left text-red-400 mt-2 py-2">
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
         </div>
