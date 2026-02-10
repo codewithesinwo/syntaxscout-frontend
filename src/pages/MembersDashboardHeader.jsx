@@ -150,7 +150,7 @@ export default function MembersDashboardHeader() {
 
       {/* Mobile Sidebar */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 pt-[80px] flex flex-col h-[100dvh] mt-15">
+        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 flex flex-col h-[100dvh] mt-15">
           {/* Use h-[100dvh] for dynamic viewport height on mobile */}
 
           <div className="flex-1 overflow-y-auto pb-32 overscroll-contain">
