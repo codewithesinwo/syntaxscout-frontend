@@ -18,6 +18,10 @@ import MembersDashboardLayout from './components/MembersDashboardLayout'
 import Members from "./pages/Members";
 import Forum from "./pages/Forum";
 import ProfileSettings from "./pages/ProfileSettings";
+import MembershipSubcrib from "./pages/MembershipSubcrib";
+import PurchaseHistory from './pages/PurchaseHistory'
+import CardAdding from './pages/CardAdding';
+import Address from './pages/Address';
 
 
 export default function App() {
@@ -67,6 +71,10 @@ export default function App() {
           <Route path="/members" element={<MembersDashboardLayout />}>
           <Route index element={<Members />} />
           <Route path='profile' element={<ProfileSettings />} />
+          <Route path='membership-subscriptions' element={<MembershipSubcrib />} />
+          <Route path='purchases' element={<PurchaseHistory />} />
+          <Route path='credit-card' element={<CardAdding />} />
+          <Route path='address' element={<Address />} />
         </Route>
 
           <Route path="/*" element={<PageNotFound />} />
