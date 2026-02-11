@@ -149,7 +149,7 @@ const coursesData = [
   },
 ];
 
-export default function MembersDashboard() {
+export default function Members() {
 
   return (
     <div className="bg-black text-white pt-24 pb-10 p-5">

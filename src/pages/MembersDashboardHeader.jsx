@@ -12,8 +12,8 @@ const dashboardNavLinks = [
 ];
 
 const dashboardProfileLinks = [
-  { name: "Edit Profile", href: "/edit-profile" },
-  { name: "Membership & Subscriptions", href: "/membership-subscriptions" },
+  { name: "Edit Profile", href: "profile" },
+  { name: "Membership & Subscriptions", href: "membership-subscriptions" },
   { name: "Purchase History", href: "/purchases" },
   { name: "Add / Change Credit Card", href: "/credit-card" },
   { name: "Address", href: "/address" },

@@ -15,7 +15,9 @@ import WebLayout from './components/WebLayout'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import MembersDashboardLayout from './components/MembersDashboardLayout'
-import MembersDashboard from "./pages/MembersDashboard";
+import Members from "./pages/Members";
+import Forum from "./pages/Forum";
+import ProfileSettings from "./pages/ProfileSettings";
 
 
 export default function App() {
@@ -59,11 +61,13 @@ export default function App() {
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path='/forum' element={<Forum />} />
         </Route>
 
-                <Route path="/members" element={<MembersDashboardLayout />}>
-                  <Route index element={<MembersDashboard />} />
-                </Route>
+          <Route path="/members" element={<MembersDashboardLayout />}>
+          <Route index element={<Members />} />
+          <Route path='profile' element={<ProfileSettings />} />
+        </Route>
 
           <Route path="/*" element={<PageNotFound />} />
           <Route path="/signup" element={<SignUp />} />
