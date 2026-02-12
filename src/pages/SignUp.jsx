@@ -6,8 +6,7 @@ import { MdErrorOutline, MdCheckCircleOutline } from "react-icons/md";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -27,14 +26,10 @@ export default function SignUp() {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required.";
-    } else if (formData.firstName.trim().length < 2) {
-      newErrors.firstName = "First name is too short.";
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last name is required.";
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required.";
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = "Full name is too short.";
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
