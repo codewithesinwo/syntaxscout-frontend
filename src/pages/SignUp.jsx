@@ -40,7 +40,7 @@ export default function SignUp() {
     if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -105,13 +105,6 @@ export default function SignUp() {
         className="w-full max-w-md p-8 md:p-10 space-y-8 bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl z-10"
       >
         <div className="flex flex-col items-center text-center">
-          {/* <div className="inline-block p-4 bg-indigo-600/10 rounded-2xl mb-6 border border-indigo-500/20">
-            <img
-              src="/Syntaxscout-logo.png"
-              alt="Syntax Scout Logo"
-              className="w-12 h-12 object-contain"
-            />
-          </div> */}
           <h2 className="text-4xl font-bold text-white tracking-tight">
             Create Account
           </h2>
@@ -189,29 +182,6 @@ export default function SignUp() {
               </p>
             )}
           </div>
-
-          {/* <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
-                Confirm
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className={`w-full px-5 py-4 bg-white/5 border rounded-2xl text-white outline-none focus:ring-2 transition-all ${
-                  errors.confirmPassword ?
-                    "border-red-500 focus:ring-red-500/20"
-                  : "border-white/10 focus:ring-indigo-500/20 focus:border-indigo-500"
-                }`}
-              />
-              {errors.confirmPassword && (
-                <p className="text-[10px] text-red-400 font-medium ml-1">
-                  {errors.confirmPassword}
-                </p>
-              )}
-            </div> */}
 
           <button
             type="submit"
