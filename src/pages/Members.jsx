@@ -1,12 +1,14 @@
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Clock,
-  GraduationCap,
-  Star,
-  X,
-  CheckCircle2,
-  ArrowRight,
-} from "lucide-react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import {
+//   Clock,
+//   GraduationCap,
+//   Star,
+//   X,
+//   CheckCircle2,
+//   ArrowRight,
+// } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // or 'next/navigation' if using Next.js
 
 const coursesData = [
   {
@@ -150,6 +152,53 @@ const coursesData = [
 ];
 
 export default function Members() {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/"); 
+      return;
+    }
+
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch(
+          "https://syntaxscout-backend.onrender.com/members",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, 
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setCourses(data);
+        } else {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="bg-black min-h-screen flex items-center justify-center text-white">
+        <p className="text-xl animate-pulse">Loading Academy...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black text-white pt-24 pb-10 p-5">
@@ -194,3 +243,4 @@ export default function Members() {
     </div>
   );
 }
+
