@@ -1,14 +1,14 @@
-// import { motion, AnimatePresence } from "framer-motion";
-// import {
-//   Clock,
-//   GraduationCap,
-//   Star,
-//   X,
-//   CheckCircle2,
-//   ArrowRight,
-// } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Clock,
+  GraduationCap,
+  Star,
+  X,
+  CheckCircle2,
+  ArrowRight,
+} from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // or 'next/navigation' if using Next.js
+import { useNavigate } from "react-router-dom"; 
 
 const coursesData = [
   {
