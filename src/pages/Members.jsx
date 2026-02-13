@@ -167,7 +167,7 @@ export default function Members() {
     const fetchCourses = async () => {
       try {
         const response = await fetch(
-          "https://syntaxscout-backend.onrender.com/members",
+          "https://syntaxscout-backend.onrender.com/member",
           {
             headers: {
               Authorization: `Bearer ${token}`, 
