@@ -17,7 +17,7 @@ const CardAdding = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left: Card Preview Visual */}
-          <div className="relative w-full aspect-[1.6/1] bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-8 shadow-2xl shadow-indigo-500/20 flex flex-col justify-between overflow-hidden">
+          <div className="relative w-full aspect-[1.6/1]  rounded-2xl p-8 shadow-2xl shadow-indigo-500/20 flex flex-col justify-between overflow-hidden">
             {/* Decorative circles */}
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
 
@@ -59,7 +59,7 @@ const CardAdding = () => {
               <input
                 type="text"
                 className="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 focus:border-indigo-500 outline-none transition"
-                placeholder="Abasiubong Esinwo"
+                placeholder="John Doe"
                 onChange={(e) => setCardName(e.target.value)}
               />
             </div>
