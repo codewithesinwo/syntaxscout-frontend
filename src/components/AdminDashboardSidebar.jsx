@@ -48,24 +48,24 @@ export default function AdminDashboardSidebar() {
 
   return (
     <aside
-      className={`h-screen bg-gray-950 border-r border-white/10 transition-all duration-300 z-50 flex flex-col group ${
+      className={`bg-gray-950 border-r border-white/10 transition-all duration-300 z-50 flex flex-col group ${
         isCollapsed ? "w-20" : "w-64"
       }`}
     >
 
 
       {/* Collapse Toggle Button */}
-      <button
+      {/* <button
         onClick={() => setIsCollapsed(!isCollapsed)}
         className="absolute -right-0 top-24 bg-indigo-600 text-white p-1 rounded-full border-4 border-gray-950 hover:scale-110 transition-transform shadow-xl"
       >
         {isCollapsed ?
           <ChevronRight size={14} />
         : <ChevronLeft size={14} />}
-      </button>
+      </button> */}
 
       {/* Navigation Links */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide px-2">
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide px-2 my-10">
         {menuItems.map((item) => (
           <NavLink
             key={item.name}
