@@ -29,7 +29,7 @@ const menuItems = [
   },
   {
     name: "Transactions",
-    href: "/admin/billing",
+    href: "/admin/transactions",
     icon: <CreditCard size={20} />,
   },
   {

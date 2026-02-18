@@ -14,6 +14,7 @@ import {
   User
 } from "lucide-react";
 import profileImg from "../assets/avater.png";
+import Logo from "../assets/Syntaxscout-logo.png";
 
 
 export default function AdminDashboardHeader() {
@@ -51,10 +52,10 @@ export default function AdminDashboardHeader() {
     
           {/* Logo & Brand */}
           <div className="flex items-center gap-2 text-white">
-            <div className="bg-indigo-600 p-1.5 rounded-lg">
-              <ShieldCheck size={24} />
+            <div>
+              <img src={Logo} alt="Logo" className="w-8 h-8" />
             </div>
-            <span className="font-bold text-lg">Syntax Scout Admin</span>
+            <span className="font-bold text-lg">ADMIN</span>
           </div>
 
 

@@ -24,6 +24,10 @@ import CardAdding from './pages/CardAdding';
 import Address from './pages/Address';
 import AdminDashboardLayout from "./components/AdminDashboardLayout";
 import AdminDashboard from "./components/AdminDashboard";
+import AdminCourseCatalog from "./pages/AdminCourseCatalog";
+import UsersManagement from "./pages/UsersManagement";
+import Analytics from "./pages/Analytics";
+import Transactions from "./pages/Transactions";
 
 
 export default function App() {
@@ -81,10 +85,10 @@ export default function App() {
 
           <Route path="/admin" element={<AdminDashboardLayout />}>
           <Route index element={<AdminDashboard />} />
-          {/* Add more admin sub-routes here as you build them */}
-          {/* <Route path="users" element={<AdminUsers />} /> */}
-          {/* <Route path="courses" element={<AdminCourses />} /> */}
-          {/* <Route path="settings" element={<AdminSettings />} /> */}
+          <Route path="courses" element={<AdminCourseCatalog />} />
+          <Route path="users" element={<UsersManagement />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="transactions" element={<Transactions />} />
         </Route>
 
 
