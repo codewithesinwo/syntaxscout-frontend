@@ -57,7 +57,7 @@ export default function AdminDashboardSidebar() {
       {/* Collapse Toggle Button */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-24 bg-indigo-600 text-white p-1 rounded-full border-4 border-gray-950 hover:scale-110 transition-transform shadow-xl"
+        className="absolute -right-0 top-24 bg-indigo-600 text-white p-1 rounded-full border-4 border-gray-950 hover:scale-110 transition-transform shadow-xl"
       >
         {isCollapsed ?
           <ChevronRight size={14} />
