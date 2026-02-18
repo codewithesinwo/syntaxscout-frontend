@@ -22,6 +22,8 @@ import MembershipSubcrib from "./pages/MembershipSubcrib";
 import PurchaseHistory from './pages/PurchaseHistory'
 import CardAdding from './pages/CardAdding';
 import Address from './pages/Address';
+import AdminDashboardLayout from "./components/AdminDashboardLayout";
+import AdminDashboard from "./components/AdminDashboard";
 
 
 export default function App() {
@@ -76,6 +78,15 @@ export default function App() {
           <Route path='credit-card' element={<CardAdding />} />
           <Route path='address' element={<Address />} />
         </Route>
+
+          <Route path="/admin" element={<AdminDashboardLayout />}>
+          <Route index element={<AdminDashboard />} />
+          {/* Add more admin sub-routes here as you build them */}
+          {/* <Route path="users" element={<AdminUsers />} /> */}
+          {/* <Route path="courses" element={<AdminCourses />} /> */}
+          {/* <Route path="settings" element={<AdminSettings />} /> */}
+        </Route>
+
 
           <Route path="/*" element={<PageNotFound />} />
           <Route path="/signup" element={<SignUp />} />
