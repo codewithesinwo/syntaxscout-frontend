@@ -76,17 +76,6 @@ export default function AdminDashboardSidebar() {
           </NavLink>
         ))}
       </nav>
-
-      {/* Footer / Logout */}
-      <div className="p-4 border-t border-white/5 mt-auto">
-        <button
-          className={`${linkBaseStyles} w-[calc(100%-24px)] text-rose-400 hover:bg-rose-500/10 hover:text-rose-300`}
-          onClick={() => console.log("Logging out...")}
-        >
-          <LogOut size={20} />
-          {!isCollapsed && <span className="whitespace-nowrap">Sign Out</span>}
-        </button>
-      </div>
     </aside>
   );
 }
