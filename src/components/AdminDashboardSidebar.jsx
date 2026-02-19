@@ -53,17 +53,6 @@ export default function AdminDashboardSidebar() {
       }`}
     >
 
-
-      {/* Collapse Toggle Button */}
-      {/* <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-0 top-24 bg-indigo-600 text-white p-1 rounded-full border-4 border-gray-950 hover:scale-110 transition-transform shadow-xl"
-      >
-        {isCollapsed ?
-          <ChevronRight size={14} />
-        : <ChevronLeft size={14} />}
-      </button> */}
-
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide px-2 my-10">
         {menuItems.map((item) => (
@@ -73,7 +62,7 @@ export default function AdminDashboardSidebar() {
             className={({ isActive }) =>
               `${linkBaseStyles} ${
                 isActive ?
-                  "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
+                  "text-white shadow-lg shadow-indigo-600/20"
                 : "text-gray-400 hover:text-white hover:bg-white/5"
               }`
             }
