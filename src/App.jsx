@@ -28,6 +28,8 @@ import AdminCourseCatalog from "./pages/AdminCourseCatalog";
 import UsersManagement from "./pages/UsersManagement";
 import Analytics from "./pages/Analytics";
 import Transactions from "./pages/Transactions";
+import SupportTikkets from "./pages/SupportTickets";
+import AdminSettings from "./pages/AdminSettings";
 
 
 export default function App() {
@@ -89,6 +91,8 @@ export default function App() {
           <Route path="users" element={<UsersManagement />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="transactions" element={<Transactions />} />
+          <Route path="support" element={<SupportTikkets />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
 
 

@@ -1,166 +1,274 @@
+import React, { useState } from "react";
 import {
-  Plus,
   Search,
-  MoreVertical,
-  Edit2,
+  Plus,
+  Edit,
   Trash2,
   Eye,
-  Filter,
-  BookOpen,
-  Users,
+  ChevronRight,
+  CheckCircle2,
+  XCircle,
   Clock,
-  DollarSign,
+  MoreHorizontal,
+  BookOpen,
+  User,
+  Users,
+  Calendar,
+  Tag,
+  Save,
+  X,
 } from "lucide-react";
 
-const courses = [
+const initialCourses = [
   {
     id: 1,
-    title: "Advanced React Patterns",
-    instructor: "Sarah Drasner",
-    category: "Development",
-    price: "$89.99",
-    students: 1240,
+    title: "JavaScript Mastery",
+    instructor: "Alex Johnson",
     status: "Published",
-    lastUpdated: "2023-10-24",
-    image:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=60",
+    enrollments: 1248,
+    category: "Programming",
+    created: "2023-10-12",
+    description: "Comprehensive guide to modern JavaScript development.",
   },
   {
     id: 2,
     title: "UI/UX Design Fundamentals",
-    instructor: "Gary Simon",
-    category: "Design",
-    price: "$59.99",
-    students: 850,
+    instructor: "Sarah Williams",
     status: "Draft",
-    lastUpdated: "2023-11-02",
-    image:
-      "https://images.unsplash.com/photo-1586717791821-3f44a563dc4c?w=800&auto=format&fit=crop&q=60",
+    enrollments: 0,
+    category: "Design",
+    created: "2024-01-05",
+    description: "Learn the basics of user interface and experience design.",
   },
   {
     id: 3,
-    title: "Python for Data Science",
-    instructor: "Jose Portilla",
-    category: "Data Science",
-    price: "$99.99",
-    students: 3200,
+    title: "Data Science with Python",
+    instructor: "Mike Peters",
     status: "Published",
-    lastUpdated: "2023-09-15",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=60",
+    enrollments: 892,
+    category: "Data Science",
+    created: "2023-11-20",
+    description:
+      "Introduction to data analysis and machine learning using Python.",
+  },
+  {
+    id: 4,
+    title: "Advanced React Patterns",
+    instructor: "Emma Davis",
+    status: "Under Review",
+    enrollments: 456,
+    category: "Programming",
+    created: "2024-02-14",
+    description: "Deep dive into advanced React concepts and best practices.",
   },
 ];
 
 export default function AdminCourseCatalog() {
-  return (
-    <div className="space-y-6 p-6 bg-gray-950">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Course Catalog</h1>
-          <p className="text-gray-400 text-sm">
-            Manage your curriculum and course enrollments.
-          </p>
-        </div>
-        <button className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl transition-all font-medium shadow-lg shadow-indigo-600/20">
-          <Plus size={18} />
-          Create New Course
-        </button>
-      </div>
+  const [courses, setCourses] = useState(initialCourses);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-      {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
+  const filteredCourses = courses.filter(
+    (course) =>
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.instructor.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const handleEditClick = (course) => {
+    setSelectedCourse({ ...course });
+    setIsEditOpen(true);
+  };
+
+  const handleUpdateCourse = () => {
+    setCourses(
+      courses.map((c) => (c.id === selectedCourse.id ? selectedCourse : c)),
+    );
+    setIsEditOpen(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-950 p-4 md:p-8 text-gray-100 font-sans">
+      <div className="max-w-5xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+              Catalog Management
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Review and update your course inventory.
+            </p>
+          </div>
+          <button className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-lg shadow-indigo-600/20 active:scale-95">
+            <Plus size={18} /> New Course
+          </button>
+        </div>
+
+        {/* Search */}
+        <div className="relative">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
             size={18}
           />
           <input
             type="text"
-            placeholder="Search courses..."
-            className="w-full bg-gray-900 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+            placeholder="Search by title or instructor..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-gray-900 border border-white/10 rounded-2xl py-4 pl-12 pr-5 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
           />
         </div>
-        <button className="flex items-center gap-2 bg-gray-900 border border-white/10 text-gray-300 px-4 py-2.5 rounded-xl hover:bg-white/5 transition-colors">
-          <Filter size={18} />
-          Filters
-        </button>
+
+        {/* Courses List - Stacked for better readability */}
+        <div className="space-y-3">
+          {filteredCourses.map((course) => (
+            <div
+              key={course.id}
+              className="group bg-gray-900/50 border border-white/5 hover:border-indigo-500/30 rounded-2xl p-5 transition-all flex items-start justify-between gap-4"
+            >
+              <div className="flex gap-4">
+                {/* Visual Icon */}
+                <div className="hidden sm:flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/10">
+                  <BookOpen size={22} />
+                </div>
+
+                <div className="space-y-3">
+                  {/* Title */}
+                  <div>
+                    <h3 className="text-base md:text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">
+                      {course.title}
+                    </h3>
+                    <p className="text-xs font-bold text-indigo-500/80 uppercase tracking-widest mt-0.5">
+                      {course.category}
+                    </p>
+                  </div>
+
+                  {/* Metadata Row: Instructor, Status, Enrollments */}
+                  <div className="flex flex-wrap items-center gap-y-2 gap-x-4 md:gap-x-6 text-sm">
+                    {/* Instructor */}
+                    <div className="flex items-center gap-1.5 text-gray-300 bg-white/5 px-2.5 py-1 rounded-lg">
+                      <User size={14} className="text-gray-500" />
+                      <span className="font-medium">{course.instructor}</span>
+                    </div>
+
+                    {/* Enrollments */}
+                    <div className="flex items-center gap-1.5 text-gray-400">
+                      <Users size={14} />
+                      <span>
+                        {course.enrollments.toLocaleString()} students
+                      </span>
+                    </div>
+
+                    {/* Status Badge */}
+                    <div
+                      className={`flex items-center gap-1.5 font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md border ${
+                        course.status === "Published" ?
+                          "text-emerald-400 border-emerald-500/20 bg-emerald-500/5"
+                        : course.status === "Draft" ?
+                          "text-gray-400 border-white/10 bg-white/5"
+                        : "text-amber-400 border-amber-500/20 bg-amber-500/5"
+                      }`}
+                    >
+                      {course.status === "Published" && (
+                        <CheckCircle2 size={12} />
+                      )}
+                      {course.status === "Draft" && <Clock size={12} />}
+                      {course.status === "Under Review" && <Eye size={12} />}
+                      {course.status}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={() => handleEditClick(course)}
+                className="shrink-0 p-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+              >
+                <Edit size={20} />
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Course Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {courses.map((course) => (
+      {/* Slide-over (logic remains the same) */}
+      {isEditOpen && selectedCourse && (
+        <div className="fixed inset-0 z-[100] flex justify-end">
           <div
-            key={course.id}
-            className="group bg-gray-900 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all duration-300 shadow-sm hover:shadow-indigo-500/10"
-          >
-            {/* Course Image */}
-            <div className="relative h-48 overflow-hidden">
-              <img
-                src={course.image}
-                alt={course.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute top-4 left-4">
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md ${
-                    course.status === "Published" ?
-                      "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                    : "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                  }`}
-                >
-                  {course.status}
-                </span>
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            onClick={() => setIsEditOpen(false)}
+          />
+          <aside className="relative w-full sm:w-[450px] bg-gray-950 h-full border-l border-white/10 p-6 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-xl font-bold text-white">Edit Course</h2>
+              <button
+                onClick={() => setIsEditOpen(false)}
+                className="text-gray-500 hover:text-white"
+              >
+                <X />
+              </button>
+            </div>
+
+            {/* Scrollable Form Body */}
+            <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+              {/* Title Input */}
+              <div className="space-y-2">
+                <label className="text-xs font-black text-gray-500 uppercase">
+                  Course Title
+                </label>
+                <input
+                  value={selectedCourse.title}
+                  onChange={(e) =>
+                    setSelectedCourse({
+                      ...selectedCourse,
+                      title: e.target.value,
+                    })
+                  }
+                  className="w-full bg-gray-900 border border-white/10 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-indigo-600"
+                />
+              </div>
+
+              {/* Rest of the inputs... */}
+              {/* Description */}
+              <div className="space-y-2">
+                <label className="text-xs font-black text-gray-500 uppercase">
+                  Description
+                </label>
+                <textarea
+                  value={selectedCourse.description}
+                  rows={4}
+                  onChange={(e) =>
+                    setSelectedCourse({
+                      ...selectedCourse,
+                      description: e.target.value,
+                    })
+                  }
+                  className="w-full bg-gray-900 border border-white/10 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-indigo-600"
+                />
               </div>
             </div>
 
-            {/* Course Content */}
-            <div className="p-5 space-y-4">
-              <div>
-                <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
-                  {course.category}
-                </span>
-                <h3 className="text-lg font-bold text-white mt-1 group-hover:text-indigo-400 transition-colors">
-                  {course.title}
-                </h3>
-                <p className="text-gray-400 text-sm mt-1 flex items-center gap-1">
-                  by <span className="text-gray-200">{course.instructor}</span>
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/5">
-                <div className="flex items-center gap-2 text-gray-400">
-                  <Users size={16} className="text-indigo-500" />
-                  <span className="text-sm font-medium text-gray-200">
-                    {course.students.toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-400">
-                  <DollarSign size={16} className="text-emerald-500" />
-                  <span className="text-sm font-medium text-gray-200">
-                    {course.price}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between pt-1">
-                <div className="flex items-center gap-1 text-xs text-gray-500">
-                  <Clock size={14} />
-                  Updated {course.lastUpdated}
-                </div>
-                <div className="flex items-center gap-1">
-                  <button className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
-                    <Edit2 size={16} />
-                  </button>
-                  <button className="p-2 text-gray-400 hover:text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
+            {/* Footer Actions */}
+            <div className="pt-6 border-t border-white/10 flex gap-3">
+              <button
+                onClick={handleUpdateCourse}
+                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/20"
+              >
+                Save Changes
+              </button>
+              <button
+                onClick={() => setIsEditOpen(false)}
+                className="px-6 py-3 text-sm font-bold text-gray-500 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
             </div>
-          </div>
-        ))}
-      </div>
+          </aside>
+        </div>
+      )}
     </div>
   );
 }
