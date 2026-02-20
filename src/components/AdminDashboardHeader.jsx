@@ -8,7 +8,7 @@ export default function AdminDashboardHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Close profile dropdown on click outside
   useEffect(() => {

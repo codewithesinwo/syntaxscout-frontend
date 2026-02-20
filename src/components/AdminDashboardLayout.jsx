@@ -13,7 +13,7 @@ export default function AdminDashboardLayout() {
             <AdminDashboardSidebar/>
           </div>
   
-          <div className=" flex-1 overflow-y-scroll h-screen pb-0 ">
+          <div className=" flex-1 overflow-y-scroll h-screen pb-0">
             <Outlet />
         </div>
         </main>

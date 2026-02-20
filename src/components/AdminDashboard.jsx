@@ -121,7 +121,7 @@ const recentEnrollments = [
 
 export default function AdminDashboard() {
   return (
-    <div className="p-4 md:p-8 space-y-8 bg-gray-950 min-h-screen text-gray-100 font-sans">
+    <div className="p-4 mb-15 md:p-8 space-y-8 bg-gray-950 min-h-screen text-gray-100 font-sans">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
