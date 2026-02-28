@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight, FaLock } from "react-icons/fa";
 import { MdErrorOutline, MdCheckCircleOutline } from "react-icons/md";
-import { setToken } from "../utils/localstorage";
+import { setToken, setUser } from "../utils/localstorage";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -42,40 +42,53 @@ export default function Login() {
     setIsSubmitting(true);
     setErrors({});
 
-    try {
-      const res = await fetch(
-        "https://syntaxscout-backend.onrender.com/auth/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        },
-      );
+   try {
+     const res = await fetch(
+       "https://syntaxscout-backend.onrender.com/auth/login",
+       {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(formData),
+       },
+     );
 
-      const result = await res.json();
-      const { ok, data } = { ok: res.ok, data: result };
+     // Check if the response is actually JSON before parsing
+     const contentType = res.headers.get("content-type");
+     if (!contentType || !contentType.includes("application/json")) {
+       throw new Error(
+         "Server returned non-JSON response. Is the backend awake?",
+       );
+     }
 
-      if (!ok) {
-        setErrors({ general: data.message || "Invalid login credentials." });
-        return;
-      }
+     const data = await res.json();
 
-      const token = data?.data?.token;
-      if (token) {
-        setToken(token);
-      }
+     if (!res.ok) {
+       setErrors({ general: data.message || "Invalid login credentials." });
+       return;
+     }
 
-      setSuccess(true);
-      // Brief delay to allow the user to see the success state
-      setTimeout(() => {
-        navigate("/members", { replace: true, state: { token } });
-      }, 1500);
-    } catch (err) {
-      console.error("Error:", err);
-      setErrors({ general: "Connection failed. Please check your network." });
-    } finally {
-      setIsSubmitting(false);
-    }
+     const token = data?.data?.token;
+    console.log("Login Response:", token);
+     if (token) {
+       setToken(token);
+       setUser(data.data);
+     }
+
+     setSuccess(true);
+    
+     setTimeout(() => {
+       navigate("/members", { replace: true, state: { token } });
+     }, 1500);
+
+   } catch (err) {
+     const errorMessage =
+       navigator.onLine ?
+         "Server is waking up or unreachable. Please try again in 30 seconds."
+       : "No internet connection detected.";
+
+     setErrors({ general: errorMessage });
+     console.error("Fetch Error:", err);
+   }
   };
 
   const isFormValid = formData.email && formData.password.length >= 6;

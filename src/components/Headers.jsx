@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { NavLink, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion"; // Added for smooth transitions
+import { motion, AnimatePresence } from "framer-motion";
 import { getToken } from "../utils/localstorage";
-import { LayoutDashboard, LogIn, Code2 } from "lucide-react"; // Added modern icons
+import { LayoutDashboard, LogIn, Code2 } from "lucide-react";
 
 const navLinks = [
   { name: "Courses", href: "/courses" },

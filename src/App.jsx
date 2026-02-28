@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
+import ProtectedRoute from "./components/ProtectedRoute";
 import Hero from './components/Hero'
 import Courses from './components/Courses'
 import ResetPassword from './pages/ResetPassword'
@@ -51,55 +52,57 @@ export default function App() {
     }
   }, [location, navigate]);
 
+ return (
+  <ThemeProvider>
+    <Routes>
+      {/* --- PUBLIC ROUTES --- */}
+      <Route path="/" element={<WebLayout />}>
+        <Route index element={
+          <>
+            <Hero />
+            <LearnBanner />
+            <WhyLearn />
+            <Stats />
+          </>
+        } />
+        <Route path="lifetime-access" element={<LifetimeAccess />} />
+        <Route path="leaning-paths" element={<Path />} />
+        <Route path="contact" element={<ContactForm />} />
+        <Route path="courses" element={<Courses />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="forum" element={<Forum />} />
+      </Route>
 
-  return (
-    <ThemeProvider>
-      <Routes>
-        <Route path="/" element={<WebLayout />}>
-          <Route
-            index
-            element={
-              <>
-                <Hero />
-                <LearnBanner />
-                <WhyLearn />
-                <Stats />
-              </>
-            }
-          />
-
-          <Route path="/lifetime-access" element={<LifetimeAccess />} />
-          <Route path="/leaning-paths" element={<Path />} />
-          <Route path="/contact" element={<ContactForm />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path='/forum' element={<Forum />} />
-        </Route>
-
-          <Route path="/members" element={<MembersDashboardLayout />}>
+      {/* --- MEMBER ROUTES (Requires 'user' or 'admin') --- */}
+      <Route element={<ProtectedRoute allowedRoles={["user", "admin"]} />}>
+        <Route path="/members" element={<MembersDashboardLayout />}>
           <Route index element={<Members />} />
-          <Route path='profile' element={<ProfileSettings />} />
-          <Route path='membership-subscriptions' element={<MembershipSubcrib />} />
-          <Route path='purchases' element={<PurchaseHistory />} />
-          <Route path='credit-card' element={<CardAdding />} />
-          <Route path='address' element={<Address />} />
+          <Route path="profile" element={<ProfileSettings />} />
+          <Route path="membership-subscriptions" element={<MembershipSubcrib />} />
+          <Route path="purchases" element={<PurchaseHistory />} />
+          <Route path="credit-card" element={<CardAdding />} />
+          <Route path="address" element={<Address />} />
         </Route>
+      </Route>
 
-          <Route path="/admin" element={<AdminDashboardLayout />}>
+      {/* --- ADMIN ROUTES (Requires 'admin') --- */}
+      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+        <Route path="/admin" element={<AdminDashboardLayout />}>
           <Route index element={<AdminDashboard />} />
-          <Route path="courses" element={<AdminCourseCatalog />} />
           <Route path="users" element={<UsersManagement />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="transactions" element={<Transactions />} />
           <Route path="support" element={<SupportTikkets />} />
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="courses" element={<AdminCourseCatalog />} />
         </Route>
+      </Route>
 
-
-          <Route path="/*" element={<PageNotFound />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-      </Routes>
-    </ThemeProvider>
-  );
+      {/* --- AUTH & 404 --- */}
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/*" element={<PageNotFound />} />
+    </Routes>
+  </ThemeProvider>
+);
 }
