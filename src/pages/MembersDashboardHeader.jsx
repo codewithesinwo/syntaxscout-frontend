@@ -22,8 +22,15 @@ const dashboardProfileLinks = [
 export default function MembersDashboardHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [mobileProfileOpen, setMobileProfileOpen] = useState(false); // New state for mobile toggle
+  const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const profileRef = useRef(null);
+
+  // 1. Get User Data safely and handle the "\n" in the role
+  const userJson = localStorage.getItem("user");
+  const userData = userJson ? JSON.parse(userJson) : null;
+
+  // .trim() is essential here to handle the "admin\n" issue
+  const isAdmin = userData?.role?.trim() === "admin";
 
   useEffect(() => {
     if (isOpen) {
@@ -94,8 +101,21 @@ export default function MembersDashboardHeader() {
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-60 bg-[#111] border border-gray-800 rounded-lg shadow-2xl z-50">
+              <div className="absolute right-0 mt-2 w-60 bg-[#111] border border-gray-800 rounded-lg shadow-2xl z-50 overflow-hidden">
                 <ul className="flex flex-col py-2">
+                  {/* ADMIN ONLY BUTTON - DESKTOP */}
+                  {isAdmin && (
+                    <li>
+                      <Link
+                        to="/admin"
+                        className="block px-4 py-3 text-sm font-bold text-teal-400 hover:bg-teal-500/10 transition-colors border-b border-gray-800"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        Go to Admin Dashboard
+                      </Link>
+                    </li>
+                  )}
+
                   {dashboardProfileLinks.map((link) => (
                     <li key={link.name}>
                       <NavLink
@@ -150,7 +170,6 @@ export default function MembersDashboardHeader() {
       {isOpen && (
         <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 flex flex-col h-[100dvh] mt-15">
           <div className="flex-1 overflow-y-auto pb-32 overscroll-contain">
-            {/* Main Nav Links */}
             <div className="flex flex-col gap-4 mb-8">
               {dashboardNavLinks.map((link) => (
                 <NavLink
@@ -164,7 +183,6 @@ export default function MembersDashboardHeader() {
               ))}
             </div>
 
-            {/* Mobile Profile Section */}
             <div className="mt-4">
               <button
                 onClick={() => setMobileProfileOpen(!mobileProfileOpen)}
@@ -177,14 +195,37 @@ export default function MembersDashboardHeader() {
                     className="w-10 h-10 rounded-full border border-gray-700"
                   />
                   <span className="text-gray-200 font-medium">
-                    Abasiubong Esinwo
+                    {userData?.name || "User"}
                   </span>
                 </div>
+                <svg
+                  className={`w-5 h-5 transition-transform ${mobileProfileOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
               </button>
 
-              {/* Collapsible Mobile Dropdown Content */}
               {mobileProfileOpen && (
                 <div className="mt-2 flex flex-col gap-1 pl-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                  {/* ADMIN ONLY BUTTON - MOBILE */}
+                  {isAdmin && (
+                    <NavLink
+                      to="/admin"
+                      className="text-teal-400 font-bold py-3 text-base border-b border-gray-900"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Go to Admin Dashboard
+                    </NavLink>
+                  )}
+
                   {dashboardProfileLinks.map((link) => (
                     <NavLink
                       key={link.name}
@@ -199,7 +240,7 @@ export default function MembersDashboardHeader() {
                     Logout
                   </button>
                 </div>
-              )}
+              )}~
             </div>
           </div>
         </div>

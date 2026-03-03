@@ -33,6 +33,10 @@ export function removeToken() {
 
 export function setUser(user) {
   try {
+    // Sanitize the role if it exists before saving
+    if (user && user.role) {
+      user.role = user.role.trim();
+    }
     localStorage.setItem("user", JSON.stringify(user));
   } catch (err) {
     console.log(err);
