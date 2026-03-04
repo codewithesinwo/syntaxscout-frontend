@@ -13,6 +13,8 @@ import {
   MessageSquare,
   CreditCard,
 } from "lucide-react";
+import { GrCertificate } from "react-icons/gr";
+import { GiTeamIdea } from "react-icons/gi";
 
 const menuItems = [
   { name: "Dashboard", href: "/admin", icon: <LayoutDashboard size={20} /> },
@@ -32,6 +34,16 @@ const menuItems = [
     href: "/admin/transactions",
     icon: <CreditCard size={20} />,
   },
+  {
+    name: "Team Managements",
+    href: "/admin/teams",
+    icon: <GiTeamIdea size={20} />,
+  },
+  // {
+  //   name: "Certificate Management",
+  //   href: "/admin/certificates",
+  //   icon: <GrCertificate size={20} />,
+  // },
   {
     name: "Support Tickets",
     href: "/admin/support",

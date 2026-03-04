@@ -10,7 +10,6 @@ const navLinks = [
   { name: "Courses", href: "/courses" },
   { name: "Leaning Paths", href: "/leaning-paths" },
   { name: "Lifetime Access", href: "/lifetime-access" },
-  { name: "Forum", href: "/forum" },
   { name: "Contact", href: "/contact" },
 ];
 

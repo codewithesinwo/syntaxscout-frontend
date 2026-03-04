@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
-    "ba": "^0.0.5",
+    "ba": "^0.0.4",
     "framer-motion": "^12.23.24",
     "icons": "^1.0.0",
     "lucide-react": "^0.552.0",
@@ -21,7 +21,8 @@
     "react-router-dom": "^7.9.4",
     "recharts": "^3.6.0",
     "stripe": "^20.0.0",
-    "tailwindcss": "^4.1.14"
+    "tailwindcss": "^4.1.14",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

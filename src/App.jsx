@@ -17,7 +17,6 @@ import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import MembersDashboardLayout from './components/MembersDashboardLayout'
 import Members from "./pages/Members";
-import Forum from "./pages/Forum";
 import ProfileSettings from "./pages/ProfileSettings";
 import MembershipSubcrib from "./pages/MembershipSubcrib";
 import PurchaseHistory from './pages/PurchaseHistory'
@@ -31,6 +30,12 @@ import Analytics from "./pages/Analytics";
 import Transactions from "./pages/Transactions";
 import SupportTikkets from "./pages/SupportTickets";
 import AdminSettings from "./pages/AdminSettings";
+import MyCourses from "./pages/MyCourses";
+import Mentorship from './pages/Mentorship';
+import SkillMastery from './pages/SkillMastery';
+import StudyGroup from './pages/StudyGroup';
+import Certificates from './pages/Certificates';
+import TeamManagement from './pages/TeamManagement';
 
 
 export default function App() {
@@ -70,7 +75,6 @@ export default function App() {
         <Route path="contact" element={<ContactForm />} />
         <Route path="courses" element={<Courses />} />
         <Route path="reset-password" element={<ResetPassword />} />
-        <Route path="forum" element={<Forum />} />
       </Route>
 
       {/* --- MEMBER ROUTES (Requires 'user' or 'admin') --- */}
@@ -82,6 +86,10 @@ export default function App() {
           <Route path="purchases" element={<PurchaseHistory />} />
           <Route path="credit-card" element={<CardAdding />} />
           <Route path="address" element={<Address />} />
+          <Route path="my-courses" element={<MyCourses />} />
+          <Route path="mentorship" element={<Mentorship />} />
+          <Route path='skills' element={<SkillMastery/>} />
+          <Route path='study-group' element={<StudyGroup/>} />
         </Route>
       </Route>
 
@@ -95,6 +103,8 @@ export default function App() {
           <Route path="support" element={<SupportTikkets />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="courses" element={<AdminCourseCatalog />} />
+          <Route path="certificates" element={<Certificates />} />
+          <Route path="teams" element={<TeamManagement />} />
         </Route>
       </Route>
 

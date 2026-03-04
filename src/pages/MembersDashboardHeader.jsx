@@ -1,51 +1,50 @@
 import React, { useEffect, useState, useRef } from "react";
 import { NavLink, Link } from "react-router-dom";
+import {
+  Bell,
+  Search,
+  LogOut,
+  ShieldCheck,
+  ChevronDown,
+  Menu,
+  X,
+} from "lucide-react";
 import profileImg from "../assets/avater.png";
 
 const dashboardNavLinks = [
-  { name: "All Courses", href: "/all-courses" },
-  { name: "My Courses", href: "/my-courses" },
-  { name: "Lifetime Access", href: "/lifetime-access" },
-  { name: "Forum", href: "/forum" },
-  { name: "Learning Paths", href: "/learning-paths" },
-  { name: "Contact", href: "/contact" },
+  { name: "Curriculum", href: "/all-courses" }, // Feels more academic/structured
+  { name: "My Classroom", href: "my-courses" }, // Feels like a private workspace
+  { name: "Study Group", href: "study-group" }, // Encourages collaboration
+  { name: "Skill Mastery", href: "skills" }, // Focuses on the end goal (Mastery)
+  { name: "Mentorship", href: "mentorship" }, // New: Adds high-value perception
 ];
 
 const dashboardProfileLinks = [
   { name: "Edit Profile", href: "profile" },
-  { name: "Membership & Subscriptions", href: "membership-subscriptions" },
+  { name: "Membership", href: "membership-subscriptions" },
   { name: "Purchase History", href: "purchases" },
-  { name: "Add / Change Credit Card", href: "credit-card" },
-  { name: "Address", href: "address" },
+  { name: "Settings", href: "address" },
 ];
 
 export default function MembersDashboardHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
+  const [hasNotifications, setHasNotifications] = useState(true);
   const profileRef = useRef(null);
 
-  // 1. Get User Data safely and handle the "\n" in the role
   const userJson = localStorage.getItem("user");
   const userData = userJson ? JSON.parse(userJson) : null;
-
-  // .trim() is essential here to handle the "admin\n" issue
   const isAdmin = userData?.role?.trim() === "admin";
 
+  // Prevent scroll when mobile menu is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
+  // Close dropdown on click outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
     };
@@ -54,193 +53,170 @@ export default function MembersDashboardHeader() {
   }, []);
 
   const linkStyles = ({ isActive }) =>
-    `transition-colors duration-200 font-medium ${
-      isActive ? "text-teal-400" : "text-gray-300 hover:text-white"
+    `relative py-2 transition-all duration-200 font-medium text-sm ${
+      isActive ?
+        "text-teal-400 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-teal-400"
+      : "text-gray-400 hover:text-white"
     }`;
 
   return (
-    <header className="bg-black fixed w-full top-0 left-0 z-[100] shadow-lg">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between p-4 px-6">
-        {/* Logo */}
-        <Link to="/" className="group">
-          <div className="flex items-center space-x-3">
-            <img
-              src="/Syntaxscout-logo.png"
-              alt="Logo"
-              className="h-8 w-auto"
-            />
-            <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent md:inline-block hidden">
-              SYNTAXSCOUT
-            </span>
-          </div>
+    <header className="bg-black/80 backdrop-blur-md border-b border-gray-800 fixed w-full top-0 left-0 z-[100]">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between h-16 px-6">
+        {/* Left: Logo */}
+        <Link to="/" className="flex items-center space-x-3 shrink-0">
+          <img src="/Syntaxscout-logo.png" alt="Logo" className="h-7 w-auto" />
+          <span className="font-black text-lg tracking-tighter text-white hidden sm:block">
+            SYNTAX<span className="text-teal-500">SCOUT</span>
+          </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-8">
-          <ul className="flex gap-8 text-sm">
-            {dashboardNavLinks.map((link) => (
-              <li key={link.name}>
-                <NavLink to={link.href} className={linkStyles}>
-                  {link.name}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+        {/* Center: Desktop Nav */}
+        <ul className="hidden lg:flex items-center gap-6">
+          {dashboardNavLinks.map((link) => (
+            <li key={link.name}>
+              <NavLink to={link.href} className={linkStyles}>
+                {link.name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
 
-          {/* Desktop Profile Dropdown */}
-          <div className="relative ml-4" ref={profileRef}>
+        {/* Right: Actions */}
+        <div className="flex items-center gap-3">
+          {/* Desktop Search Bar */}
+          <div className="hidden md:relative md:block">
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+              size={16}
+            />
+            <input
+              type="text"
+              placeholder="Search courses..."
+              className="bg-gray-900 border border-gray-800 rounded-full py-1.5 pl-10 pr-4 text-xs focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 w-48 transition-all"
+            />
+          </div>
+
+          {/* Notifications */}
+          <button className="relative p-2 text-gray-400 hover:text-white transition-colors">
+            <Bell size={20} />
+            {hasNotifications && (
+              <span className="absolute top-2 right-2 w-2 h-2 bg-teal-500 rounded-full border-2 border-black animate-pulse" />
+            )}
+          </button>
+
+          {/* Profile Dropdown */}
+          <div className="relative hidden lg:block" ref={profileRef}>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className="border border-gray-600 rounded-full p-1 hover:border-teal-400 transition-colors cursor-pointer focus:outline-none"
+              className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full bg-gray-900 border border-gray-800 hover:border-gray-700 transition-all cursor-pointer"
             >
               <img
                 src={profileImg}
                 alt="Profile"
-                className="w-8 h-8 rounded-full"
+                className="w-7 h-7 rounded-full object-cover"
+              />
+              <ChevronDown
+                size={14}
+                className={`text-gray-500 transition-transform ${profileOpen ? "rotate-180" : ""}`}
               />
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-60 bg-[#111] border border-gray-800 rounded-lg shadow-2xl z-50 overflow-hidden">
-                <ul className="flex flex-col py-2">
-                  {/* ADMIN ONLY BUTTON - DESKTOP */}
-                  {isAdmin && (
-                    <li>
-                      <Link
-                        to="/admin"
-                        className="block px-4 py-3 text-sm font-bold text-teal-400 hover:bg-teal-500/10 transition-colors border-b border-gray-800"
-                        onClick={() => setProfileOpen(false)}
-                      >
-                        Go to Admin Dashboard
-                      </Link>
-                    </li>
-                  )}
+              <div className="absolute right-0 mt-3 w-56 bg-[#0a0a0a] border border-gray-800 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+                <div className="px-4 py-3 border-b border-gray-800">
+                  <p className="text-sm font-bold truncate text-white">
+                    {userData?.name || "Member"}
+                  </p>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5">
+                    {userData?.role || "Student"}
+                  </p>
+                </div>
 
+                <div className="py-1">
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-teal-400 hover:bg-teal-500/5"
+                    >
+                      <ShieldCheck size={14} /> Admin Panel
+                    </Link>
+                  )}
                   {dashboardProfileLinks.map((link) => (
-                    <li key={link.name}>
-                      <NavLink
-                        to={link.href}
-                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition-colors"
-                        onClick={() => setProfileOpen(false)}
-                      >
-                        {link.name}
-                      </NavLink>
-                    </li>
+                    <Link
+                      key={link.name}
+                      to={link.href}
+                      className="block px-4 py-2.5 text-xs text-gray-400 hover:bg-gray-800 hover:text-white"
+                    >
+                      {link.name}
+                    </Link>
                   ))}
-                  <hr className="border-gray-800 my-1" />
-                  <button className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-800 transition-colors">
-                    Logout
-                  </button>
-                </ul>
+                </div>
+
+                <button className="w-full flex items-center gap-2 px-4 py-3 text-xs text-red-400 hover:bg-red-500/5 border-t border-gray-800 transition-colors">
+                  <LogOut size={14} /> Logout
+                </button>
               </div>
             )}
           </div>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden p-2 text-gray-400"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+          {/* Mobile Menu Toggle */}
+          <button
+            className="lg:hidden p-2 text-gray-400"
+            onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ?
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            : <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            }
-          </svg>
-        </button>
+              <X size={24} />
+            : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-[90] bg-black p-6 flex flex-col h-[100dvh] mt-15">
-          <div className="flex-1 overflow-y-auto pb-32 overscroll-contain">
-            <div className="flex flex-col gap-4 mb-8">
+        <div className="top-16 bg-black z-[90] p-6 animate-in slide-in-from-right duration-300">
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <p className="text-[10px] uppercase text-gray-600 font-bold tracking-widest">
+                Learning
+              </p>
               {dashboardNavLinks.map((link) => (
-                <NavLink
+                <Link
                   key={link.name}
                   to={link.href}
-                  className="text-xl font-semibold text-gray-300 pb-2 border-b border-gray-900"
                   onClick={() => setIsOpen(false)}
+                  className="block text-xl font-medium text-gray-300"
                 >
                   {link.name}
-                </NavLink>
+                </Link>
               ))}
             </div>
 
-            <div className="mt-4">
-              <button
-                onClick={() => setMobileProfileOpen(!mobileProfileOpen)}
-                className="flex items-center justify-between w-full p-3 bg-gray-900/50 rounded-xl border border-gray-800"
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={profileImg}
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full border border-gray-700"
-                  />
-                  <span className="text-gray-200 font-medium">
-                    {userData?.name || "User"}
-                  </span>
-                </div>
-                <svg
-                  className={`w-5 h-5 transition-transform ${mobileProfileOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <div className="pt-6 border-t border-gray-900 space-y-2">
+              <p className="text-[10px] uppercase text-gray-600 font-bold tracking-widest">
+                Account
+              </p>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  onClick={() => setIsOpen(false)}
+                  className="block text-lg text-teal-400 font-bold"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+                  Admin Dashboard
+                </Link>
+              )}
+              {dashboardProfileLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="block text-lg text-gray-400"
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <button className="text-lg text-red-500 pt-4 flex items-center gap-2">
+                <LogOut size={18} /> Logout
               </button>
-
-              {mobileProfileOpen && (
-                <div className="mt-2 flex flex-col gap-1 pl-4 animate-in fade-in slide-in-from-top-2 duration-200">
-                  {/* ADMIN ONLY BUTTON - MOBILE */}
-                  {isAdmin && (
-                    <NavLink
-                      to="/admin"
-                      className="text-teal-400 font-bold py-3 text-base border-b border-gray-900"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Go to Admin Dashboard
-                    </NavLink>
-                  )}
-
-                  {dashboardProfileLinks.map((link) => (
-                    <NavLink
-                      key={link.name}
-                      to={link.href}
-                      className="text-gray-400 hover:text-white py-3 text-base"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.name}
-                    </NavLink>
-                  ))}
-                  <button className="text-left text-red-400 py-3 text-base font-medium">
-                    Logout
-                  </button>
-                </div>
-              )}~
             </div>
           </div>
         </div>
