@@ -62,13 +62,31 @@ export default function MembersDashboardHeader() {
   return (
     <header className="bg-black/80 backdrop-blur-md border-b border-gray-800 fixed w-full top-0 left-0 z-[100]">
       <nav className="max-w-7xl mx-auto flex items-center justify-between h-16 px-6">
-        {/* Left: Logo */}
-        <Link to="/" className="flex items-center space-x-3 shrink-0">
-          <img src="/Syntaxscout-logo.png" alt="Logo" className="h-7 w-auto" />
-          <span className="font-black text-lg tracking-tighter text-white hidden sm:block">
-            SYNTAX<span className="text-teal-500">SCOUT</span>
-          </span>
-        </Link>
+        <div className="flex items-center gap-5">
+          {/* Bigger / branded members dashboard home */}
+          <Link
+            to="/members"
+            className="flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-gray-900 to-black border border-teal-900/50 hover:border-teal-600 rounded-xl transition-all shadow-sm hover:shadow-teal-950/30"
+          >
+            <img
+              src="/Syntaxscout-logo.png"
+              alt="Logo"
+              className="h-8 w-auto"
+            />
+            <span className="font-black text-lg tracking-tight text-white">
+              SYNTAX<span className="text-teal-400">SCOUT</span>
+            </span>
+          </Link>
+
+          
+          {/* Small main home */}
+          <Link
+            to="/"
+            className="text-sm font-medium text-gray-300 hover:text-white transition-colors border rounded-full px-3 py-1 border-gray-800 hover:border-gray-700"
+          >
+            Home
+          </Link>
+        </div>
 
         {/* Center: Desktop Nav */}
         <ul className="hidden lg:flex items-center gap-6">

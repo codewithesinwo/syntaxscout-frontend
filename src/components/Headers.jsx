@@ -100,7 +100,7 @@ export default function Header() {
               {/* Added CTA to Mobile Menu as well for better UX */}
               <hr className="w-full border-gray-800" />
               <NavLink
-                to={isLoggedIn ? "/dashboard" : "/login"}
+                to={isLoggedIn ? "/members" : "/login"}
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-2 text-teal-400"
               >
