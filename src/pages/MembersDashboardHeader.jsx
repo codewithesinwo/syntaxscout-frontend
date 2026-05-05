@@ -12,7 +12,7 @@ import {
 import profileImg from "../assets/avater.png";
 
 const dashboardNavLinks = [
-  { name: "Curriculum", href: "/all-courses" }, // Feels more academic/structured
+  { name: "Curriculum", href: "curriculum" }, // Feels more academic/structured
   { name: "My Classroom", href: "my-courses" }, // Feels like a private workspace
   { name: "Study Group", href: "study-group" }, // Encourages collaboration
   { name: "Skill Mastery", href: "skills" }, // Focuses on the end goal (Mastery)
@@ -65,7 +65,7 @@ export default function MembersDashboardHeader() {
         <div className="flex items-center gap-5">
           {/* Bigger / branded members dashboard home */}
           <Link
-            to="/members"
+            to="/"
             className="flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-gray-900 to-black border border-teal-900/50 hover:border-teal-600 rounded-xl transition-all shadow-sm hover:shadow-teal-950/30"
           >
             <img
@@ -80,8 +80,8 @@ export default function MembersDashboardHeader() {
 
           
           {/* Small main home */}
-          <Link
-            to="/"
+          <Link 
+            to="/members"
             className="text-sm font-medium text-gray-300 hover:text-white transition-colors border rounded-full px-3 py-1 border-gray-800 hover:border-gray-700"
           >
             Home

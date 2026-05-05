@@ -36,6 +36,7 @@ import SkillMastery from './pages/SkillMastery';
 import StudyGroup from './pages/StudyGroup';
 import Certificates from './pages/Certificates';
 import TeamManagement from './pages/TeamManagement';
+import Curriculum from './pages/Curriculum';
 
 
 export default function App() {
@@ -90,6 +91,7 @@ export default function App() {
           <Route path="mentorship" element={<Mentorship />} />
           <Route path='skills' element={<SkillMastery/>} />
           <Route path='study-group' element={<StudyGroup/>} />
+          <Route path='curriculum' element={<Curriculum />} />
         </Route>
       </Route>
 

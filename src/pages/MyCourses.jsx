@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 export default function MyCourses() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState("grid");
 
   const myCourses = [
     {
